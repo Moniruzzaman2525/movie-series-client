@@ -9,22 +9,26 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <header className="w-full px-4 py-3 shadow-md bg-white fixed top-0 z-50">
+    <header className="w-full px-4 py-5 shadow-md bg-white fixed top-0 z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link href="/" className="text-xl font-bold text-red-600">
-          MovieDB
+          MFlex
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
           <Link href="/" className="text-sm font-medium hover:text-red-500">
             Home
           </Link>
-          <Link
-            href="/all-movies"
-            className="text-sm font-medium hover:text-red-500"
-          >
-            All Movies
+          <Link href="/" className="text-sm font-medium hover:text-red-500">
+            Browse
           </Link>
+          <Link href="/" className="text-sm font-medium hover:text-red-500">
+            Newly Added
+          </Link>
+          <Link href="/" className="text-sm font-medium hover:text-red-500">
+            Top Rated
+          </Link>
+
           <Input
             type="text"
             placeholder="Search..."
@@ -46,11 +50,17 @@ const Navbar = () => {
               </Button>
             </DrawerTrigger>
             <DrawerContent className="p-4 space-y-4">
-              <Link href="/" className="block text-lg font-medium">
+              <Link href="/" className="text-sm font-medium hover:text-red-500">
                 Home
               </Link>
-              <Link href="/all-movies" className="block text-lg font-medium">
-                All Movies
+              <Link href="/" className="text-sm font-medium hover:text-red-500">
+                Browse
+              </Link>
+              <Link href="/" className="text-sm font-medium hover:text-red-500">
+                Newly Added
+              </Link>
+              <Link href="/" className="text-sm font-medium hover:text-red-500">
+                Top Rated
               </Link>
               <Input
                 type="text"
