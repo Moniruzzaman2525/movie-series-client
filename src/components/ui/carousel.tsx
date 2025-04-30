@@ -19,9 +19,12 @@ type CarouselProps = {
   plugins?: CarouselPlugin
   orientation?: "horizontal" | "vertical"
   setApi?: (api: CarouselApi) => void
+  activeIndex?: number // <-- custom prop
 }
 
 type CarouselContextProps = {
+  activeIndex?: number;
+  onChange?: (index: number) => void;
   carouselRef: ReturnType<typeof useEmblaCarousel>[0]
   api: ReturnType<typeof useEmblaCarousel>[1]
   scrollPrev: () => void
@@ -49,7 +52,8 @@ function Carousel({
   plugins,
   className,
   children,
-  ...props
+  activeIndex, // <-- destructure to prevent passing to DOM
+  ...rest
 }: React.ComponentProps<"div"> & CarouselProps) {
   const [carouselRef, api] = useEmblaCarousel(
     {
@@ -116,6 +120,7 @@ function Carousel({
         scrollNext,
         canScrollPrev,
         canScrollNext,
+        activeIndex, // Still available via context if needed
       }}
     >
       <div
@@ -124,7 +129,7 @@ function Carousel({
         role="region"
         aria-roledescription="carousel"
         data-slot="carousel"
-        {...props}
+        {...rest} // <- only valid DOM props now
       >
         {children}
       </div>
