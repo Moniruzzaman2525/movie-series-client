@@ -8,6 +8,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { forgotPass, loginUser } from "@/service/Auth";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/userContext";
 
 export default function LoginForm() {
      const {
@@ -20,6 +21,7 @@ export default function LoginForm() {
      const [showPassword, setShowPassword] = useState(false);
      const router = useRouter()
      const [forgot,setForgot]=useState(false)
+     const {setReload}=useUser()
 
      const onSubmit: SubmitHandler<FieldValues> =async (data) => {
           const id = toast.loading("Loading...");
@@ -27,9 +29,12 @@ export default function LoginForm() {
           try {
               if(!forgot){
                    const result = await loginUser(data);
+                   setReload(false)
                    if (result.success) {
+                        
                         toast.success(result.message, { id });
                         router.push("/");
+                        
                         reset();
                    } else {
                         toast.error(result.message, { id });
