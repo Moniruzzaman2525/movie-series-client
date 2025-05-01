@@ -77,7 +77,7 @@ const HeroSection = () => {
                   priority
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/100 via-black/60 to-transparent z-10" />
 
                 <div className="absolute top-1/2 left-16 md:left-32 transform -translate-y-1/2 z-20 text-white w-[90%] md:w-1/2">
                   <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6">
