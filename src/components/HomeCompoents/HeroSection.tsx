@@ -86,7 +86,7 @@ const HeroSection = () => {
                   <p className="text-lg md:text-2xl font-medium mb-4">
                     {item.description}
                   </p>
-                  <div className="flex items-center gap-6 text-sm md:text-lg mb-6">
+                  <div className="flex flex-col md:flex-row md:items-center gap-6 text-sm md:text-lg mb-6">
                     <div className="flex items-center gap-2">
                       <FiStar className="text-yellow-400" />
                       <span>{item.rating}</span>

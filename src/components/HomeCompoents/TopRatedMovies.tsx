@@ -63,7 +63,7 @@ const TopRatedMovies = () => {
           return (
             <div
               key={item.id}
-              className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative transform transition-all hover:scale-105 hover:shadow-lg"
+              className="w-full  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 relative transform transition-all hover:scale-105 hover:shadow-lg"
             >
               <Link href="">
                 <Image
