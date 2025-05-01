@@ -1,5 +1,6 @@
 "use client";
 
+import HasselFreeExperience from "@/components/HomeCompoents/HasselFreeExperience";
 import HeroSection from "@/components/HomeCompoents/HeroSection";
 import TopRatedMovies from "@/components/HomeCompoents/TopRatedMovies";
 import React from "react";
@@ -9,7 +10,7 @@ const HomePage = () => {
     <div>
       <HeroSection />
       <TopRatedMovies />
-      <h1> Home</h1>
+      <HasselFreeExperience />
     </div>
   );
 };
