@@ -14,7 +14,7 @@ const HeroSection = () => {
   const data = [
     {
       id: 1,
-      img: "https://i.ibb.co.com/cX3mRL2q/hero1.jpg",
+      img: "https://i.ibb.co.com/wZYdNTq1/1c30e736-8f80-4ec1-aecf-107fde4e5aad.jpg",
       title: "Shadows of Tomorrow",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.",
@@ -24,7 +24,7 @@ const HeroSection = () => {
     },
     {
       id: 2,
-      img: "https://i.ibb.co.com/3mR5HS5M/hero2.jpg",
+      img: "https://i.ibb.co.com/TBs0HL9B/sl-121019-25870-81.jpg",
       title: "Shadows of Tomorrow",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.",
@@ -34,7 +34,7 @@ const HeroSection = () => {
     },
     {
       id: 3,
-      img: "https://i.ibb.co.com/1tXrdy6H/images.jpg",
+      img: "https://i.ibb.co.com/CsVH8hq4/arfan-adytiya-k-SBoif-Y4-RTg-unsplash.jpg",
       title: "Shadows of Tomorrow",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.",
