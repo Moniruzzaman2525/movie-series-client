@@ -32,12 +32,16 @@ const Navbar = () => {
           <Input
             type="text"
             placeholder="Search..."
-            className="w-64 bg-gray-100"
+            className="w-64 bg-gray-100 text-gray-500"
           />
         </div>
 
         <div className="hidden md:block">
-          <Button variant="ghost">Login</Button>
+        <Link href="/login">
+            <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+              Login
+            </button>
+          </Link>
         </div>
 
         <div className="md:hidden">
