@@ -58,6 +58,7 @@ const TopRatedMovies = () => {
     <div className="container mx-auto px-2 md:px-0">
       <SectionTitle text={"Top Rated Movies"} subText={"Top Rated Movies"} />
       <div className="my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        
         {data.map((item) => {
           return (
             <div
