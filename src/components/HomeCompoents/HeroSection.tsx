@@ -63,7 +63,7 @@ const HeroSection = () => {
     <div className="relative w-full h-screen overflow-hidden">
       <Carousel
         activeIndex={activeIndex}
-        onChange={handleCarouselChange} // Pass the correct index handler
+        onChange={handleCarouselChange} 
       >
         <CarouselContent>
           {data.map((item, idx) => (

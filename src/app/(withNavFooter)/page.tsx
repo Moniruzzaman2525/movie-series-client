@@ -2,6 +2,7 @@
 
 import HasselFreeExperience from "@/components/HomeCompoents/HasselFreeExperience";
 import HeroSection from "@/components/HomeCompoents/HeroSection";
+import NewlyAdded from "@/components/HomeCompoents/NewlyAdded";
 import TopRatedMovies from "@/components/HomeCompoents/TopRatedMovies";
 import React from "react";
 
@@ -11,6 +12,7 @@ const HomePage = () => {
       <HeroSection />
       <TopRatedMovies />
       <HasselFreeExperience />
+      <NewlyAdded/>
     </div>
   );
 };
