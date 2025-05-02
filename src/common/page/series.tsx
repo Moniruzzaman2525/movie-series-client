@@ -2,8 +2,8 @@
 
 import { movies } from "@/fakeData/movie";
 import { useState } from "react";
-import ReusableCard from "../card/Card";
 import { series } from "@/fakeData/series";
+import SeriesCard from "../card/SeriesCard";
 
 const categories = ["All", "Action", "Comedy", "Drama", "Horror", "Sci-Fi", "Romance"];
 
@@ -62,7 +62,7 @@ const SeriesSearch = () => {
                {/* Movie Grid */}
                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 auto-rows-fr px-4 py-6">
                     {paginatedseries.map((series, index) => (
-                         <ReusableCard key={index} {...series} />
+                         <SeriesCard key={index} {...series} />
                     ))}
                </div>
 

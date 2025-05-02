@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
 
   return (
     <div className="bg-neutral-900 text-white">
-      <div className="container mx-auto py-10 px-5">
+      <div className="container mx-auto pt-10 px-5">
         <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-5">
           <div className="flex gap-2 justify-center">
             <h1 className="text-5xl font-bold">
@@ -107,7 +107,7 @@ const Footer: React.FC = () => {
       </div>
 
       <hr className="border-neutral-700" />
-      <p className="text-center my-5 text-white pb-5">
+      <p className="text-center mt-5 text-white pb-5">
         Copyright © 2025 Showflix. All rights reserved
       </p>
     </div>
