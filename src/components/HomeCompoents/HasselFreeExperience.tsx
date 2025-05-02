@@ -3,9 +3,17 @@ import React from "react";
 
 const HasselFreeExperience = () => {
   return (
-    <div className="container mx-auto  my-10">
+    <div className="container mx-auto  my-20 px-2 md:px-0">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <div></div>
+        <div className="">
+          <Image
+            src="https://i.ibb.co.com/TBs0HL9B/sl-121019-25870-81.jpg"
+            alt="img"
+            height={1000}
+            width={1000}
+            className="w-full rounded"
+          />
+        </div>
         <div className="flex flex-col justify-start items-center">
           <h1 className="text-3xl md:text-5xl font-bold">
             Best pick for{" "}
@@ -35,7 +43,9 @@ const HasselFreeExperience = () => {
               width={100}
             ></Image>
             <div>
-              <h1 className="text-2xl font-bold">Stream with no interruptions</h1>
+              <h1 className="text-2xl font-bold">
+                Stream with no interruptions
+              </h1>
               <p>
                 Pause for snacks, not buffering. Stream smoothly with our
                 lightning-fast NordLynx protocol network.

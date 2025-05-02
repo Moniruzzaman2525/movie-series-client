@@ -7,7 +7,7 @@ interface SProps {
 
 const SectionTitle = ({ text, subText }: SProps) => {
   return (
-    <div className="my-5 md:my-20  ">
+    <div className="py-5 md:py-20  ">
       <div
         data-aos="fade-up"
         className="flex flex-col justify-center items-center"
@@ -17,8 +17,8 @@ const SectionTitle = ({ text, subText }: SProps) => {
           animate={{ scale: 1 }}
           transition={{ duration: 1 }}
         >
-          <p className="text-gray-400 text-lg font-bold">{subText}</p>
-          <h1 className="text-3xl md:text-5xl font-bold">{text}</h1>
+          <p className="text-gray-100 text-lg font-bold">{subText}</p>
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-100">{text}</h1>
         </motion.button>
       </div>
     </div>
