@@ -17,7 +17,7 @@ const HeroSection = () => {
       img: "https://i.ibb.co.com/wZYdNTq1/1c30e736-8f80-4ec1-aecf-107fde4e5aad.jpg",
       title: "Shadows of Tomorrow",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.",
+        "A future rewritten. A past uncovered. Discover the truth beyond the shadows.",
       rating: 4.5,
       time: "2h 30min",
       releaseDate: "2023-06-01",
@@ -25,9 +25,9 @@ const HeroSection = () => {
     {
       id: 2,
       img: "https://i.ibb.co.com/TBs0HL9B/sl-121019-25870-81.jpg",
-      title: "Shadows of Tomorrow",
+      title: "The Last Horizon",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.",
+        " When hope fades, the journey begins. Humanity’s final stand awaits.",
       rating: 4.5,
       time: "2h 30min",
       releaseDate: "2023-06-01",
@@ -35,9 +35,9 @@ const HeroSection = () => {
     {
       id: 3,
       img: "https://i.ibb.co.com/CsVH8hq4/arfan-adytiya-k-SBoif-Y4-RTg-unsplash.jpg",
-      title: "Shadows of Tomorrow",
+      title: " Crimson Code",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.",
+        "Beneath the data lies a deadly truth. Decode it before it’s too late.",
       rating: 4.5,
       time: "2h 30min",
       releaseDate: "2023-06-01",
@@ -83,7 +83,7 @@ const HeroSection = () => {
                   <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6">
                     {item.title}
                   </h1>
-                  <p className="text-lg md:text-2xl font-medium mb-4">
+                  <p className="text-lg md:text-2xl font-medium mb-4 px-2 lg:px-0">
                     {item.description}
                   </p>
                   <div className="flex flex-col md:flex-row md:items-center gap-6 text-sm md:text-lg mb-6">

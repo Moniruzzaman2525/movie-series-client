@@ -35,7 +35,9 @@ const HasselFreeExperience = () => {
               width={100}
             ></Image>
             <div>
-              <h1 className="text-2xl font-bold">Stream with no interruptions</h1>
+              <h1 className="text-2xl font-bold">
+                Stream with no interruptions
+              </h1>
               <p>
                 Pause for snacks, not buffering. Stream smoothly with our
                 lightning-fast NordLynx protocol network.
