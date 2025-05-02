@@ -14,6 +14,9 @@ const Navbar = () => {
   const router = useRouter();
   const pathName = usePathname();
   const { user, setIsLoading, handleUser } = useUser();
+  // Removed useLocation as it is not defined or imported
+  const path = pathName;
+  console.log(path);
 
   useEffect(() => {
     if (user === undefined) {
@@ -38,17 +41,55 @@ const Navbar = () => {
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
-          <Link href="/" className="font-medium hover:text-red-500">
+          <Link
+            href="/"
+            className={
+              path === "/"
+                ? "font-medium text-red-500"
+                : "font-medium hover:text-red-500"
+            }
+          >
             Home
           </Link>
-          <Link href="/movies" className="font-medium hover:text-red-500">
+          <Link
+            href="/movies"
+            className={
+              path === "/movies"
+                ? "font-medium text-red-500"
+                : "font-medium hover:text-red-500"
+            }
+          >
             Movies
           </Link>
-          <Link href="/series" className="font-medium hover:text-red-500">
+          <Link
+            href="/series"
+            className={
+              path === "/series"
+                ? "font-medium text-red-500"
+                : "font-medium hover:text-red-500"
+            }
+          >
             Series
           </Link>
-          <Link href="/" className="font-medium hover:text-red-500">
-            Top Rated
+          <Link
+            href="/about"
+            className={
+              path === "/about"
+                ? "font-medium text-red-500"
+                : "font-medium hover:text-red-500"
+            }
+          >
+            About Us
+          </Link>
+          <Link
+            href="/support"
+            className={
+              path === "/support"
+                ? "font-medium text-red-500"
+                : "font-medium hover:text-red-500"
+            }
+          >
+            Support
           </Link>
         </div>
 
@@ -74,20 +115,62 @@ const Navbar = () => {
               </Button>
             </DrawerTrigger>
             <DrawerContent className="p-4 space-y-4 bg-white text-black">
-              <Link href="/" className="block font-medium hover:text-red-500">
+              <Link
+                href="/"
+                className={
+                  path === "/"
+                    ? "font-medium text-red-500"
+                    : "font-medium hover:text-red-500"
+                }
+              >
                 Home
               </Link>
-              <Link href="/movies" className="block font-medium hover:text-red-500">
+              <Link
+                href="/movies"
+                className={
+                  path === "/movies"
+                    ? "font-medium text-red-500"
+                    : "font-medium hover:text-red-500"
+                }
+              >
                 Movies
               </Link>
-              <Link href="/series" className="block font-medium hover:text-red-500">
+              <Link
+                href="/series"
+                className={
+                  path === "/series"
+                    ? "font-medium text-red-500"
+                    : "font-medium hover:text-red-500"
+                }
+              >
                 Series
               </Link>
-              <Link href="/" className="block font-medium hover:text-red-500">
-                Top Rated
+              <Link
+                href="/about"
+                className={
+                  path === "/about"
+                    ? "font-medium text-red-500"
+                    : "font-medium hover:text-red-500"
+                }
+              >
+                About Us
+              </Link>
+              <Link
+                href="/support"
+                className={
+                  path === "/support"
+                    ? "font-medium text-red-500"
+                    : "font-medium hover:text-red-500"
+                }
+              >
+                Support
               </Link>
               {user ? (
-                <Button variant="outline" className="w-full" onClick={handleLogout}>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleLogout}
+                >
                   Logout
                 </Button>
               ) : (

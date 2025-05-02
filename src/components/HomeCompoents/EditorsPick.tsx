@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SectionTitle from "../Shared/SectionTitle/SectionTitle";
 import Image from "next/image";
+import { FaArrowRight } from "react-icons/fa";
 
 const EditorsPick = () => {
   const data = [
@@ -56,7 +57,7 @@ const EditorsPick = () => {
 
   return (
     <div className="bg-[#020508]">
-      <div className="container mx-auto px-2 md:px-0">
+      <div className="container mx-auto px-2 md:px-0 py-10">
         <SectionTitle text={"Must-Watch Movies Handpicked for You"} subText={"Editors Pick Movies"} />
         <div className="py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {data.map((item) => {
@@ -93,6 +94,13 @@ const EditorsPick = () => {
               </div>
             );
           })}
+        </div>
+        <div className="flex justify-end ">
+          <Link href="/movies">
+            <button className="flex items-center gap-1 text-white  px-4 py-2 ">
+              See All <FaArrowRight />
+            </button>
+          </Link>
         </div>
       </div>
     </div>
