@@ -1,5 +1,6 @@
 "use client";
 
+import EditorsPick from "@/components/HomeCompoents/EditorsPick";
 import HasselFreeExperience from "@/components/HomeCompoents/HasselFreeExperience";
 import HeroSection from "@/components/HomeCompoents/HeroSection";
 import NewlyAdded from "@/components/HomeCompoents/NewlyAdded";
@@ -12,7 +13,8 @@ const HomePage = () => {
       <HeroSection />
       <TopRatedMovies />
       <HasselFreeExperience />
-      <NewlyAdded/>
+      <NewlyAdded />
+      <EditorsPick />
     </div>
   );
 };
