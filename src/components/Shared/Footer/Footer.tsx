@@ -1,5 +1,7 @@
-import Image from 'next/image';
-import React from 'react';
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
 const Footer: React.FC = () => {
   return (
@@ -16,10 +18,38 @@ const Footer: React.FC = () => {
           <div>
             <p className="text-base text-gray-500">Explore</p>
             <ul className="mt-8 space-y-4">
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Series</a></li>
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Movies</a></li>
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Genres</a></li>
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">New Releases</a></li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  Series
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  Movies
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  Genres
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  New Releases
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -27,10 +57,38 @@ const Footer: React.FC = () => {
           <div>
             <p className="text-base text-gray-500">Support</p>
             <ul className="mt-8 space-y-4">
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Help Center</a></li>
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Contact Us</a></li>
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Terms of Service</a></li>
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Privacy Policy</a></li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  Help Center
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -38,10 +96,38 @@ const Footer: React.FC = () => {
           <div>
             <p className="text-base text-gray-500">Follow Us</p>
             <ul className="mt-8 space-y-4">
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Instagram</a></li>
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Facebook</a></li>
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Twitter</a></li>
-              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">YouTube</a></li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  Instagram
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  Facebook
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  Twitter
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="text-base text-white transition-all duration-200 hover:text-opacity-80"
+                >
+                  YouTube
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -50,22 +136,26 @@ const Footer: React.FC = () => {
 
         <div className="flex flex-wrap items-center justify-between">
           <Image
-            className="h-8 auto md:order-1"
-            src="/logo-white.svg"
-            alt="Movie Series Logo"
+            className="h-8 w-8 auto md:order-1"
+            src="/favicon.ico"
+            alt="Showflix"
             height={150}
             width={150}
           />
-          <ul className="flex items-center space-x-3 md:order-3">
-            {["twitter", "facebook", "instagram"].map((platform) => (
-              <li key={platform}>
-                <a
+          <ul className="flex items-center space-x-3 md:order-3 py-5">
+            {[
+              { icon: <FaTwitter />, name: "twitter" },
+              { icon: <FaFacebook />, name: "facebook" },
+              { icon: <FaInstagram />, name: "instagram" },
+            ].map((platform) => (
+              <li key={platform.name}>
+                <Link
                   href="#"
                   className="flex items-center justify-center text-white transition-all duration-200 bg-transparent border border-gray-700 rounded-full w-7 h-7 hover:bg-blue-600 hover:border-blue-600"
-                  aria-label={platform}
+                  aria-label={platform.name}
                 >
-                  <i className={`fab fa-${platform}`}></i>
-                </a>
+                  {platform.icon}
+                </Link>
               </li>
             ))}
           </ul>
