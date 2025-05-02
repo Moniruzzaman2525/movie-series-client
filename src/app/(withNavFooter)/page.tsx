@@ -3,6 +3,7 @@
 import EditorsPick from "@/components/HomeCompoents/EditorsPick";
 import HasselFreeExperience from "@/components/HomeCompoents/HasselFreeExperience";
 import HeroSection from "@/components/HomeCompoents/HeroSection";
+import { ThreeDMarqueeDemo } from "@/components/HomeCompoents/Marquee";
 import NewlyAdded from "@/components/HomeCompoents/NewlyAdded";
 import TopRatedMovies from "@/components/HomeCompoents/TopRatedMovies";
 import React from "react";
@@ -15,6 +16,7 @@ const HomePage = () => {
       <HasselFreeExperience />
       <NewlyAdded />
       <EditorsPick />
+      <ThreeDMarqueeDemo/>
     </div>
   );
 };

@@ -1,119 +1,83 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
-
-import React, { useState } from "react";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaLinkedinIn,
-  FaPinterestP,
-} from "react-icons/fa";
-import { BsInstagram } from "react-icons/bs";
-import Link from "next/link";
-import dynamic from "next/dynamic";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import Image from 'next/image';
+import React from 'react';
 
 const Footer: React.FC = () => {
-  const [selected, setSelected] = useState<number | null>(null);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<{ email: string }>();
-
-  const labels = [
-    { name: "Movies", link: "" },
-    { name: "Serires", link: "" },
-    { name: "Top Rated", link: "" },
-    { name: "Upcoming", link: "" },
-  ];
-
-  const onSubmit = (data: { email: string }) => {
-    console.log("Email submitted:", data.email);
-    reset();
-  };
-
   return (
-    <div className="bg-neutral-900 text-white">
-      <div className="container mx-auto py-10 px-5">
-        <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-5">
-          <div className="flex gap-2 justify-center">
-            <h1 className="text-5xl font-bold">
-              SHOW<span className="text-red-700">FLIX</span>
-            </h1>
+    <section className="py-10 bg-gray-900 sm:pt-16 lg:pt-24">
+      <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+        <div className="grid grid-cols-2 gap-x-5 gap-y-12 md:grid-cols-4 md:gap-x-12">
+          {/* About Section */}
+          <div>
+            <p className="text-base text-gray-500">About</p>
+            <ul className="mt-8 space-y-4">
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Our Story</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Team</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Careers</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Press</a></li>
+            </ul>
           </div>
 
-          <div className="flex flex-col justify-center items-start">
-            <p className="text-xl font-semibold">Important Links</p>
-            {labels.map((item, index) => (
-              <Link href={item.link} key={index}>
-                <button
-                  className={`md:font-medium text-md py-1 md:text-lg ${
-                    selected === index
-                      ? "border-0 border-b-2 border-red-700"
-                      : ""
-                  }`}
-                  onClick={() => setSelected(index)}
-                >
-                  {item.name}
-                </button>
-              </Link>
-            ))}
+          {/* Explore Section */}
+          <div>
+            <p className="text-base text-gray-500">Explore</p>
+            <ul className="mt-8 space-y-4">
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Series</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Movies</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Genres</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">New Releases</a></li>
+            </ul>
           </div>
 
-          <div className="flex flex-col gap-5 justify-center items-start">
-            <div>
-              <h2 className="text-3xl">Newsletter</h2>
-              <p>
-                Want to know what we are up to? Sign up to the newsletter and
-                join our tribe.
-              </p>
+          {/* Support Section */}
+          <div>
+            <p className="text-base text-gray-500">Support</p>
+            <ul className="mt-8 space-y-4">
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Help Center</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Contact Us</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Terms of Service</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Privacy Policy</a></li>
+            </ul>
+          </div>
 
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="w-full flex flex-col gap-3 mt-3"
-              >
-                <Input
-                  {...register("email", { required: "Email is required" })}
-                  placeholder="Email"
-                  className="rounded-md"
-                />
-                {errors.email && (
-                  <span className="text-red-500 text-sm">
-                    {errors.email.message}
-                  </span>
-                )}
-                <button
-                  type="submit"
-                  className="bg-red-700 hover:bg-red-900 text-white py-2 px-4 rounded"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
-
-            <p>Follow us on</p>
-            <div className="grid grid-cols-5 gap-10 justify-center">
-              <FaFacebookF className="w-5 h-5 text-white hover:text-red-500" />
-              <FaTwitter className="w-5 h-5 text-white hover:text-red-500" />
-              <FaLinkedinIn className="w-5 h-5 text-white hover:text-red-500" />
-              <FaPinterestP className="w-5 h-5 text-white hover:text-red-500" />
-              <BsInstagram className="w-5 h-5 text-white hover:text-red-500" />
-            </div>
+          {/* Follow Us Section */}
+          <div>
+            <p className="text-base text-gray-500">Follow Us</p>
+            <ul className="mt-8 space-y-4">
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Instagram</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Facebook</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">Twitter</a></li>
+              <li><a href="#" className="text-base text-white transition-all duration-200 hover:text-opacity-80">YouTube</a></li>
+            </ul>
           </div>
         </div>
-      </div>
 
-      <hr className="border-neutral-700" />
-      <p className="text-center my-5 text-white pb-5">
-        Copyright © 2025 Showflix. All rights reserved
-      </p>
-    </div>
+        <hr className="mt-16 mb-10 border-gray-800" />
+
+        <div className="flex flex-wrap items-center justify-between">
+          <Image
+            className="h-8 auto md:order-1"
+            src="/logo-white.svg"
+            alt="Movie Series Logo"
+            height={150}
+            width={150}
+          />
+          <ul className="flex items-center space-x-3 md:order-3">
+            {["twitter", "facebook", "instagram"].map((platform) => (
+              <li key={platform}>
+                <a
+                  href="#"
+                  className="flex items-center justify-center text-white transition-all duration-200 bg-transparent border border-gray-700 rounded-full w-7 h-7 hover:bg-blue-600 hover:border-blue-600"
+                  aria-label={platform}
+                >
+                  <i className={`fab fa-${platform}`}></i>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
   );
 };
 
-export default dynamic(() => Promise.resolve(Footer), {
-  ssr: false,
-});
+export default Footer;
