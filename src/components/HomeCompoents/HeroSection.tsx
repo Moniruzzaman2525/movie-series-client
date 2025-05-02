@@ -104,21 +104,25 @@ const HeroSection = () => {
                     </div>
                   </div>
                   {/* Search Bar */}
-                  <form
-                    onSubmit={handleSearch}
-                    className="flex items-center bg-white/20 rounded-md overflow-hidden px-2 py-1 w-full md:w-[80%]"
-                  >
-                    <input
-                      type="text"
-                      className="bg-transparent outline-none w-full text-white placeholder-white/80 px-2 py-1"
-                      placeholder="Search..."
-                      value={searchQuery}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
-                    />
-                    <button type="submit">
-                      <FiSearch className="text-white text-xl" />
-                    </button>
-                  </form>
+                  <div className="my-20 w-full  flex items-center ">
+                    <form
+                      onSubmit={handleSearch}
+                      className="flex items-center bg-white/20 rounded-md overflow-hidden px-2 py-1 "
+                    >
+                      <input
+                        type="text"
+                        className="bg-transparent outline-none  text-white placeholder-white/80 px-2 py-1"
+                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setSearchQuery(e.target.value)
+                        }
+                      />
+                      <button type="submit">
+                        <FiSearch className="text-white text-xl" />
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </CarouselItem>
