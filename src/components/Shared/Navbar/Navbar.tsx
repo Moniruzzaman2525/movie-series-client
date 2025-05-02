@@ -47,8 +47,11 @@ const Navbar = () => {
           <Link href="/series" className="font-medium hover:text-red-500">
             Series
           </Link>
-          <Link href="/" className="font-medium hover:text-red-500">
-            Top Rated
+          <Link href="/about" className="font-medium hover:text-red-500">
+            About Us
+          </Link>
+          <Link href="/support" className="font-medium hover:text-red-500">
+            Support
           </Link>
         </div>
 
@@ -77,17 +80,30 @@ const Navbar = () => {
               <Link href="/" className="block font-medium hover:text-red-500">
                 Home
               </Link>
-              <Link href="/movies" className="block font-medium hover:text-red-500">
+              <Link
+                href="/movies"
+                className="block font-medium hover:text-red-500"
+              >
                 Movies
               </Link>
-              <Link href="/series" className="block font-medium hover:text-red-500">
+              <Link
+                href="/series"
+                className="block font-medium hover:text-red-500"
+              >
                 Series
               </Link>
-              <Link href="/" className="block font-medium hover:text-red-500">
-                Top Rated
+              <Link href="/about" className="font-medium hover:text-red-500">
+                About Us
+              </Link>
+              <Link href="/support" className="font-medium hover:text-red-500">
+                Support
               </Link>
               {user ? (
-                <Button variant="outline" className="w-full" onClick={handleLogout}>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleLogout}
+                >
                   Logout
                 </Button>
               ) : (

@@ -6,11 +6,11 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { FiStar, FiClock, FiFile, FiCalendar } from "react-icons/fi";
+import { FiStar, FiClock, FiFile, FiCalendar, FiSearch } from "react-icons/fi";
 
 const HeroSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const [searchQuery, setSearchQuery] = useState("");
   const data = [
     {
       id: 1,
@@ -47,24 +47,23 @@ const HeroSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % data.length);
-    }, 4000); 
+    }, 4000);
     return () => clearInterval(interval);
   }, [data.length]);
 
-  
   const handleCarouselChange = (index: number | FormEvent<HTMLDivElement>) => {
-    if (typeof index === 'number') {
+    if (typeof index === "number") {
       setActiveIndex(index);
     }
-  
+  };
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
   };
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      <Carousel
-        activeIndex={activeIndex}
-        onChange={handleCarouselChange} 
-      >
+      <Carousel activeIndex={activeIndex} onChange={handleCarouselChange}>
         <CarouselContent>
           {data.map((item, idx) => (
             <CarouselItem key={idx}>
@@ -104,9 +103,22 @@ const HeroSection = () => {
                       <span>{new Date(item.releaseDate).getFullYear()}</span>
                     </div>
                   </div>
-                  <button className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded text-white text-lg font-semibold">
-                    Watch Now
-                  </button>
+                  {/* Search Bar */}
+                  <form
+                    onSubmit={handleSearch}
+                    className="flex items-center bg-white/20 rounded-md overflow-hidden px-2 py-1 w-full md:w-[80%]"
+                  >
+                    <input
+                      type="text"
+                      className="bg-transparent outline-none w-full text-white placeholder-white/80 px-2 py-1"
+                      placeholder="Search..."
+                      value={searchQuery}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                    />
+                    <button type="submit">
+                      <FiSearch className="text-white text-xl" />
+                    </button>
+                  </form>
                 </div>
               </div>
             </CarouselItem>
