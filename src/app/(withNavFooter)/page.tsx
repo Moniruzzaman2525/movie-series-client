@@ -19,6 +19,7 @@ const HomePage = () => {
       <EditorsPick />
       {/* <ThreeDMarqueeDemo/> */}
       <FaqSection/>
+      
     </div>
   );
 };
