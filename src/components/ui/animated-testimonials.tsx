@@ -35,7 +35,9 @@ export const AnimatedTestimonials = ({
 
   // Set consistent random rotation values after mount
   useEffect(() => {
-    const generated = testimonials.map(() => Math.floor(Math.random() * 21) - 10);
+    const generated = testimonials.map(
+      () => Math.floor(Math.random() * 21) - 10
+    );
     setRotations(generated);
   }, [testimonials]);
 
@@ -68,7 +70,9 @@ export const AnimatedTestimonials = ({
                       scale: isActive(index) ? 1 : 0.95,
                       z: isActive(index) ? 0 : -100,
                       rotate: isActive(index) ? 0 : rotations[index] || 0,
-                      zIndex: isActive(index) ? 40 : testimonials.length + 2 - index,
+                      zIndex: isActive(index)
+                        ? 40
+                        : testimonials.length + 2 - index,
                       y: isActive(index) ? [0, -80, 0] : 0,
                     }}
                     exit={{

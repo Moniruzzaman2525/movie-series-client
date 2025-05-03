@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import SectionTitleTwo from "../Shared/SectionTitle/SectionTitleTwo";
-
+import { motion } from "framer-motion";
 const faqs = [
   {
     question: "How do I create an account?",
@@ -52,59 +52,65 @@ const FaqSection: React.FC = () => {
             const isOpen = openIndex === index;
 
             return (
-              <div
-                key={index}
-                className="transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-gray-50"
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleFAQ(index)}
-                  className="flex items-center justify-between w-full px-4 py-5 sm:p-6"
+              <div key={index}>
+                <motion.section
+                  initial={{ opacity: 0, y: -40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
                 >
-                  <span className="flex text-lg font-semibold text-black">
-                    {faq.question}
-                  </span>
-                  <svg
-                    className={`w-6 h-6 text-gray-400 transform transition-transform duration-300 ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                  <div
+                    key={index}
+                    className="transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-gray-50"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-
-                <div
-                  ref={(el) => {
-                    contentRefs.current[index] = el;
-                  }}
-                  className="overflow-hidden transition-all duration-300 ease-in-out"
-                  style={{
-                    maxHeight: isOpen
-                      ? `${contentRefs.current[index]?.scrollHeight}px`
-                      : "0px",
-                  }}
-                >
-                  <div className="px-4 pb-5 sm:px-6 sm:pb-6">
-                    <p>
-                      {faq.answer}{" "}
-                      {/* <a
-                        href="#"
-                        className="text-blue-600 transition-all duration-200 hover:underline"
+                    <motion.section
+                      initial={{ opacity: 0, y: -40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8 }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => toggleFAQ(index)}
+                        className="flex items-center justify-between w-full px-4 py-5 sm:p-6"
                       >
-                        aliqua dolor
-                      </a> */}
-                    </p>
+                        <span className="flex text-lg font-semibold text-black">
+                          {faq.question}
+                        </span>
+                        <svg
+                          className={`w-6 h-6 text-gray-400 transform transition-transform duration-300 ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
+
+                      <div
+                        ref={(el) => {
+                          contentRefs.current[index] = el;
+                        }}
+                        className="overflow-hidden transition-all duration-300 ease-in-out"
+                        style={{
+                          maxHeight: isOpen
+                            ? `${contentRefs.current[index]?.scrollHeight}px`
+                            : "0px",
+                        }}
+                      >
+                        <div className="px-4 pb-5 sm:px-6 sm:pb-6">
+                          <p>{faq.answer} </p>
+                        </div>
+                      </div>
+                    </motion.section>
                   </div>
-                </div>
+                </motion.section>
               </div>
             );
           })}
