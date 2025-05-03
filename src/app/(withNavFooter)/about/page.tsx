@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import SectionTitle from "@/components/Shared/SectionTitle/SectionTitle";
+import Link from "next/link";
 
 const AboutUsPage = () => {
   return (
@@ -16,7 +17,10 @@ const AboutUsPage = () => {
         >
           About Us
         </motion.h1> */}
-        <SectionTitle text="About Us" subText="Curious to learn more? Come join us and be a part of the journey!" />
+        <SectionTitle
+          text="About Us"
+          subText="Curious to learn more? Come join us and be a part of the journey!"
+        />
 
         <motion.section
           initial={{ opacity: 0, y: 20 }}
@@ -77,9 +81,11 @@ const AboutUsPage = () => {
             shape the future of entertainment.
           </p>
           <div className="flex justify-end">
-            <button className=" border border-neutral-400  text-white font-bold py-2 px-4 rounded mt-4">
-              Join Now
-            </button>
+            <Link href="/login">
+              <button className=" border border-neutral-400  text-white font-bold py-2 px-4 rounded mt-4 cursor-pointer">
+                Join Now
+              </button>
+            </Link>
           </div>
         </motion.section>
       </div>
