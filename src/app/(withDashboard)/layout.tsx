@@ -23,7 +23,6 @@ export default function DashboardLayout({
                          <Sidebar />
                     </div>
 
-
                     <div className="w-full">
                          {children}
                     </div>

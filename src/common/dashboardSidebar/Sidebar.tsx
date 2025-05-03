@@ -19,9 +19,6 @@ const Sidebar = () => {
      const pathname = usePathname();
   
 
-
-
-
      // Toggle Sidebar
      const handleToggle = () => {
           setActive(!isActive);
