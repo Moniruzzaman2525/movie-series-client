@@ -4,6 +4,7 @@
 
 import Sidebar from "@/common/dashboardSidebar/Sidebar";
 import type { Metadata } from "next";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
      title: " ShowFLIX | Dashboard",
@@ -23,9 +24,10 @@ export default function DashboardLayout({
                          <Sidebar />
                     </div>
 
-
                     <div className="w-full">
+                    <Toaster richColors  position="top-center" ></Toaster>
                          {children}
+                        
                     </div>
                </div>
           </div>
