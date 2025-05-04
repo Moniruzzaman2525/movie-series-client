@@ -47,6 +47,20 @@ export const getAllUserReview = async () => {
 
     return result;
 }
+export const getAllUserComments = async () => {
+    const res = await fetch(`${process.env.SERVER_URL}/admin/get-user-comments`, {
+        method: "GET",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        cache: 'no-cache',
+        next: { tags: ["users"] }
+    });
+
+    const result = await res.json();
+
+    return result;
+}
 export const approvedUserReview = async (id: string, payload: any) => {
 
     const res = await fetch(`${process.env.SERVER_URL}/admin/review/${id}`, {
