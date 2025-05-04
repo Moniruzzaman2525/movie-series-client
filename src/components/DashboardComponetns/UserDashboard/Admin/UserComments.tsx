@@ -107,51 +107,51 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
 
     const handleApproved = (id: string) => {
         Swal.fire({
-          title: "Are you sure?",
-          text: "Are you sure you want approved this review!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, approve it!",
-          background: "#0f172a",
+            title: "Are you sure?",
+            text: "Are you sure you want approved this review!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, approve it!",
+            background: "#0f172a",
         }).then(async (result) => {
-          if (result.isConfirmed) {
-            const data = {
-              status: "APPROVED",
+            if (result.isConfirmed) {
+                const data = {
+                    status: "APPROVED",
+                }
+                const res = await approvedUserReview(id, data)
+                console.log(res)
+                if (res.success) {
+                    toast.success("Review Approved Successfully")
+                }
             }
-            const res = await approvedUserReview(id, data)
-            console.log(res)
-            if (res.success) {
-              toast.success("Review Approved Successfully")
-            }
-          }
         })
-      }
+    }
 
-      const handleReject = (id: string) => {
+    const handleReject = (id: string) => {
         Swal.fire({
-          title: "Are you sure?",
-          text: "Are you sure you want reject this review!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, reject it!",
-          background: "#0f172a",
+            title: "Are you sure?",
+            text: "Are you sure you want reject this review!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, reject it!",
+            background: "#0f172a",
         }).then(async (result) => {
-          if (result.isConfirmed) {
-            const data = {
-              status: "REJECTED",
+            if (result.isConfirmed) {
+                const data = {
+                    status: "REJECTED",
+                }
+                const res = await approvedUserReview(id, data)
+                console.log(res)
+                if (res.success) {
+                    toast.success("Review Reject Successfully")
+                }
             }
-            const res = await approvedUserReview(id, data)
-            console.log(res)
-            if (res.success) {
-              toast.success("Review Reject Successfully")
-            }
-          }
         })
-      }
+    }
     return (
         <div className="w-full space-y-4">
             <div className="rounded-md border bg-white shadow-sm">
@@ -234,7 +234,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                                             className={`inline-flex rounded-full px-2 py-1 text-xs font-medium
                                              ${user?.status === "PENDING" ? "bg-yellow-100 text-yellow-800"
                                                     : user?.status === "APPROVED" ? "bg-green-100 text-green-800"
-                                                        : user?.status === "REJECT" ? "bg-red-100 text-red-800"
+                                                        : user?.status === "REJECTED" ? "bg-red-100 text-red-800"
                                                             : ""}`}
                                         >
                                             {user?.status}

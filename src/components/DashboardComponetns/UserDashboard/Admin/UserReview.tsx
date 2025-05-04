@@ -234,7 +234,7 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
                       className={`inline-flex rounded-full px-2 py-1 text-xs font-medium
                                              ${user?.status === "PENDING" ? "bg-yellow-100 text-yellow-800"
                           : user?.status === "APPROVED" ? "bg-green-100 text-green-800"
-                            : user?.status === "REJECT" ? "bg-red-100 text-red-800"
+                            : user?.status === "REJECTED" ? "bg-red-100 text-red-800"
                               : ""}`}
                     >
                       {user?.status}
