@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client"
 import {
     Table,
     TableBody,
@@ -9,7 +10,10 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
+import { deleteComment } from "@/service/Comments";
 import { Trash } from "lucide-react"
+import { toast } from "sonner";
+import Swal from "sweetalert2";
   
   // const invoices = [
   //   {
@@ -55,6 +59,26 @@ import { Trash } from "lucide-react"
   //     paymentMethod: "Credit Card",
   //   },
   // ]
+
+   const handleDelete=(id:string)=>{
+          console.log(id);
+          Swal.fire({
+              title: "Are you sure?",
+              text: "You won't be able to revert this!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes, delete it!",
+              background:'#0f172a'
+            }).then(async(result) => {
+              if (result.isConfirmed) {
+                 const res= await deleteComment(id)
+                 console.log(res);
+               toast.success("Review Deleted Successfully")
+              }
+            });
+      }
   
   export function CommentsTable(payload:any) {
     return (
@@ -76,7 +100,7 @@ import { Trash } from "lucide-react"
               <TableCell className="font-medium">{key+1}</TableCell>
               <TableCell>{invoice.content}</TableCell>
               <TableCell>{invoice.status}</TableCell>
-              <TableCell className="flex justify-end text-red-500 cursor-pointer"><Trash/></TableCell>
+              <TableCell onClick={()=>handleDelete(invoice.id)} className="flex justify-end text-red-500 cursor-pointer"><Trash/></TableCell>
             </TableRow>
           ))}
         </TableBody>
