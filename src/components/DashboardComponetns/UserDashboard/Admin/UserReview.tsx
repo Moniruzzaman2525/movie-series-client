@@ -110,11 +110,9 @@ export function UserReview(payload: any) {
             <TableCell>{user?.rating}</TableCell>
             <TableCell>{user?.like}</TableCell>
             <TableCell>{user?.status}</TableCell>
-            <div className="flex justify-end">
-              <TableCell onClick={() => handleDelete(user?.id)} className="flex justify-end cursor-pointer text-red-500"><Trash /></TableCell>
-              <TableCell onClick={() => handleApproved(user?.id)} className="flex justify-end cursor-pointer text-green-500"><CircleCheck /></TableCell>
-              <TableCell onClick={() => handleReject(user?.id)} className="flex justify-end cursor-pointer text-green-500"><X /></TableCell>
-            </div>
+            <TableCell onClick={() => handleDelete(user?.id)} className="cursor-pointer text-red-500"><Trash /></TableCell>
+            <TableCell onClick={() => handleApproved(user?.id)} className="cursor-pointer text-green-500"><CircleCheck /></TableCell>
+            <TableCell onClick={() => handleReject(user?.id)} className="cursor-pointer text-green-500"><X /></TableCell>
           </TableRow>
         ))}
       </TableBody>
