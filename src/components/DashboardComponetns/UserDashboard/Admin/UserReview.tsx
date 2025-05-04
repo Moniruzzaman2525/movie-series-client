@@ -1,22 +1,68 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
+
+import { useState } from "react"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ChevronLeft, ChevronRight, Trash, User, Mail, MessageCircle, CircleCheck, X } from "lucide-react"
 import { approvedUserReview, deleteUser } from "@/service/Admin"
-import { CircleCheck, Trash, X } from "lucide-react"
 import { toast } from "sonner"
 import Swal from "sweetalert2"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Button } from "@/components/ui/button"
 
-interface UserReviewProps {
+
+export interface IReview {
+  id: string
+  userId: string
+  videoId: string
+  status: string
+  content: string
+  createdAt: string
+  reviewId?: string
+  parentCommentId?: string
+  user: User
+}
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  password: string
+  role: string
+  createAt: string
+  updateAt: string
+  isDeleted: boolean
+}
+interface AllUserTableProps {
   data: {
-    data: any[]
+    data: IReview[]
   }
   isLoading?: boolean
 }
 
-export function UserReview({ data, isLoading = false }: UserReviewProps) {
-  const handleDelete = (id: string) => {
+export function UserReview({ data, isLoading = false }: AllUserTableProps) {
+
+
+  const [reviews, setReviews] = useState<IReview[]>(data?.data || [])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(5)
+  console.log(reviews)
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentUsers = reviews.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(reviews.length / itemsPerPage)
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
+
+  const handleItemsPerPageChange = (value: string) => {
+    setItemsPerPage(Number(value))
+    setCurrentPage(1) // Reset to first page when changing items per page
+  }
+
+  const handleDelete = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
       text: "Are you sure you want delete this user!",
@@ -28,12 +74,35 @@ export function UserReview({ data, isLoading = false }: UserReviewProps) {
       background: "#0f172a",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await deleteUser(id)
-        if (res.success) {
-          toast.success("Review Deleted Successfully")
+        try {
+          const res = await deleteUser(id)
+
+          if (res.success) {
+            // Update local state to remove the deleted user
+            const updatedUsers = reviews.filter((user) => user.id !== id)
+            setReviews(updatedUsers)
+
+            // Adjust current page if needed after deletion
+            if (currentUsers.length === 1 && currentPage > 1) {
+              setCurrentPage(currentPage - 1)
+            }
+
+            toast.success("User deleted successfully")
+          } else {
+            toast.error("Failed to delete user")
+          }
+        } catch (error) {
+          console.error("Error deleting user:", error)
+          toast.error("An error occurred while deleting the user")
         }
       }
     })
+  }
+
+  // Generate page numbers for pagination
+  const pageNumbers = []
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i)
   }
 
   const handleApproved = (id: string) => {
@@ -83,23 +152,25 @@ export function UserReview({ data, isLoading = false }: UserReviewProps) {
       }
     })
   }
-
   return (
     <div className="w-full space-y-4">
       <div className="rounded-md border bg-white shadow-sm">
         <Table>
           <TableCaption>
-            {isLoading ? <Skeleton className="h-4 w-64 mx-auto" /> : "A list of user reviews"}
+            {isLoading ? (
+              <Skeleton className="h-4 w-64 mx-auto" />
+            ) : (
+              `Showing ${indexOfFirstItem + 1} to ${Math.min(indexOfLastItem, reviews.length)} of ${reviews.length} users`
+            )}
           </TableCaption>
           <TableHeader className="bg-gray-100">
             <TableRow>
               <TableHead className="w-[80px]">Number</TableHead>
-              <TableHead>User Name</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
               <TableHead>Content</TableHead>
-              <TableHead>Rating</TableHead>
-              <TableHead>Like</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="w-[80px] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="text-sm font-medium text-slate-700">
@@ -114,50 +185,57 @@ export function UserReview({ data, isLoading = false }: UserReviewProps) {
                     <Skeleton className="h-4 w-6" />
                   </TableCell>
                   <TableCell>
-                    <Skeleton className="h-4 w-32" />
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-4 w-4 rounded-full" />
+                      <Skeleton className="h-4 w-32" />
+                    </div>
                   </TableCell>
                   <TableCell>
-                    <Skeleton className="h-4 w-48" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-4 w-8" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-4 w-8" />
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-4 w-4 rounded-full" />
+                      <Skeleton className="h-4 w-40" />
+                    </div>
                   </TableCell>
                   <TableCell>
                     <Skeleton className="h-6 w-16 rounded-full" />
                   </TableCell>
                   <TableCell className="text-right">
-                    <div className="flex justify-end space-x-1">
-                      <Skeleton className="h-8 w-8 rounded-md" />
-                      <Skeleton className="h-8 w-8 rounded-md" />
-                      <Skeleton className="h-8 w-8 rounded-md" />
-                    </div>
+                    <Skeleton className="h-8 w-8 rounded-md ml-auto" />
                   </TableCell>
                 </TableRow>
-
-                
               ))
-            ) : data?.data?.length > 0 ? (
-              data.data.map((user: any, index: number) => (
+            ) : currentUsers.length > 0 ? (
+              currentUsers.map((user, index) => (
                 <TableRow
                   key={user.id || index}
                   className={index % 2 === 0 ? "bg-white hover:bg-gray-50" : "bg-gray-300 hover:bg-gray-200"}
                 >
-                  <TableCell className="font-medium">{index + 1}</TableCell>
-                  <TableCell>{user?.user?.name || "N/A"}</TableCell>
-                  <TableCell>{user?.content || "N/A"}</TableCell>
-                  <TableCell>{user?.rating}</TableCell>
-                  <TableCell>{user?.like}</TableCell>
+                  <TableCell className="font-medium">{indexOfFirstItem + index + 1}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <User className="h-4 w-4 text-gray-500" />
+                      {user?.user.name || "N/A"}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <Mail className="h-4 w-4 text-gray-500" />
+                      {user?.user.email || "N/A"}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <MessageCircle className="h-4 w-4 text-gray-500" />
+                      {user?.content || "N/A"}
+                    </div>
+                  </TableCell>
                   <TableCell>
                     <span
-                      className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${user?.status === "APPROVED"
-                          ? "bg-green-100 text-green-800"
-                          : user?.status === "REJECTED"
-                            ? "bg-red-100 text-red-800"
-                            : "bg-blue-100 text-blue-800"
-                        }`}
+                      className={`inline-flex rounded-full px-2 py-1 text-xs font-medium
+                                             ${user?.status === "PENDING" ? "bg-yellow-100 text-yellow-800"
+                          : user?.status === "APPROVED" ? "bg-green-100 text-green-800"
+                            : user?.status === "REJECT" ? "bg-red-100 text-red-800"
+                              : ""}`}
                     >
                       {user?.status}
                     </span>
@@ -197,13 +275,84 @@ export function UserReview({ data, isLoading = false }: UserReviewProps) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={7} className="h-24 text-center">
-                  No reviews found.
+                <TableCell colSpan={5} className="h-24 text-center">
+                  No users found.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex items-center justify-between px-2">
+        {isLoading ? (
+          <>
+            <div className="flex items-center space-x-2">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-8 w-[70px]" />
+            </div>
+            <div className="flex items-center space-x-1">
+              <Skeleton className="h-8 w-8" />
+              <Skeleton className="h-8 w-8" />
+              <Skeleton className="h-8 w-8" />
+              <Skeleton className="h-8 w-8" />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex items-center space-x-2">
+              <p className="text-sm text-gray-700">Rows per page:</p>
+              <Select value={String(itemsPerPage)} onValueChange={handleItemsPerPageChange}>
+                <SelectTrigger className="h-8 w-[70px]">
+                  <SelectValue placeholder={itemsPerPage} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="5">5</SelectItem>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center space-x-1">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="h-8 w-8 p-0"
+                aria-label="Previous page"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+
+              {pageNumbers.map((number) => (
+                <Button
+                  key={number}
+                  variant={currentPage === number ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handlePageChange(number)}
+                  className="h-8 w-8 p-0"
+                >
+                  {number}
+                </Button>
+              ))}
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className="h-8 w-8 p-0"
+                aria-label="Next page"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
