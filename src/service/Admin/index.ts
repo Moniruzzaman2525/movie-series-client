@@ -1,4 +1,5 @@
 "use server"
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 export const getAllUser = async () => {
@@ -8,6 +9,7 @@ export const getAllUser = async () => {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         cache: 'no-cache',
+        next: { tags: ["users"] }
     });
 
     const result = await res.json();
@@ -17,7 +19,7 @@ export const getAllUser = async () => {
 
 
 export const deleteUser = async (id: string) => {
-    const res = await fetch(`${process.env.SERVER_URL}/admin/delete-user/${id}`, {
+    const res = await fetch(`${process.env.SERVER_URL}/admin/remove-user/${id}`, {
         method: "DELETE",
         headers: {
             Authorization: (await cookies()).get("accessTokenF")?.value || "",
@@ -26,5 +28,7 @@ export const deleteUser = async (id: string) => {
     });
 
     const result = await res.json();
+     revalidateTag('users')
+    console.log(result)
     return result;
 }

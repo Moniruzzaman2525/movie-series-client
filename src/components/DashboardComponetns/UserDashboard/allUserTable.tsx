@@ -10,7 +10,7 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
-import { deleteReview } from "@/service/Reviews";
+import { deleteUser } from "@/service/Admin";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 import Swal from "sweetalert2"
@@ -29,9 +29,12 @@ export function AllUserTable(payload: any) {
             background:'#0f172a'
           }).then(async(result) => {
             if (result.isConfirmed) {
-               const res= await deleteReview(id)
-               console.log(res);
-             toast.success("Review Deleted Successfully")
+              const res = await deleteUser(id)
+              console.log(res)
+              if (res.success) {
+                  toast.success("Review Deleted Successfully")
+              }
+
             }
           });
     }
