@@ -10,17 +10,18 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
-import { deleteReview } from "@/service/Reviews";
+import { deleteUser } from "@/service/Admin";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 import Swal from "sweetalert2"
-  
-  export function ReviewTable(payload:any) {
+
+export function AllUserTable(payload: any) {
+
+
     const handleDelete=(id:string)=>{
-        console.log(id);
         Swal.fire({
             title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            text: "Are you sure you want delete this user!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -29,37 +30,36 @@ import Swal from "sweetalert2"
             background:'#0f172a'
           }).then(async(result) => {
             if (result.isConfirmed) {
-               const res= await deleteReview(id)
-               console.log(res);
-             toast.success("Review Deleted Successfully")
+              const res = await deleteUser(id)
+              console.log(res)
+              if (res.success) {
+                  toast.success("Review Deleted Successfully")
+              }
+
             }
           });
     }
     return (
       <Table>
-        <TableCaption>A list of your recent Comments</TableCaption>
+        <TableCaption>A list of your user</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Number</TableHead>
-            <TableHead>Content</TableHead>
-            <TableHead>Rating</TableHead>
-            <TableHead>Like</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right" >Amount</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Role</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="text-sm font-medium text-slate-700">
-  {payload.invoice.data.map((invoice: any, index: number) => (
-    <TableRow key={invoice.id || index}
+  {payload?.data?.data.map((user: any, index: number) => (
+    <TableRow key={user.id || index}
     className={index % 2 === 0 ? "bg-white" : "bg-gray-300"}
     >
       <TableCell className="font-medium">{index + 1}</TableCell>
-      <TableCell>{invoice?.content || 'N/A'}</TableCell>
-      <TableCell>{invoice?.rating || 'N/A'}</TableCell>
-      <TableCell>{String(invoice?.like)|| 'N/A'}</TableCell>
-      {invoice?.status === 'PENDING'||"REJECT" ? <TableCell className="text-red-500">{String(invoice?.status) || 'N/A'}</TableCell>:<TableCell className="text-green-500">{String(invoice?.status) || 'N/A'}</TableCell>
-      }
-      <TableCell onClick={()=>handleDelete(invoice?.id)} className="flex justify-end text-red-500"><Trash/></TableCell>
+      <TableCell>{user?.name || 'N/A'}</TableCell>
+      <TableCell>{user?.email || 'N/A'}</TableCell>
+      <TableCell>{user?.role}</TableCell>
+      <TableCell onClick={()=>handleDelete(user?.id)} className="flex justify-end cursor-pointer text-red-500"><Trash/></TableCell>
     </TableRow>
   ))}
 </TableBody>
