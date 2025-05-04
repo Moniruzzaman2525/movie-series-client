@@ -117,7 +117,7 @@ export default function RegisterPage() {
                                              onClick={() => setShowPassword((prev) => !prev)}
                                              className="absolute right-3 top-2.5 text-xl text-gray-500"
                                         >
-                                             {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                                             {showPassword ?  <AiOutlineEye /> : <AiOutlineEyeInvisible /> }
                                         </button>
                                    </div>
                                    {errors.password && (

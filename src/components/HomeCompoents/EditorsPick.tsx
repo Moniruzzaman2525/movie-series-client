@@ -3,7 +3,7 @@ import SectionTitle from "../Shared/SectionTitle/SectionTitle";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 
-const TopRatedMovies = () => {
+const EditorsPick = () => {
   const data = [
     {
       id: 1,
@@ -45,20 +45,20 @@ const TopRatedMovies = () => {
       publishedYear: 2020,
       genre: "Drama",
     },
-    // {
-    //   id: 6,
-    //   name: "Galactic Tide",
-    //   img: "https://i.ibb.co.com/ycLjmxgF/The-Lord-of-the-Rings-The-Fellowship-of-the-Ring-744631610-large.jpg",
-    //   rating: 8,
-    //   publishedYear: 2019,
-    //   genre: "Action",
-    // },
+    {
+      id: 6,
+      name: "Galactic Tide",
+      img: "https://i.ibb.co.com/ycLjmxgF/The-Lord-of-the-Rings-The-Fellowship-of-the-Ring-744631610-large.jpg",
+      rating: 8,
+      publishedYear: 2019,
+      genre: "Action",
+    },
   ];
 
   return (
     <div className="bg-[#020508]">
       <div className="container mx-auto px-2 md:px-0 py-10">
-        <SectionTitle text={"Top Rated Movies"} subText={"Top Rated Movies"} />
+        <SectionTitle text={"Must-Watch Movies Handpicked for You"} subText={"Editors Pick Movies"} />
         <div className="py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {data.map((item) => {
             return (
@@ -107,4 +107,4 @@ const TopRatedMovies = () => {
   );
 };
 
-export default TopRatedMovies;
+export default EditorsPick;
