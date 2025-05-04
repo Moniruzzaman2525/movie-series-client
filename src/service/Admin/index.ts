@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
@@ -43,6 +44,22 @@ export const getAllUserReview = async () => {
     });
 
     const result = await res.json();
+
+    return result;
+}
+export const approvedUserReview = async (id: string, payload: any) => {
+
+    const res = await fetch(`${process.env.SERVER_URL}/admin/review/${id}`, {
+        method: "PATCH",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || "",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+    revalidateTag('users')
 
     return result;
 }
