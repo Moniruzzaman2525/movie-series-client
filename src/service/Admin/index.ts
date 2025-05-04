@@ -28,7 +28,22 @@ export const deleteUser = async (id: string) => {
     });
 
     const result = await res.json();
-     revalidateTag('users')
-    console.log(result)
+    revalidateTag('users')
     return result;
 }
+
+export const getAllUserReview = async () => {
+    const res = await fetch(`${process.env.SERVER_URL}/admin/get-user-review`, {
+        method: "GET",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        cache: 'no-cache',
+        next: { tags: ["users"] }
+    });
+
+    const result = await res.json();
+
+    return result;
+}
+

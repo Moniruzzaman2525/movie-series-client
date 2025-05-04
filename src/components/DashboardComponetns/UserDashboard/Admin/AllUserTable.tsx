@@ -17,6 +17,7 @@ import Swal from "sweetalert2"
 
 export function AllUserTable(payload: any) {
 
+
     const handleDelete=(id:string)=>{
         Swal.fire({
             title: "Are you sure?",
