@@ -49,6 +49,8 @@ export const activeUser = async (id: string) => {
     return result;
 }
 
+/* Review */
+
 export const getAllUserReview = async () => {
     const res = await fetch(`${process.env.SERVER_URL}/admin/get-user-review`, {
         method: "GET",
@@ -56,7 +58,7 @@ export const getAllUserReview = async () => {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         cache: 'no-cache',
-        next: { tags: ["users"] }
+        next: { tags: ["reviews"] }
     });
 
     const result = await res.json();
@@ -77,14 +79,27 @@ export const approvedUserReview = async (id: string, payload: any) => {
     });
 
     const result = await res.json();
-    revalidateTag('users')
+    revalidateTag('reviews')
 
     return result;
 }
 
+export const deleteUserReview = async (id: string) => {
+    const res = await fetch(`${process.env.SERVER_URL}/admin/remove-inappropriate-review/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || "",
+        },
+        cache: 'no-cache',
+    });
 
+    const result = await res.json();
 
-// comment
+    revalidateTag('reviews')
+    return result;
+}
+
+/* Comment */
 export const deleteUserComment = async (id: string) => {
     const res = await fetch(`${process.env.SERVER_URL}/admin/remove-inappropriate-comment/${id}`, {
         method: "DELETE",
