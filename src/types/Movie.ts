@@ -9,4 +9,6 @@ export interface MovieCardProps {
      streamingPlatform: string;
      price: number;
      rating: number;
+     category:string
+     key?:number
 }
