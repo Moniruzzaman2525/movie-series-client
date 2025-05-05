@@ -3,6 +3,7 @@
 import { movies } from "@/fakeData/movie";
 import { useState } from "react";
 import ReusableCard from "../card/Card";
+import GenreList from "@/components/HomeCompoents/GenreList";
 
 const categories = ["All", "Action", "Comedy", "Drama", "Horror", "Sci-Fi", "Romance"];
 
@@ -12,9 +13,6 @@ const MovieSearch = () => {
      const [currentPage, setCurrentPage] = useState(1);
 
      const itemsPerPage = 6;
-
- 
-    
      const totalPages = Math.ceil(movies.length / itemsPerPage);
      const paginatedMovies = movies.slice(
           (currentPage - 1) * itemsPerPage,
@@ -27,6 +25,9 @@ const MovieSearch = () => {
           }
      };
 
+          const handleSelectGenre = (genre: string) => {
+               console.log(genre);
+          }
      return (
           <div className="w-full max-w-6xl mx-auto p-4">
                {/* Search & Filter */}
@@ -59,11 +60,17 @@ const MovieSearch = () => {
                </div>
 
                {/* Movie Grid */}
-               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 auto-rows-fr px-4 py-6">
+              <div className="flex items-baseline border">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 auto-rows-fr px-4 py-8 border-r">
                     {paginatedMovies.map((movie, index) => (
                          <ReusableCard key={index} {...movie} />
                     ))}
                </div>
+              
+               <div className="hidden sm:block w-1/4">
+                    <GenreList onGenreSelect={handleSelectGenre}/>
+               </div>
+              </div>
 
                {/* Pagination Controls */}
                {totalPages > 1 && (

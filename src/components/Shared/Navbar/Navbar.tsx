@@ -9,7 +9,6 @@ import { useUser } from "@/context/userContext";
 import { logOut } from "@/service/Auth";
 import { toast } from "sonner";
 import { usePathname, useRouter } from "next/navigation";
-
 const Navbar = () => {
   const router = useRouter();
   const pathName = usePathname();
@@ -95,7 +94,7 @@ const Navbar = () => {
 
         {user ? (
           <div className="hidden md:block">
-            <Button variant="ghost" onClick={handleLogout}>
+            <Button variant="ghost" className="cursor-pointer" onClick={handleLogout}>
               Logout
             </Button>
           </div>

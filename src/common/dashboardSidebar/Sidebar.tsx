@@ -1,6 +1,6 @@
 'use client';
 
-import {  useState } from 'react';
+import { useState } from 'react';
 import { AiOutlineBars } from 'react-icons/ai';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -76,7 +76,7 @@ const Sidebar = () => {
                                    </Link>
                                    <Link
                                         href='/dashboard/alluser'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/createBlog')}`}
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/alluser')}`}
                                    >
                                         <MdCreateNewFolder className='text-green-500' />
                                         <span className='mx-4 font-medium'>All user</span>
