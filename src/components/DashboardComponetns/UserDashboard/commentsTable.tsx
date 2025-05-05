@@ -79,8 +79,8 @@ import Swal from "sweetalert2";
               }
             });
       }
-  
   export function CommentsTable(payload:any) {
+    console.log(payload);
     return (
       <Table>
         <TableCaption>A list of your recent Comments</TableCaption>
@@ -93,7 +93,7 @@ import Swal from "sweetalert2";
           </TableRow>
         </TableHeader>
         <TableBody className="text-sm font-medium text-slate-700">
-          {payload.invoice.map((invoice:any,key:number) => (
+          {payload.data.map((invoice:any,key:number) => (
             <TableRow key={invoice.id|| key}
             className={key % 2 === 0 ? "bg-white" : "bg-gray-300"}
             >

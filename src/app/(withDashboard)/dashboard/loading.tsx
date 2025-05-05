@@ -1,10 +1,10 @@
 import React from 'react';
-import LoadingSpinner from '../../(withNavFooter)/movies/loading';
+import { TableSkeleton } from '@/app/(withNavFooter)/movies/table-skeleton';
 
 const loading = () => {
     return (
         <div>
-            <LoadingSpinner />
+            <TableSkeleton />
         </div>
     );
 };

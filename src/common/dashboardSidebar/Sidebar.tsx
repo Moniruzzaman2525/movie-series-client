@@ -1,6 +1,6 @@
 'use client';
 
-import {  useState } from 'react';
+import { useState } from 'react';
 import { AiOutlineBars } from 'react-icons/ai';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -17,7 +17,7 @@ const Sidebar = () => {
 
 
      const pathname = usePathname();
-  
+
 
      // Toggle Sidebar
      const handleToggle = () => {
@@ -43,8 +43,8 @@ const Sidebar = () => {
                </div>
 
                {/* Sidebar */}
-               <div className={`fixed inset-y-0 left-0 z-20 flex flex-col justify-between w-64 bg-[#212529] text-white p-4 
-                transform ${isActive ? "translate-x-0" : "-translate-x-full"} 
+               <div className={`fixed inset-y-0 left-0 z-20 flex flex-col justify-between w-64 bg-[#212529] text-white p-4
+                transform ${isActive ? "translate-x-0" : "-translate-x-full"}
                 md:translate-x-0 transition-transform duration-300 ease-in-out`}>
 
                     {/* Sidebar Header */}
@@ -71,16 +71,13 @@ const Sidebar = () => {
                                         href='/dashboard/createmoviesSeries'
                                         className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/createdProject')}`}
                                    >
-
                                         <SiCreatereactapp className='text-green-500' />
                                         <span className='mx-4 font-medium'>Create movies</span>
                                    </Link>
                                    <Link
                                         href='/dashboard/alluser'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/createBlog')}`}
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/alluser')}`}
                                    >
-
-
                                         <MdCreateNewFolder className='text-green-500' />
                                         <span className='mx-4 font-medium'>All user</span>
                                    </Link>
@@ -88,22 +85,22 @@ const Sidebar = () => {
                                         href='/dashboard/payment'
                                         className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/payment')}`}
                                    >
-
-
-
                                         <FaBloggerB className='text-green-500' />
-                                        <span className='mx-4 font-medium'>payment</span>
+                                        <span className='mx-4 font-medium'>Payment</span>
                                    </Link>
                                    <Link
                                         href='/dashboard/reviews'
                                         className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/reviews')}`}
                                    >
-
-
-
-
                                         <LuMessageCircle className='text-green-500' />
-                                        <span className='mx-4 font-medium'>reviews</span>
+                                        <span className='mx-4 font-medium'>Reviews</span>
+                                   </Link>
+                                   <Link
+                                        href='/dashboard/comments'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/comments')}`}
+                                   >
+                                        <LuMessageCircle className='text-green-500' />
+                                        <span className='mx-4 font-medium'>Comments</span>
                                    </Link>
                               </div>
 

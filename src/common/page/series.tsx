@@ -2,10 +2,11 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { moviesServer } from "@/service/content";
+
 import { MovieCardProps } from "@/types/Movie";
 import GenresList from "../card/Filterbar";
 import SeriesCard from "../card/SeriesCard";
+import { getAllContent } from "@/service/content";
 
 const SeriesSearch = () => {
      const [searchTerm, setSearchTerm] = useState("");
@@ -19,7 +20,7 @@ const SeriesSearch = () => {
           setLoading(true);
           setError(null);
           try {
-               const result = await moviesServer(searchTerm, category);
+               const result = await getAllContent({ searchTerm, filters: { genre: category } });
                if (result?.data) {
                     const filterSeries = result.data.filter(
                          (movie: MovieCardProps) => movie.category === "SERIES"
