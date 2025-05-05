@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 import ReusableCard from "../card/Card";
 import { MovieCardProps } from "@/types/Movie";
 import GenresList from "../card/Filterbar";
-import { getAllContent } from "@/service/content";
+import { getAllContent } from "@/service/Content";
 
 const MovieSearch = () => {
      const [searchTerm, setSearchTerm] = useState("");
@@ -19,7 +19,7 @@ const MovieSearch = () => {
           setLoading(true);
           setError(null);
           try {
-               const result = await getAllContent( searchTerm, category);
+               const result = await getAllContent(searchTerm, category);
                if (result?.data) {
                     const filterMovies = result?.data?.filter(
                          (movie: MovieCardProps) => movie.category === "MOVIE"

@@ -5,10 +5,11 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ChevronLeft, ChevronRight, Trash, User, Mail, MessageCircle, CircleCheck, X } from "lucide-react"
-import { approvedUserReview, deleteUser } from "@/service/Admin"
+import { approvedUserComment, deleteUserComment } from "@/service/Admin"
 import { toast } from "sonner"
 import Swal from "sweetalert2"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 
 export interface IComment {
@@ -43,15 +44,15 @@ interface AllUserTableProps {
 export function UserComments({ data, isLoading = false }: AllUserTableProps) {
 
 
-    const [comments, setComments] = useState<IComment[]>(data?.data || [])
+
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(5)
-    console.log(comments)
-    // Pagination logic
+
+
     const indexOfLastItem = currentPage * itemsPerPage
     const indexOfFirstItem = indexOfLastItem - itemsPerPage
-    const currentUsers = comments.slice(indexOfFirstItem, indexOfLastItem)
-    const totalPages = Math.ceil(comments.length / itemsPerPage)
+    const currentUsers = data?.data.slice(indexOfFirstItem, indexOfLastItem)
+    const totalPages = Math.ceil(data?.data.length / itemsPerPage)
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber)
@@ -59,13 +60,18 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
 
     const handleItemsPerPageChange = (value: string) => {
         setItemsPerPage(Number(value))
-        setCurrentPage(1) // Reset to first page when changing items per page
+        setCurrentPage(1)
+    }
+    const truncateText = (text: string, maxLength = 50) => {
+        if (!text) return "N/A"
+        if (text.length <= maxLength) return text
+        return text.substring(0, maxLength) + "..."
     }
 
     const handleDelete = async (id: string) => {
         Swal.fire({
             title: "Are you sure?",
-            text: "Are you sure you want delete this user!",
+            text: "Are you sure you want delete this comment!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -75,31 +81,21 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await deleteUser(id)
+                    const res = await deleteUserComment(id)
 
                     if (res.success) {
-                        // Update local state to remove the deleted user
-                        const updatedUsers = comments.filter((user) => user.id !== id)
-                        setComments(updatedUsers)
-
-                        // Adjust current page if needed after deletion
-                        if (currentUsers.length === 1 && currentPage > 1) {
-                            setCurrentPage(currentPage - 1)
-                        }
-
-                        toast.success("User deleted successfully")
+                        toast.success("Comment Deleted Successfully")
                     } else {
-                        toast.error("Failed to delete user")
+                        toast.error("Comment Not Deleted")
                     }
                 } catch (error) {
-                    console.error("Error deleting user:", error)
-                    toast.error("An error occurred while deleting the user")
+                    toast.error("Comment Not Deleted")
                 }
             }
         })
     }
 
-    // Generate page numbers for pagination
+
     const pageNumbers = []
     for (let i = 1; i <= totalPages; i++) {
         pageNumbers.push(i)
@@ -120,8 +116,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                 const data = {
                     status: "APPROVED",
                 }
-                const res = await approvedUserReview(id, data)
-                console.log(res)
+                const res = await approvedUserComment(id, data)
                 if (res.success) {
                     toast.success("Review Approved Successfully")
                 }
@@ -144,10 +139,9 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                 const data = {
                     status: "REJECTED",
                 }
-                const res = await approvedUserReview(id, data)
-                console.log(res)
+                const res = await approvedUserComment(id, data)
                 if (res.success) {
-                    toast.success("Review Reject Successfully")
+                    toast.success("Review Rejected Successfully")
                 }
             }
         })
@@ -160,7 +154,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                         {isLoading ? (
                             <Skeleton className="h-4 w-64 mx-auto" />
                         ) : (
-                            `Showing ${indexOfFirstItem + 1} to ${Math.min(indexOfLastItem, comments.length)} of ${comments.length} users`
+                            `Showing ${indexOfFirstItem + 1} to ${Math.min(indexOfLastItem, data?.data.length)} of ${data?.data.length} users`
                         )}
                     </TableCaption>
                     <TableHeader className="bg-gray-100">
@@ -175,7 +169,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                     </TableHeader>
                     <TableBody className="text-sm font-medium text-slate-700">
                         {isLoading ? (
-                            // Skeleton rows
+
                             Array.from({ length: 5 }, (_, index) => (
                                 <TableRow
                                     key={`skeleton-${index}`}
@@ -224,10 +218,19 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                                         </div>
                                     </TableCell>
                                     <TableCell>
-                                        <div className="flex items-center gap-2">
-                                            <MessageCircle className="h-4 w-4 text-gray-500" />
-                                            {user?.content || "N/A"}
-                                        </div>
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <div className="flex items-center gap-2 max-w-[200px]">
+                                                        <MessageCircle className="h-4 w-4 flex-shrink-0 text-gray-500" />
+                                                        <span className="truncate">{truncateText(user?.content)}</span>
+                                                    </div>
+                                                </TooltipTrigger>
+                                                <TooltipContent className="max-w-md p-4 bg-white text-black shadow-lg rounded-md">
+                                                    <p className="text-sm">{user?.content || "N/A"}</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
                                     </TableCell>
                                     <TableCell>
                                         <span

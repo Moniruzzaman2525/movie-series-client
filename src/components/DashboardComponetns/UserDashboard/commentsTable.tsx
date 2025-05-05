@@ -14,7 +14,7 @@ import { deleteComment } from "@/service/Comments";
 import { Trash } from "lucide-react"
 import { toast } from "sonner";
 import Swal from "sweetalert2";
-  
+
   // const invoices = [
   //   {
   //     invoice: "INV001",
@@ -61,7 +61,7 @@ import Swal from "sweetalert2";
   // ]
 
    const handleDelete=(id:string)=>{
-          console.log(id);
+
           Swal.fire({
               title: "Are you sure?",
               text: "You won't be able to revert this!",
@@ -74,13 +74,14 @@ import Swal from "sweetalert2";
             }).then(async(result) => {
               if (result.isConfirmed) {
                  const res= await deleteComment(id)
-                 console.log(res);
-               toast.success("Review Deleted Successfully")
+                if (res.success) {
+                  toast.success("Review Deleted Successfully")
+                }
+
               }
             });
       }
   export function CommentsTable(payload:any) {
-    console.log(payload);
     return (
       <Table>
         <TableCaption>A list of your recent Comments</TableCaption>
@@ -110,4 +111,3 @@ import Swal from "sweetalert2";
       </Table>
     )
   }
-  

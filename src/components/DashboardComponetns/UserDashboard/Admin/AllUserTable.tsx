@@ -4,8 +4,8 @@ import { useState } from "react"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ChevronLeft, ChevronRight, Trash, User, Mail } from "lucide-react"
-import { deleteUser } from "@/service/Admin"
+import { ChevronLeft, ChevronRight, Trash, User, Mail, CircleCheck } from "lucide-react"
+import { activeUser, deleteUser } from "@/service/Admin"
 import { toast } from "sonner"
 import Swal from "sweetalert2"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -15,6 +15,7 @@ interface User {
   name: string
   email: string
   role: string
+  isDeleted: boolean
 }
 
 interface AllUserTableProps {
@@ -25,15 +26,16 @@ interface AllUserTableProps {
 }
 
 export function AllUserTable({ data, isLoading = false }: AllUserTableProps) {
-  const [users, setUsers] = useState<User[]>(data?.data || [])
+
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
+
 
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentUsers = users.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(users.length / itemsPerPage)
+  const currentUsers = data?.data.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(data?.data.length / itemsPerPage)
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber)
@@ -60,16 +62,35 @@ export function AllUserTable({ data, isLoading = false }: AllUserTableProps) {
           const res = await deleteUser(id)
 
           if (res.success) {
-            // Update local state to remove the deleted user
-            const updatedUsers = users.filter((user) => user.id !== id)
-            setUsers(updatedUsers)
-
-            // Adjust current page if needed after deletion
-            if (currentUsers.length === 1 && currentPage > 1) {
-              setCurrentPage(currentPage - 1)
-            }
 
             toast.success("User deleted successfully")
+          } else {
+            toast.error("Failed to delete user")
+          }
+        } catch (error) {
+          console.error("Error deleting user:", error)
+          toast.error("An error occurred while deleting the user")
+        }
+      }
+    })
+  }
+  const handleUserActive = async (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Are you sure you want active this user!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      background: "#0f172a",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await activeUser(id)
+
+          if (res.success) {
+            toast.success("User active successfully")
           } else {
             toast.error("Failed to delete user")
           }
@@ -95,7 +116,7 @@ export function AllUserTable({ data, isLoading = false }: AllUserTableProps) {
             {isLoading ? (
               <Skeleton className="h-4 w-64 mx-auto" />
             ) : (
-              `Showing ${indexOfFirstItem + 1} to ${Math.min(indexOfLastItem, users.length)} of ${users.length} users`
+              `Showing ${indexOfFirstItem + 1} to ${Math.min(indexOfLastItem, data?.data.length)} of ${data?.data.length} users`
             )}
           </TableCaption>
           <TableHeader className="bg-gray-100">
@@ -104,6 +125,7 @@ export function AllUserTable({ data, isLoading = false }: AllUserTableProps) {
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Role</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead className="w-[80px] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -165,17 +187,39 @@ export function AllUserTable({ data, isLoading = false }: AllUserTableProps) {
                       {user?.role}
                     </span>
                   </TableCell>
-                  <TableCell className="text-right">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDelete(user?.id)}
-                      className="h-8 w-8 p-0 text-red-500 hover:bg-red-50"
-                      aria-label={`Delete ${user?.name}`}
+                  <TableCell>
+                    <span
+                      className={`inline-flex rounded-full px-2 py-1 text-xs font-medium
+                          ${user?.isDeleted === false ? "bg-green-100 text-green-800"
+                          : user?.isDeleted === true ? "bg-red-100 text-red-800"
+                            : ""}`}
                     >
-                      <Trash className="h-4 w-4" />
-                    </Button>
+                      {user?.isDeleted === false ? "Active" : user?.isDeleted === true ? "Inactive" : ""}
+                    </span>
                   </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end space-x-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(user?.id)}
+                        className="h-8 w-8 p-0 text-red-500 cursor-pointer hover:bg-red-50"
+                        aria-label={`Delete ${user?.name}`}
+                      >
+                        <Trash className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleUserActive(user?.id)}
+                        className="h-8 w-8 p-0 text-green-500 cursor-pointer hover:bg-green-50"
+                        aria-label={`Approve review`}
+                      >
+                        <CircleCheck className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+
                 </TableRow>
               ))
             ) : (

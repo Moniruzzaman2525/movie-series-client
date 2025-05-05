@@ -23,7 +23,7 @@ export const getComments = async () => {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         cache:'no-store',
-        
+
         next: {tags: ['comments']}
     })
     const result=await res.json()
@@ -40,7 +40,7 @@ export const deleteComment = async (id: string) => {
       },
       cache: 'no-store',
     });
-  
+
     const result = await res.json();
     revalidateTag('comments');
     return result;
@@ -54,7 +54,7 @@ export const updateComment = async (payload:any) => {
         },
         body:JSON.stringify(payload),
         cache:'no-store',
-        next: {tags: ['comments']}  
+        next: {tags: ['comments']}
     })
     const result=await res.json()
     revalidateTag('comments')
@@ -62,7 +62,6 @@ export const updateComment = async (payload:any) => {
 }
 
 export const getCommentByUser= async (id:string) => {
-    console.log("from action",id);
     const res=await fetch(`${process.env.SERVER_URL}/comments/comment-by-user/${id}`,{
         method:'GET',
         headers:{

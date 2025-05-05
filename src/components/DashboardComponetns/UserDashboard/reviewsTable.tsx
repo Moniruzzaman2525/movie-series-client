@@ -14,10 +14,10 @@ import { deleteReview } from "@/service/Reviews";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 import Swal from "sweetalert2"
-  
+
   export function ReviewTable(payload:any) {
     const handleDelete=(id:string)=>{
-        console.log(id);
+
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -30,8 +30,10 @@ import Swal from "sweetalert2"
           }).then(async(result) => {
             if (result.isConfirmed) {
                const res= await deleteReview(id)
-               console.log(res);
-             toast.success("Review Deleted Successfully")
+
+              if (res.success) {
+                toast.success("Review Deleted Successfully")
+              }
             }
           });
     }

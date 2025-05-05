@@ -1,29 +1,31 @@
+
 "use client"
 
 import { useState } from "react"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ChevronLeft, ChevronRight, Trash, User, Mail, MessageCircle, CircleCheck, X } from "lucide-react"
-import { approvedUserReview, deleteUser } from "@/service/Admin"
+import { ChevronLeft, ChevronRight, Trash, User, Mail, MessageCircle, CircleCheck, X, Star } from "lucide-react"
+import { approvedUserReview, deleteUserReview } from "@/service/Admin"
 import { toast } from "sonner"
 import Swal from "sweetalert2"
 import { Skeleton } from "@/components/ui/skeleton"
-
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 export interface IReview {
   id: string
+  rating: number
   userId: string
   videoId: string
-  status: string
   content: string
   createdAt: string
-  reviewId?: string
-  parentCommentId?: string
-  user: User
+  like: number
+  hasSpoiler: boolean
+  status: string
+  user: IUser
 }
 
-export interface User {
+export interface IUser {
   id: string
   name: string
   email: string
@@ -33,6 +35,7 @@ export interface User {
   updateAt: string
   isDeleted: boolean
 }
+
 interface AllUserTableProps {
   data: {
     data: IReview[]
@@ -41,17 +44,14 @@ interface AllUserTableProps {
 }
 
 export function UserReview({ data, isLoading = false }: AllUserTableProps) {
-
-
-  const [reviews, setReviews] = useState<IReview[]>(data?.data || [])
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
-  console.log(reviews)
-  // Pagination logic
+
+
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentUsers = reviews.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(reviews.length / itemsPerPage)
+  const currentUsers = data?.data.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(data?.data.length / itemsPerPage)
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber)
@@ -59,13 +59,13 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
 
   const handleItemsPerPageChange = (value: string) => {
     setItemsPerPage(Number(value))
-    setCurrentPage(1) // Reset to first page when changing items per page
+    setCurrentPage(1)
   }
 
   const handleDelete = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Are you sure you want delete this user!",
+      text: "Are you sure you want delete this review!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -75,31 +75,20 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await deleteUser(id)
+          const res = await deleteUserReview(id)
 
           if (res.success) {
-            // Update local state to remove the deleted user
-            const updatedUsers = reviews.filter((user) => user.id !== id)
-            setReviews(updatedUsers)
-
-            // Adjust current page if needed after deletion
-            if (currentUsers.length === 1 && currentPage > 1) {
-              setCurrentPage(currentPage - 1)
-            }
-
-            toast.success("User deleted successfully")
+            toast.success("Review Deleted Successfully")
           } else {
-            toast.error("Failed to delete user")
+            toast.error("Review Not Deleted")
           }
         } catch (error) {
-          console.error("Error deleting user:", error)
-          toast.error("An error occurred while deleting the user")
+          toast.error("Review Not Deleted")
         }
       }
     })
   }
 
-  // Generate page numbers for pagination
   const pageNumbers = []
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i)
@@ -121,7 +110,6 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
           status: "APPROVED",
         }
         const res = await approvedUserReview(id, data)
-        console.log(res)
         if (res.success) {
           toast.success("Review Approved Successfully")
         }
@@ -145,13 +133,56 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
           status: "REJECTED",
         }
         const res = await approvedUserReview(id, data)
-        console.log(res)
         if (res.success) {
           toast.success("Review Reject Successfully")
         }
       }
     })
   }
+
+
+  const truncateText = (text: string, maxLength = 50) => {
+    if (!text) return "N/A"
+    if (text.length <= maxLength) return text
+    return text.substring(0, maxLength) + "..."
+  }
+
+
+  const renderStarRating = (rating: number) => {
+    const maxVisibleStars = 5
+
+    const normalizedRating = rating / 2
+
+    return (
+      <div className="flex items-center">
+        {Array.from({ length: maxVisibleStars }).map((_, index) => {
+
+          const isHalfStar = index < normalizedRating && index + 1 > normalizedRating
+
+          const isFullStar = index + 1 <= normalizedRating
+
+          return (
+            <div key={index} className="relative">
+              {isHalfStar ? (
+
+                <div className="relative">
+                  <Star className="h-4 w-4 text-gray-300" />
+                  <div className="absolute top-0 left-0 w-1/2 overflow-hidden">
+                    <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                  </div>
+                </div>
+              ) : (
+
+                <Star className={`h-4 w-4 ${isFullStar ? "text-yellow-500 fill-yellow-500" : "text-gray-300"}`} />
+              )}
+            </div>
+          )
+        })}
+        <span className="ml-2 text-sm font-medium">{rating}/10</span>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full space-y-4">
       <div className="rounded-md border bg-white shadow-sm">
@@ -160,7 +191,7 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
             {isLoading ? (
               <Skeleton className="h-4 w-64 mx-auto" />
             ) : (
-              `Showing ${indexOfFirstItem + 1} to ${Math.min(indexOfLastItem, reviews.length)} of ${reviews.length} users`
+              `Showing ${indexOfFirstItem + 1} to ${Math.min(indexOfLastItem, data?.data.length)} of ${data?.data.length} users`
             )}
           </TableCaption>
           <TableHeader className="bg-gray-100">
@@ -170,12 +201,12 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
               <TableHead>Email</TableHead>
               <TableHead>Content</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Rating</TableHead>
               <TableHead className="w-[80px] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="text-sm font-medium text-slate-700">
             {isLoading ? (
-              // Skeleton rows
               Array.from({ length: 5 }, (_, index) => (
                 <TableRow
                   key={`skeleton-${index}`}
@@ -198,6 +229,12 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
                   </TableCell>
                   <TableCell>
                     <Skeleton className="h-6 w-16 rounded-full" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-20" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-24" />
                   </TableCell>
                   <TableCell className="text-right">
                     <Skeleton className="h-8 w-8 rounded-md ml-auto" />
@@ -224,22 +261,37 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2">
-                      <MessageCircle className="h-4 w-4 text-gray-500" />
-                      {user?.content || "N/A"}
-                    </div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center gap-2 max-w-[200px]">
+                            <MessageCircle className="h-4 w-4 flex-shrink-0 text-gray-500" />
+                            <span className="truncate">{truncateText(user?.content)}</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-md p-4 bg-white text-black shadow-lg rounded-md">
+                          <p className="text-sm">{user?.content || "N/A"}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </TableCell>
+
                   <TableCell>
                     <span
                       className={`inline-flex rounded-full px-2 py-1 text-xs font-medium
-                                             ${user?.status === "PENDING" ? "bg-yellow-100 text-yellow-800"
-                          : user?.status === "APPROVED" ? "bg-green-100 text-green-800"
-                            : user?.status === "REJECTED" ? "bg-red-100 text-red-800"
-                              : ""}`}
+                                             ${user?.status === "PENDING"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : user?.status === "APPROVED"
+                            ? "bg-green-100 text-green-800"
+                            : user?.status === "REJECTED"
+                              ? "bg-red-100 text-red-800"
+                              : ""
+                        }`}
                     >
                       {user?.status}
                     </span>
                   </TableCell>
+                  <TableCell className="min-w-[150px]">{renderStarRating(user?.rating || 0)}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end space-x-1">
                       <Button
@@ -275,7 +327,7 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5} className="h-24 text-center">
+                <TableCell colSpan={7} className="h-24 text-center">
                   No users found.
                 </TableCell>
               </TableRow>
@@ -284,7 +336,6 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
         </Table>
       </div>
 
-      {/* Pagination Controls */}
       <div className="flex items-center justify-between px-2">
         {isLoading ? (
           <>

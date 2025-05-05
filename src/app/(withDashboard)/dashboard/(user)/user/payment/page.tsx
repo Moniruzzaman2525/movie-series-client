@@ -7,9 +7,9 @@ import { useEffect, useState } from "react";
 
 const PaymentPage = () => {
     const [data, setData] = useState([]);
-    console.log(data);
+
     const { user } = useUser();
-    
+
     useEffect(() => {
         async function fetchPayments() {
             if (user?.email) {
