@@ -1,9 +1,15 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Star } from "lucide-react"
+import { Title } from "./ReviewDashboard"
 
 
-export function MostReviewedTable({ data }) {
+
+interface MostReviewedTableProps {
+    data: Title[]
+}
+
+export function MostReviewedTable({ data }: MostReviewedTableProps) {
     if (!data || data.length === 0) {
         return <div className="py-8 text-center">No data available</div>
     }

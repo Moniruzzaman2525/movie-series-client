@@ -24,13 +24,20 @@ export interface User {
 }
 
 
-interface Title {
+export interface Title {
     id: string
     title: string
     category: string
     reviewCount: number
     averageRating: string
 }
+
+export interface RatingSummary {
+    rating: number;
+    count: number;
+    percentage: number | string;
+}
+
 
 interface DemoData {
     stats: {
@@ -40,7 +47,7 @@ interface DemoData {
         activeReviewers: number;
     };
     titles: Title[];
-    ratingSummary: Record<string, number>;
+    ratingSummary: RatingSummary[]
     reviews: Review[];
 }
 

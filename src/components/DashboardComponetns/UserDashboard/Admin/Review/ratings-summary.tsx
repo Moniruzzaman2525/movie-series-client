@@ -1,8 +1,15 @@
 import { Progress } from "@/components/ui/progress"
+import { RatingSummary } from "./ReviewDashboard"
 
 
 
-export function RatingsSummary({ data }) {
+
+interface RatingsSummaryProps {
+    data: RatingSummary[]
+}
+
+export function RatingsSummary({ data }: RatingsSummaryProps) {
+    console.log(data)
     if (!data || data.length === 0) {
         return <div className="py-8 text-center">No data available</div>
     }
@@ -12,7 +19,7 @@ export function RatingsSummary({ data }) {
             {data.map((item) => (
                 <div key={item.rating} className="flex items-center gap-4">
                     <div className="w-12 text-right font-medium">{item.rating} ★</div>
-                    <Progress value={item.percentage} className="h-3" />
+                    <Progress value={Number(item.percentage)} className="h-3" />
                     <div className="w-12 text-muted-foreground text-sm">{item.count}</div>
                 </div>
             ))}

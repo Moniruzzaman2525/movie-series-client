@@ -10,7 +10,7 @@ interface RecentReviewsProps {
 }
 
 export function RecentReviews({ data }: RecentReviewsProps) {
-    console.log(data)
+
     if (!data || data.length === 0) {
         return <div className="py-8 text-center">No recent reviews available</div>
     }
