@@ -18,6 +18,10 @@ export const getAllContent = async (search: string, genre: string | undefined) =
 
     const res = await fetch(`${process.env.SERVER_URL}/content${queryString}`, {
         method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
         next: {
             tags: ["movies"]
         },
@@ -29,21 +33,21 @@ export const getAllContent = async (search: string, genre: string | undefined) =
 }
 
 export const getContentById = async (id: string) => {
-    const res = await fetch(`${process.env.SERVER_URL}/content/${id}`,{
+    const res = await fetch(`${process.env.SERVER_URL}/content/${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         cache: 'no-store',
-        next:{tags:['content']}
+        next: { tags: ['content'] }
     });
     const result = await res.json();
     return result
 }
 
 export const deleteContent = async (id: string) => {
-    const res = await fetch(`${process.env.SERVER_URL}/content/${id}`,{
+    const res = await fetch(`${process.env.SERVER_URL}/content/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -57,7 +61,7 @@ export const deleteContent = async (id: string) => {
 }
 
 export const updateContent = async (id: string, data: any) => {
-    const res = await fetch(`${process.env.SERVER_URL}/content/${id}`,{
+    const res = await fetch(`${process.env.SERVER_URL}/content/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -71,7 +75,7 @@ export const updateContent = async (id: string, data: any) => {
     return result
 }
 export const createContent = async (data: any) => {
-    const res = await fetch(`${process.env.SERVER_URL}/content`,{
+    const res = await fetch(`${process.env.SERVER_URL}/content`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
