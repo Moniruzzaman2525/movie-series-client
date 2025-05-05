@@ -65,7 +65,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
     const handleDelete = async (id: string) => {
         Swal.fire({
             title: "Are you sure?",
-            text: "Are you sure you want delete this user!",
+            text: "Are you sure you want delete this comment!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",

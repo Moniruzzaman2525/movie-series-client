@@ -32,19 +32,7 @@ export const deleteUser = async (id: string) => {
     revalidateTag('users')
     return result;
 }
-export const deleteUserComment = async (id: string) => {
-    const res = await fetch(`${process.env.SERVER_URL}/admin/remove-inappropriate-comment/${id}`, {
-        method: "PATCH",
-        headers: {
-            Authorization: (await cookies()).get("accessTokenF")?.value || "",
-        },
-        cache: 'no-cache',
-    });
 
-    const result = await res.json();
-    revalidateTag('users')
-    return result;
-}
 
 export const activeUser = async (id: string) => {
     const res = await fetch(`${process.env.SERVER_URL}/admin/active-user/${id}`, {
@@ -75,6 +63,43 @@ export const getAllUserReview = async () => {
 
     return result;
 }
+
+
+export const approvedUserReview = async (id: string, payload: any) => {
+
+    const res = await fetch(`${process.env.SERVER_URL}/admin/review/${id}`, {
+        method: "PATCH",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || "",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+    revalidateTag('users')
+
+    return result;
+}
+
+
+
+// comment
+export const deleteUserComment = async (id: string) => {
+    const res = await fetch(`${process.env.SERVER_URL}/admin/remove-inappropriate-comment/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || "",
+        },
+        cache: 'no-cache',
+    });
+
+    const result = await res.json();
+
+    revalidateTag('comments')
+    return result;
+}
+
 export const getAllUserComments = async () => {
     const res = await fetch(`${process.env.SERVER_URL}/admin/get-user-comments`, {
         method: "GET",
@@ -107,22 +132,3 @@ export const approvedUserComment = async (id: string, payload: any) => {
 
     return result;
 }
-
-export const approvedUserReview = async (id: string, payload: any) => {
-
-    const res = await fetch(`${process.env.SERVER_URL}/admin/review/${id}`, {
-        method: "PATCH",
-        headers: {
-            Authorization: (await cookies()).get("accessTokenF")?.value || "",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    });
-
-    const result = await res.json();
-    revalidateTag('users')
-
-    return result;
-}
-
-
