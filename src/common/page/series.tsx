@@ -16,11 +16,13 @@ const SeriesSearch = () => {
      const [loading, setLoading] = useState(false);
      const [error, setError] = useState<string | null>(null);
 
+     
+
      const seERIESData = useCallback(async () => {
           setLoading(true);
           setError(null);
           try {
-               const result = await getAllContent({ searchTerm, filters: { genre: category } });
+               const result = await getAllContent(searchTerm, category);
                if (result?.data) {
                     const filterSeries = result.data.filter(
                          (movie: MovieCardProps) => movie.category === "SERIES"
@@ -42,6 +44,8 @@ const SeriesSearch = () => {
      useEffect(() => {
           seERIESData();
      }, [seERIESData]);
+
+     console.log(data)
 
      const itemsPerPage = 6;
      const totalPages = Math.ceil(data.length / itemsPerPage);

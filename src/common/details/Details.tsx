@@ -20,6 +20,8 @@ const Details = ({ movieData }: {
           rating: number;
           price: number;
           id: string;
+          review?:string[]
+          Comment?:string[]
      }
 }) => {
      const [activeTab, setActiveTab] = useState("Reviews");
@@ -33,39 +35,39 @@ const Details = ({ movieData }: {
                          <Image
                               width={500}
                               height={500}
-                              src={movieData.thumbnailImage}
-                              alt={movieData.title}
+                              src={movieData?.thumbnailImage || ""}
+                              alt={movieData?.title || ""}
                               className="w-full h-auto rounded-2xl shadow-xl"
                          />
                          <div>
                               <h1 className="text-4xl font-bold text-red-600">
-                                   {movieData.title}
+                                   {movieData?.title}
                               </h1>
-                              <span className="text-gray-300">{movieData.genre}</span>
+                              <span className="text-gray-300">{movieData?.genre}</span>
                               <hr />
                               <div className="bg-gray-800 p-4 rounded-xl shadow-lg space-y-3 mt-5">
                                    
                                    <div className="flex">
                                         <span className="w-32 text-white font-semibold">🎥 Director:</span>
-                                        <span className="text-gray-300">{movieData.director}</span>
+                                        <span className="text-gray-300">{movieData?.director}</span>
                                    </div>
                                    <div className="flex">
                                         <span className="w-32 text-white font-semibold">📅 Year:</span>
-                                        <span className="text-gray-300">{movieData.releaseYear}</span>
+                                        <span className="text-gray-300">{movieData?.releaseYear}</span>
                                    </div>
                                    <div className="flex">
                                         <span className="w-32 text-white font-semibold">🧑‍🤝‍🧑 Cast:</span>
-                                        <span className="text-gray-300">{movieData.cast}</span>
+                                        <span className="text-gray-300">{movieData?.cast}</span>
                                    </div>
                                    <div className="flex">
                                         <span className="w-32 text-white font-semibold">📺 Streaming On:</span>
-                                        <span className="text-gray-300">{movieData.streamingPlatform}</span>
+                                        <span className="text-gray-300">{movieData?.streamingPlatform}</span>
                                    </div>
                               </div>
 
-                              <p className="mt-4 text-white">{movieData.description}</p>
+                              <p className="mt-4 text-white">{movieData?.description}</p>
                               <div className="mt-4 text-white font-semibold text-lg">
-                                   Rating: {movieData.rating} ⭐ | Price: ${movieData.price}
+                                   Rating: {movieData?.rating} ⭐ | Price: ${movieData.price}
                               </div>
                               <div className="mt-4 text-white font-semibold text-lg">
                                    <motion.button

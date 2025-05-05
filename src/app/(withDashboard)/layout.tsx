@@ -15,10 +15,12 @@ export default function DashboardLayout({
      return (
           <div className="relative min-h-screen">
                {/* Sidebar — fixed positioned */}
-               <Sidebar />
+            
+                    <Sidebar />
+          
 
                {/* Main content with left margin to avoid overlapping */}
-               <div className="md:ml-[296px] ">
+               <div className="md:ml-[250px] ">
                     {children}
                     <Toaster />
                </div>
