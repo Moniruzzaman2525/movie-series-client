@@ -13,9 +13,6 @@ const MovieSearch = () => {
      const [currentPage, setCurrentPage] = useState(1);
 
      const itemsPerPage = 6;
-
- 
-    
      const totalPages = Math.ceil(movies.length / itemsPerPage);
      const paginatedMovies = movies.slice(
           (currentPage - 1) * itemsPerPage,
