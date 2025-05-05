@@ -6,7 +6,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ChevronLeft, ChevronRight, Trash, User, Mail, MessageCircle, CircleCheck, X, Star } from "lucide-react"
-import { approvedUserComment, deleteUserComment } from "@/service/Admin"
+import { approvedUserReview, deleteUserReview } from "@/service/Admin"
 import { toast } from "sonner"
 import Swal from "sweetalert2"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -65,7 +65,7 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
   const handleDelete = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Are you sure you want delete this comment!",
+      text: "Are you sure you want delete this review!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -75,16 +75,15 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await deleteUserComment(id)
+          const res = await deleteUserReview(id)
 
           if (res.success) {
-            toast.success("User deleted successfully")
+            toast.success("Review Deleted Successfully")
           } else {
-            toast.error("Failed to delete user")
+            toast.error("Review Not Deleted")
           }
         } catch (error) {
-          console.error("Error deleting user:", error)
-          toast.error("An error occurred while deleting the user")
+          toast.error("Review Not Deleted")
         }
       }
     })
@@ -110,7 +109,7 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
         const data = {
           status: "APPROVED",
         }
-        const res = await approvedUserComment(id, data)
+        const res = await approvedUserReview(id, data)
         if (res.success) {
           toast.success("Review Approved Successfully")
         }
@@ -133,7 +132,7 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
         const data = {
           status: "REJECTED",
         }
-        const res = await approvedUserComment(id, data)
+        const res = await approvedUserReview(id, data)
         if (res.success) {
           toast.success("Review Reject Successfully")
         }

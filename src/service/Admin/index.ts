@@ -94,7 +94,6 @@ export const deleteUserReview = async (id: string) => {
     });
 
     const result = await res.json();
-
     revalidateTag('reviews')
     return result;
 }

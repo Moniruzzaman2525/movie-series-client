@@ -84,13 +84,12 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                     const res = await deleteUserComment(id)
 
                     if (res.success) {
-                        toast.success("User deleted successfully")
+                        toast.success("Comment Deleted Successfully")
                     } else {
-                        toast.error("Failed to delete user")
+                        toast.error("Comment Not Deleted")
                     }
                 } catch (error) {
-                    console.error("Error deleting user:", error)
-                    toast.error("An error occurred while deleting the user")
+                    toast.error("Comment Not Deleted")
                 }
             }
         })
@@ -142,7 +141,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                 }
                 const res = await approvedUserComment(id, data)
                 if (res.success) {
-                    toast.success("Review Reject Successfully")
+                    toast.success("Review Rejected Successfully")
                 }
             }
         })
