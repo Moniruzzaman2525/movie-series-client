@@ -5,11 +5,11 @@ import ReusableCard from "@/common/card/Card";
 import { MovieCardProps } from "@/types/Movie";
 import SectionTitle from "../Shared/SectionTitle/SectionTitle";
 
-interface TopRatedMoviesProps {
+interface NewlyAddedProps {
   data: MovieCardProps[];
 }
 
-const NewlyAdded = ({ data }: TopRatedMoviesProps) => {
+const NewlyAdded = ({ data }: NewlyAddedProps) => {
 
   const limitedData = data?.slice(0, 5);
   return (
