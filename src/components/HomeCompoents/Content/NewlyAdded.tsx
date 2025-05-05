@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import ReusableCard from "@/common/card/Card";
 import { MovieCardProps } from "@/types/Movie";
-import SectionTitle from "../Shared/SectionTitle/SectionTitle";
+import SectionTitle from "@/components/Shared/SectionTitle/SectionTitle";
 
 interface NewlyAddedProps {
   data: MovieCardProps[];

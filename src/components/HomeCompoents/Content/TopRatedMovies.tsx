@@ -1,9 +1,9 @@
 "use client"
 import Link from "next/link";
-import SectionTitle from "../Shared/SectionTitle/SectionTitle";
 import { FaArrowRight } from "react-icons/fa";
 import ReusableCard from "@/common/card/Card";
 import { MovieCardProps } from "@/types/Movie";
+import SectionTitle from "@/components/Shared/SectionTitle/SectionTitle";
 
 interface TopRatedMoviesProps {
   data: MovieCardProps[];

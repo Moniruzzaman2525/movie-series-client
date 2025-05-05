@@ -1,7 +1,7 @@
 
 
 import { getAllContent } from '@/service/Content';
-import TopRatedMovies from '../TopRatedMovies';
+import TopRatedMovies from './TopRatedMovies';
 
 const TopRatedMoviesPage = async () => {
 
