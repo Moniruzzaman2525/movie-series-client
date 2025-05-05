@@ -146,3 +146,18 @@ export const approvedUserComment = async (id: string, payload: any) => {
 
     return result;
 }
+
+
+export const getMostReview = async () => {
+    const res = await fetch(`${process.env.SERVER_URL}/admin/get-most-review-title`, {
+        method: "GET",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        cache: 'no-cache',
+    });
+
+    const result = await res.json();
+
+    return result;
+}
