@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 import SectionTitle from "../Shared/SectionTitle/SectionTitle";
 import Image from "next/image";
