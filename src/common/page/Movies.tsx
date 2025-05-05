@@ -60,8 +60,8 @@ const MovieSearch = () => {
                </div>
 
                {/* Movie Grid */}
-              <div className="flex items-baseline border">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 auto-rows-fr px-4 py-8 border-r">
+              <div className="flex items-baseline border border-gray-600 rounded-lg">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 auto-rows-fr px-4 py-8 border-r border-gray-600 ">
                     {paginatedMovies.map((movie, index) => (
                          <ReusableCard key={index} {...movie} />
                     ))}

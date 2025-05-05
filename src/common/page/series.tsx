@@ -64,8 +64,8 @@ const SeriesSearch = () => {
                </div>
 
                {/* Movie Grid */}
-            <div className="flex items-baseline border">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 auto-rows-fr px-4 py-6 border-r">
+            <div className="flex items-baseline border border-gray-600">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 auto-rows-fr px-4 py-6 border-r border-gray-600">
                     {paginatedseries.map((series, index) => (
                          <SeriesCard key={index} {...series} />
                     ))}
