@@ -1,30 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use server"
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
-export const getAllContent= async ({searchTerm,filters}:{searchTerm:string,filters:any}) => {
-    const queryParams=new URLSearchParams()
-    if(searchTerm){
-        queryParams.append('searchTerm',searchTerm)
+export const getAllContent = async (search: string, genre: string | undefined) => {
+    const queryParams: string[] = [];
+
+    if (search) {
+        queryParams.push(`searchTerm=${encodeURIComponent(search)}`);
     }
-    if(filters){
-        Object.entries(filters).forEach(([key,value])=>{
-            if(value){
-                queryParams.append(key,value.toString())
-            }
-        })
+
+    if (genre) {
+        queryParams.push(`genre=${encodeURIComponent(genre.toUpperCase())}`);
     }
-    const response = await fetch(`${process.env.SERVER_URL}/content?${queryParams.toString()}`,{
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+
+    const queryString = queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
+
+    const res = await fetch(`${process.env.SERVER_URL}/content${queryString}`, {
+        method: "GET",
+        next: {
+            tags: ["movies"]
         },
-        cache: 'no-store',
-        next:{tags:['content']}
+        cache: "no-store"
     });
-    const data = await response.json();
-    return data;
+
+    const result = await res.json();
+    return result.data;
 }
 
 export const getContentById = async (id: string) => {

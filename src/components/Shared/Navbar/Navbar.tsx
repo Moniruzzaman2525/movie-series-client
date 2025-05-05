@@ -90,7 +90,19 @@ const Navbar = () => {
           >
             Support
           </Link>
+
+          <div>
+            {
+              user?.role === "USER" && <Link href={'/dashboard/user/payment'}>Dashboard</Link>
+            }
+          </div>
+          <div>
+            {
+              user?.role === "ADMIN" && <Link href={'/dashboard/admin/payment'}>Dashboard</Link>
+            }
+          </div>
         </div>
+       
 
         {user ? (
           <div className="hidden md:block">
@@ -164,14 +176,32 @@ const Navbar = () => {
               >
                 Support
               </Link>
+              <div>
+                {
+                  user?.role === "USER" && <Link href={'/dashboard/user/payment'}>Dashboard</Link>  
+                }
+              </div>
+              <div>
+                {
+                  user?.role === "ADMIN" && <Link href={'/dashboard/admin/payment'}>Dashboard</Link>  
+                }
+              </div>
+
+
+            
+
+
+
               {user ? (
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Button>
+               <div>   
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+               </div>
               ) : (
                 <Button variant="outline" className="w-full" asChild>
                   <Link href="/login">Login</Link>

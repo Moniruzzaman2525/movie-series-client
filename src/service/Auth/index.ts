@@ -5,7 +5,7 @@ import { cookies } from "next/headers"
 import { FieldValues } from "react-hook-form"
 
 export const createUser = async(payload:FieldValues)=>{
-     const res = await fetch("http://localhost:5000/api/v1/user",{
+     const res = await fetch(`${process.env.SERVER_URL}/user`,{
           method:"POST",
           headers:{
                "Content-Type":"application/json"
@@ -18,7 +18,7 @@ export const createUser = async(payload:FieldValues)=>{
      return result
 }
 export const loginUser = async(payload:FieldValues)=>{
-     const res = await fetch("http://localhost:5000/api/v1/auth",{
+     const res = await fetch(`${process.env.SERVER_URL}/auth`,{
           method:"POST",
           headers:{
                "Content-Type":"application/json"
@@ -34,7 +34,7 @@ export const loginUser = async(payload:FieldValues)=>{
      return result
 }
 export const forgotPass = async(payload:FieldValues)=>{
-     const res = await fetch("http://localhost:5000/api/v1/auth/forget-password",{
+     const res = await fetch(`${process.env.SERVER_URL}/auth/forget-password`,{
           method:"POST",
           headers:{
                "Content-Type":"application/json"
@@ -47,7 +47,7 @@ export const forgotPass = async(payload:FieldValues)=>{
      return result
 }
 export const resetPass = async(token:string,payload:FieldValues)=>{
-     const res = await fetch("http://localhost:5000/api/v1/auth/reset-password",{
+     const res = await fetch(`${process.env.SERVER_URL}/auth/reset-password`,{
           method:"POST",
           headers:{
                "Content-Type":"application/json",
@@ -59,7 +59,7 @@ export const resetPass = async(token:string,payload:FieldValues)=>{
      })
 
      const result= await res.json()
-     return result
+     return result 
 }
 
 

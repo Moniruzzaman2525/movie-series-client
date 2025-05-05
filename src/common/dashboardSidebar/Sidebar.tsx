@@ -30,7 +30,7 @@ const Sidebar = () => {
      return (
           <>
                {/* Small Screen Navbar */}
-               <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden p-4'>
+               <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden p-4 '>
                     <Link href='/'>
                          <div className="flex items-center gap-2 cursor-pointer">
                               <p className="text-[#0ecdb9] font-bold text-2xl">ShowFlix</p>
@@ -108,23 +108,23 @@ const Sidebar = () => {
                          {user?.role === 'USER' && (
                               <div>
                                    <Link
-                                        href='/dashboard/payment'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/payment')}`}
+                                        href='/dashboard/user/payment'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/user/payment')}`}
                                    >
                                         <IoCreateOutline className='text-green-500' />
                                         <span className='mx-4 font-medium'>Payment</span>
                                    </Link>
                                    <Link
-                                        href='/dashboard/myComment'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/myComment')}`}
+                                        href='/dashboard/user/myComment'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/user/myComment')}`}
                                    >
 
                                         <SiCreatereactapp className='text-green-500' />
                                         <span className='mx-4 font-medium'>MyComment</span>
                                    </Link>
                                    <Link
-                                        href='/dashboard/myReviews'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/myReviews')}`}
+                                        href='/dashboard/user/myReviews'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/user/myReviews')}`}
                                    >
 
 
