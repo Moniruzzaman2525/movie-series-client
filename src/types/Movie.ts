@@ -10,5 +10,7 @@ export interface MovieCardProps {
      price: number;
      rating: number;
      category:string
-     key?:number
+     key?: number;
+     liked?: boolean;
+     like: number
 }

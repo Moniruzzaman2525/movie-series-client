@@ -55,12 +55,12 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                     <button
                          onClick={handleLikeToggle}
                          className="flex items-center gap-1"
-                    // aria-label={isLiked ? "Unlike" : "Like"}
+                         aria-label={movie.liked ? "Unlike" : "Like"}
                     >
                          <Heart
-                         // className={`h-5 w-5 ${isLiked ? "fill-red-500 text-red-500" : "text-neutral-500 dark:text-neutral-400"}`}
+                              className={`h-5 w-5 ${movie.liked ? "fill-red-500 text-red-500" : "text-neutral-500 dark:text-neutral-400"}`}
                          />
-                         {/* <span className="text-sm text-neutral-600 dark:text-neutral-300">{likeCount}</span> */}
+                         <span className="text-sm text-neutral-600 dark:text-neutral-300">{movie.like}</span>
                     </button>
 
                     <button
