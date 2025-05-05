@@ -26,7 +26,7 @@ export default function DashboardLayout({
                     <div className="w-full">
                     <Toaster richColors  position="top-center" ></Toaster>
                          {children}
-                        
+
                     </div>
                </div>
           </div>

@@ -10,7 +10,7 @@ const SectionTitle = ({ text, subText }: SProps) => {
     <div className="py-5 md:py-20  ">
       <div
         data-aos="fade-up"
-        className="flex flex-col justify-center items-center"
+        className="flex flex-col justify-center items-center border-b-4 border-gray-600 w-1/2 mx-auto pb-5"
       >
         <motion.button
           initial={{ scale: 0 }}
