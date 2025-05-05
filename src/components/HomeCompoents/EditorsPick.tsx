@@ -58,7 +58,7 @@ const EditorsPick = () => {
   return (
     <div className="bg-[#020508]">
       <div className="container mx-auto px-2 md:px-0 py-10">
-        <SectionTitle text={"Must-Watch Movies Handpicked for You"} subText={"Editors Pick Movies"} />
+        <SectionTitle text={" Editors Pick Movies"} subText={"Must-Watch Movies Handpicked for You"} />
         <div className="py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {data.map((item) => {
             return (

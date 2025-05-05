@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import SectionTitleTwo from "../Shared/SectionTitle/SectionTitleTwo";
 import { motion } from "framer-motion";
+import SectionTitle from "../Shared/SectionTitle/SectionTitle";
 const faqs = [
   {
     question: "How do I create an account?",
@@ -40,9 +40,9 @@ const FaqSection: React.FC = () => {
   };
 
   return (
-    <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
+    <div className="py-10 bg-black sm:py-16 lg:py-24">
       <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-        <SectionTitleTwo
+        <SectionTitle
           text="Frequently Asked Questions"
           subText="Do you have any questions?"
         />
@@ -60,7 +60,7 @@ const FaqSection: React.FC = () => {
                 >
                   <div
                     key={index}
-                    className="transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-gray-50"
+                    className="transition-all duration-200 bg-gray-500 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-500 text-white"
                   >
                     <motion.section
                       initial={{ opacity: 0, y: -40 }}
@@ -72,7 +72,7 @@ const FaqSection: React.FC = () => {
                         onClick={() => toggleFAQ(index)}
                         className="flex items-center justify-between w-full px-4 py-5 sm:p-6"
                       >
-                        <span className="flex text-lg font-semibold text-black">
+                        <span className="flex text-lg font-semibold ">
                           {faq.question}
                         </span>
                         <svg
@@ -116,7 +116,7 @@ const FaqSection: React.FC = () => {
           })}
         </div>
 
-        <p className="text-center text-gray-600 text-base mt-9">
+        <p className="text-center text-gray-200 text-base mt-9">
           Didn’t find the answer you are looking for?{" "}
           <a
             href="#"
@@ -126,7 +126,7 @@ const FaqSection: React.FC = () => {
           </a>
         </p>
       </div>
-    </section>
+    </div>
   );
 };
 
