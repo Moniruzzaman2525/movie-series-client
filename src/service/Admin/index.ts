@@ -21,7 +21,7 @@ export const getAllUser = async () => {
 
 export const deleteUser = async (id: string) => {
     const res = await fetch(`${process.env.SERVER_URL}/admin/remove-user/${id}`, {
-        method: "DELETE",
+        method: "PATCH",
         headers: {
             Authorization: (await cookies()).get("accessTokenF")?.value || "",
         },
@@ -29,6 +29,21 @@ export const deleteUser = async (id: string) => {
     });
 
     const result = await res.json();
+    revalidateTag('users')
+    return result;
+}
+
+export const activeUser = async (id: string) => {
+    const res = await fetch(`${process.env.SERVER_URL}/admin/active-user/${id}`, {
+        method: "PATCH",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || "",
+        },
+        cache: 'no-cache',
+    });
+
+    const result = await res.json();
+
     revalidateTag('users')
     return result;
 }
