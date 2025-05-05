@@ -57,8 +57,6 @@ interface ReviewDashboardProps {
 
 export default function ReviewDashboard({ demoData }: ReviewDashboardProps) {
 
-    console.log(demoData)
-
     const [category, setCategory] = useState<string>("all")
     const [limit, setLimit] = useState<string>("10")
 
@@ -118,7 +116,6 @@ export default function ReviewDashboard({ demoData }: ReviewDashboardProps) {
                     </Card>
                 </div>
 
-                {/* Improved filters section for mobile */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                     <h2 className="text-xl md:text-2xl font-bold">Reports</h2>
                     <div className="flex flex-wrap gap-4 sm:ml-auto">
@@ -160,10 +157,10 @@ export default function ReviewDashboard({ demoData }: ReviewDashboardProps) {
                 <div className="w-full overflow-auto">
                     <Tabs defaultValue="most-reviewed" className="w-full">
                         <TabsList className="w-full sm:w-auto flex flex-nowrap min-w-max sm:min-w-0">
-                            <TabsTrigger value="most-reviewed">Most Reviewed</TabsTrigger>
-                            <TabsTrigger value="ratings-summary">Ratings Summary</TabsTrigger>
-                            <TabsTrigger value="recent-reviews">Recent Reviews</TabsTrigger>
-                            <TabsTrigger value="preview">Data Preview</TabsTrigger>
+                            <TabsTrigger className="data-[state=active]:text-green-500 cursor-pointer data-[state=active]:shadow" value="most-reviewed">Most Reviewed</TabsTrigger>
+                            <TabsTrigger className="data-[state=active]:text-green-500 cursor-pointer data-[state=active]:shadow" value="ratings-summary">Ratings Summary</TabsTrigger>
+                            <TabsTrigger className="data-[state=active]:text-green-500 cursor-pointer data-[state=active]:shadow" value="recent-reviews">Recent Reviews</TabsTrigger>
+                            <TabsTrigger className="data-[state=active]:text-green-500 cursor-pointer data-[state=active]:shadow" value="preview">Data Preview</TabsTrigger>
                         </TabsList>
                         <TabsContent value="most-reviewed" className="space-y-4">
                             <Card>
