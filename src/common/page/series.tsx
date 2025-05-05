@@ -4,6 +4,7 @@ import { movies } from "@/fakeData/movie";
 import { useState } from "react";
 import { series } from "@/fakeData/series";
 import SeriesCard from "../card/SeriesCard";
+import GenreList from "@/components/HomeCompoents/GenreList";
 
 const categories = ["All", "Action", "Comedy", "Drama", "Horror", "Sci-Fi", "Romance"];
 
@@ -28,6 +29,9 @@ const SeriesSearch = () => {
           }
      };
 
+     const handleSelectGenre = (genre: string) => {
+          console.log(genre);
+     }
      return (
           <div className="w-full max-w-6xl mx-auto p-4">
                {/* Search & Filter */}
@@ -60,11 +64,17 @@ const SeriesSearch = () => {
                </div>
 
                {/* Movie Grid */}
-               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 auto-rows-fr px-4 py-6">
+            <div className="flex items-baseline border">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 auto-rows-fr px-4 py-6 border-r">
                     {paginatedseries.map((series, index) => (
                          <SeriesCard key={index} {...series} />
                     ))}
                </div>
+               
+               <div className="hidden sm:block w-1/4">
+                    <GenreList onGenreSelect={handleSelectGenre}/>
+               </div>
+            </div>
 
                {/* Pagination Controls */}
                {totalPages > 1 && (
