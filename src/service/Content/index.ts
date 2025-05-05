@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 export const getAllContent= async ({searchTerm,filters}:{searchTerm:string,filters:any}) => {
@@ -40,3 +41,45 @@ export const getContentById = async (id: string) => {
     return result
 }
 
+export const deleteContent = async (id: string) => {
+    const res = await fetch(`${process.env.SERVER_URL}/content/${id}`,{
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        cache: 'no-store',
+    });
+    const result = await res.json();
+    revalidateTag('content')
+    return result
+}
+
+export const updateContent = async (id: string, data: any) => {
+    const res = await fetch(`${process.env.SERVER_URL}/content/${id}`,{
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        body: JSON.stringify(data),
+        cache: 'no-store',
+    });
+    const result = await res.json();
+    revalidateTag('content')
+    return result
+}
+export const createContent = async (data: any) => {
+    const res = await fetch(`${process.env.SERVER_URL}/content`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        body: JSON.stringify(data),
+        cache: 'no-store',
+    });
+    const result = await res.json();
+    revalidateTag('content')
+    return result
+}
