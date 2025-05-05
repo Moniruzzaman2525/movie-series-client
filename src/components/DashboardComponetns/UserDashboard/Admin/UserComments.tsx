@@ -9,6 +9,7 @@ import { approvedUserComment, deleteUserComment } from "@/service/Admin"
 import { toast } from "sonner"
 import Swal from "sweetalert2"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 
 export interface IComment {
@@ -43,11 +44,11 @@ interface AllUserTableProps {
 export function UserComments({ data, isLoading = false }: AllUserTableProps) {
 
 
-    // const [comments, setComments] = useState<IComment[]>(data?.data || [])
+
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(5)
 
-    // Pagination logic
+
     const indexOfLastItem = currentPage * itemsPerPage
     const indexOfFirstItem = indexOfLastItem - itemsPerPage
     const currentUsers = data?.data.slice(indexOfFirstItem, indexOfLastItem)
@@ -59,7 +60,12 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
 
     const handleItemsPerPageChange = (value: string) => {
         setItemsPerPage(Number(value))
-        setCurrentPage(1) // Reset to first page when changing items per page
+        setCurrentPage(1)
+    }
+    const truncateText = (text: string, maxLength = 50) => {
+        if (!text) return "N/A"
+        if (text.length <= maxLength) return text
+        return text.substring(0, maxLength) + "..."
     }
 
     const handleDelete = async (id: string) => {
@@ -90,7 +96,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
         })
     }
 
-    // Generate page numbers for pagination
+
     const pageNumbers = []
     for (let i = 1; i <= totalPages; i++) {
         pageNumbers.push(i)
@@ -164,7 +170,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                     </TableHeader>
                     <TableBody className="text-sm font-medium text-slate-700">
                         {isLoading ? (
-                            // Skeleton rows
+
                             Array.from({ length: 5 }, (_, index) => (
                                 <TableRow
                                     key={`skeleton-${index}`}
@@ -213,10 +219,19 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                                         </div>
                                     </TableCell>
                                     <TableCell>
-                                        <div className="flex items-center gap-2">
-                                            <MessageCircle className="h-4 w-4 text-gray-500" />
-                                            {user?.content || "N/A"}
-                                        </div>
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <div className="flex items-center gap-2 max-w-[200px]">
+                                                        <MessageCircle className="h-4 w-4 flex-shrink-0 text-gray-500" />
+                                                        <span className="truncate">{truncateText(user?.content)}</span>
+                                                    </div>
+                                                </TooltipTrigger>
+                                                <TooltipContent className="max-w-md p-4 bg-white text-black shadow-lg rounded-md">
+                                                    <p className="text-sm">{user?.content || "N/A"}</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
                                     </TableCell>
                                     <TableCell>
                                         <span
