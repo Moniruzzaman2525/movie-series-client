@@ -1,10 +1,10 @@
 import EditorsPick from "@/components/HomeCompoents/EditorsPick";
 import FaqSection from "@/components/HomeCompoents/FaqSection";
 import HasselFreeExperience from "@/components/HomeCompoents/HasselFreeExperience";
-import NewlyAdded from "@/components/HomeCompoents/NewlyAdded";
 import { AnimatedTestimonialsDemo } from "@/components/HomeCompoents/Testimonials";
 import HeroSection from "@/components/HomeCompoents/HeroSection";
-import TopRatedMoviesPage from "@/components/HomeCompoents/TopRatedMoviesPage";
+import TopRatedMoviesPage from "@/components/HomeCompoents/Content/TopRatedMoviesPage";
+import NewlyAddedMovies from "@/components/HomeCompoents/Content/NewlyAddedMovies";
 
 
 const HomePage = () => {
@@ -13,7 +13,7 @@ const HomePage = () => {
       <HeroSection />
       <TopRatedMoviesPage />
       <HasselFreeExperience />
-      <NewlyAdded />
+      <NewlyAddedMovies />
       <EditorsPick />
       <FaqSection />
       <AnimatedTestimonialsDemo />

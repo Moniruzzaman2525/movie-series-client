@@ -10,6 +10,7 @@ interface TopRatedMoviesProps {
 }
 
 const TopRatedMovies = ({ data }: TopRatedMoviesProps) => {
+
   const limitedData = data?.slice(0, 5);
   return (
     <div className="bg-[#020508]">
