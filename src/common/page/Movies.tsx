@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 import ReusableCard from "../card/Card";
 import { MovieCardProps } from "@/types/Movie";
 import GenresList from "../card/Filterbar";
-import { getAllContent } from "@/service/content";
+import { getAllContent } from "@/service/Content";
 
 const MovieSearch = () => {
      const [searchTerm, setSearchTerm] = useState("");

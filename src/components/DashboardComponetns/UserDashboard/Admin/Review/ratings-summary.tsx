@@ -9,7 +9,7 @@ interface RatingsSummaryProps {
 }
 
 export function RatingsSummary({ data }: RatingsSummaryProps) {
-    console.log(data)
+
     if (!data || data.length === 0) {
         return <div className="py-8 text-center">No data available</div>
     }

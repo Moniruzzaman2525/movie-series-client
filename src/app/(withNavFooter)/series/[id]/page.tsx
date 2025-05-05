@@ -1,5 +1,5 @@
 import Details from "@/common/details/Details";
-import { getContentById } from "@/service/content";
+import { getContentById } from "@/service/Content";
 
 
 
