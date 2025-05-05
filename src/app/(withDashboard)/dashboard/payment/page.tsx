@@ -9,7 +9,7 @@ const PaymentPage = () => {
     const [data, setData] = useState([]);
     console.log(data);
     const { user } = useUser();
-    console.log(user?.email);
+    
     useEffect(() => {
         async function fetchPayments() {
             if (user?.email) {
@@ -21,7 +21,7 @@ const PaymentPage = () => {
     }, [user?.email]);
 
     return (
-        <div className="-ms-0 -mt-0 md:-ms-10 md:-mt-2 lg:-ms-10 lg:-mt-2">
+        <div className="">
               <div className='h-10 w-full bg-gray-700 p-10 flex items-center justify-between text-white font-bold '>
             <h1>My Payments</h1>
             </div>

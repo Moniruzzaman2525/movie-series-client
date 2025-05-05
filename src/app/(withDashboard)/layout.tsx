@@ -19,8 +19,7 @@ export default function DashboardLayout({
      return (
           <div className="min-h-screen md:my-2">
                <div className="flex flex-col md:flex-row">
-
-                    <div className=" md:w-[28%] ">
+                    <div className=" w-[24%]">
                          <Sidebar />
                     </div>
 
