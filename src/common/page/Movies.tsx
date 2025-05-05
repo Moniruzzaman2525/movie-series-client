@@ -19,7 +19,7 @@ const MovieSearch = () => {
           setLoading(true);
           setError(null);
           try {
-               const result = await getAllContent( searchTerm, category);
+               const result = await getAllContent(searchTerm, category);
                if (result?.data) {
                     const filterMovies = result?.data?.filter(
                          (movie: MovieCardProps) => movie.category === "MOVIE"

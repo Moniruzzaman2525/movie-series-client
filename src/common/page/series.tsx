@@ -31,7 +31,7 @@ const SeriesSearch = () => {
                } else {
                     setData([]);
                }
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+               // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (err: any) {
                console.error(err);
                setError("Failed to fetch movies.");
@@ -45,6 +45,7 @@ const SeriesSearch = () => {
           seERIESData();
      }, [seERIESData]);
 
+     console.log(data)
 
      const itemsPerPage = 6;
      const totalPages = Math.ceil(data.length / itemsPerPage);
