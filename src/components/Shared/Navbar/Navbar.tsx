@@ -15,7 +15,6 @@ const Navbar = () => {
   const { user, setIsLoading, handleUser } = useUser();
   // Removed useLocation as it is not defined or imported
   const path = pathName;
-  console.log(path);
 
   useEffect(() => {
     if (user === undefined) {
@@ -102,7 +101,7 @@ const Navbar = () => {
             }
           </div>
         </div>
-       
+
 
         {user ? (
           <div className="hidden md:block">
@@ -178,22 +177,22 @@ const Navbar = () => {
               </Link>
               <div>
                 {
-                  user?.role === "USER" && <Link href={'/dashboard/user/payment'}>Dashboard</Link>  
+                  user?.role === "USER" && <Link href={'/dashboard/user/payment'}>Dashboard</Link>
                 }
               </div>
               <div>
                 {
-                  user?.role === "ADMIN" && <Link href={'/dashboard/admin/payment'}>Dashboard</Link>  
+                  user?.role === "ADMIN" && <Link href={'/dashboard/admin/payment'}>Dashboard</Link>
                 }
               </div>
 
 
-            
+
 
 
 
               {user ? (
-               <div>   
+               <div>
                   <Button
                     variant="outline"
                     className="w-full"

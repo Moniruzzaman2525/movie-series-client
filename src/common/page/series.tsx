@@ -6,7 +6,7 @@ import { useEffect, useState, useCallback } from "react";
 import { MovieCardProps } from "@/types/Movie";
 import GenresList from "../card/Filterbar";
 import SeriesCard from "../card/SeriesCard";
-import { getAllContent } from "@/service/content";
+import { getAllContent } from "@/service/Content";
 
 const SeriesSearch = () => {
      const [searchTerm, setSearchTerm] = useState("");
@@ -16,7 +16,7 @@ const SeriesSearch = () => {
      const [loading, setLoading] = useState(false);
      const [error, setError] = useState<string | null>(null);
 
-     
+
 
      const seERIESData = useCallback(async () => {
           setLoading(true);
@@ -45,7 +45,6 @@ const SeriesSearch = () => {
           seERIESData();
      }, [seERIESData]);
 
-     console.log(data)
 
      const itemsPerPage = 6;
      const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -60,11 +59,11 @@ const SeriesSearch = () => {
           }
      };
 
-   
+
      const handleReset = () => {
-          setCategory(undefined);  
-          setSearchTerm("");  
-          setCurrentPage(1);  
+          setCategory(undefined);
+          setSearchTerm("");
+          setCurrentPage(1);
      };
 
      return (

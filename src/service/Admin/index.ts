@@ -32,6 +32,19 @@ export const deleteUser = async (id: string) => {
     revalidateTag('users')
     return result;
 }
+export const deleteUserComment = async (id: string) => {
+    const res = await fetch(`${process.env.SERVER_URL}/admin/remove-inappropriate-comment/${id}`, {
+        method: "PATCH",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || "",
+        },
+        cache: 'no-cache',
+    });
+
+    const result = await res.json();
+    revalidateTag('users')
+    return result;
+}
 
 export const activeUser = async (id: string) => {
     const res = await fetch(`${process.env.SERVER_URL}/admin/active-user/${id}`, {
@@ -69,13 +82,32 @@ export const getAllUserComments = async () => {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         cache: 'no-cache',
-        next: { tags: ["users"] }
+        next: { tags: ["comments"] }
     });
 
     const result = await res.json();
 
+
     return result;
 }
+
+export const approvedUserComment = async (id: string, payload: any) => {
+
+    const res = await fetch(`${process.env.SERVER_URL}/admin/comment/${id}`, {
+        method: "POST",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || "",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+    revalidateTag('comments')
+
+    return result;
+}
+
 export const approvedUserReview = async (id: string, payload: any) => {
 
     const res = await fetch(`${process.env.SERVER_URL}/admin/review/${id}`, {
@@ -92,4 +124,5 @@ export const approvedUserReview = async (id: string, payload: any) => {
 
     return result;
 }
+
 

@@ -46,7 +46,6 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
   const [reviews, setReviews] = useState<IReview[]>(data?.data || [])
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
-  console.log(reviews)
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
@@ -121,7 +120,6 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
           status: "APPROVED",
         }
         const res = await approvedUserReview(id, data)
-        console.log(res)
         if (res.success) {
           toast.success("Review Approved Successfully")
         }
@@ -145,7 +143,6 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
           status: "REJECTED",
         }
         const res = await approvedUserReview(id, data)
-        console.log(res)
         if (res.success) {
           toast.success("Review Reject Successfully")
         }

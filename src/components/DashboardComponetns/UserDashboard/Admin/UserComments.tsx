@@ -5,7 +5,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ChevronLeft, ChevronRight, Trash, User, Mail, MessageCircle, CircleCheck, X } from "lucide-react"
-import { approvedUserReview, deleteUser } from "@/service/Admin"
+import { approvedUserComment, deleteUserComment } from "@/service/Admin"
 import { toast } from "sonner"
 import Swal from "sweetalert2"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -43,15 +43,15 @@ interface AllUserTableProps {
 export function UserComments({ data, isLoading = false }: AllUserTableProps) {
 
 
-    const [comments, setComments] = useState<IComment[]>(data?.data || [])
+    // const [comments, setComments] = useState<IComment[]>(data?.data || [])
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(5)
-    console.log(comments)
+
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage
     const indexOfFirstItem = indexOfLastItem - itemsPerPage
-    const currentUsers = comments.slice(indexOfFirstItem, indexOfLastItem)
-    const totalPages = Math.ceil(comments.length / itemsPerPage)
+    const currentUsers = data?.data.slice(indexOfFirstItem, indexOfLastItem)
+    const totalPages = Math.ceil(data?.data.length / itemsPerPage)
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber)
@@ -75,18 +75,9 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await deleteUser(id)
+                    const res = await deleteUserComment(id)
 
                     if (res.success) {
-                        // Update local state to remove the deleted user
-                        const updatedUsers = comments.filter((user) => user.id !== id)
-                        setComments(updatedUsers)
-
-                        // Adjust current page if needed after deletion
-                        if (currentUsers.length === 1 && currentPage > 1) {
-                            setCurrentPage(currentPage - 1)
-                        }
-
                         toast.success("User deleted successfully")
                     } else {
                         toast.error("Failed to delete user")
@@ -120,8 +111,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                 const data = {
                     status: "APPROVED",
                 }
-                const res = await approvedUserReview(id, data)
-                console.log(res)
+                const res = await approvedUserComment(id, data)
                 if (res.success) {
                     toast.success("Review Approved Successfully")
                 }
@@ -144,8 +134,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                 const data = {
                     status: "REJECTED",
                 }
-                const res = await approvedUserReview(id, data)
-                console.log(res)
+                const res = await approvedUserComment(id, data)
                 if (res.success) {
                     toast.success("Review Reject Successfully")
                 }
@@ -160,7 +149,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                         {isLoading ? (
                             <Skeleton className="h-4 w-64 mx-auto" />
                         ) : (
-                            `Showing ${indexOfFirstItem + 1} to ${Math.min(indexOfLastItem, comments.length)} of ${comments.length} users`
+                            `Showing ${indexOfFirstItem + 1} to ${Math.min(indexOfLastItem, data?.data.length)} of ${data?.data.length} users`
                         )}
                     </TableCaption>
                     <TableHeader className="bg-gray-100">

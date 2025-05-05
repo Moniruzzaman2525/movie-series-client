@@ -31,10 +31,10 @@ export default function LoginForm() {
                    const result = await loginUser(data);
                    setReload(false)
                    if (result.success) {
-                        
+
                         toast.success(result.message, { id });
                         router.push("/");
-                        
+
                         reset();
                    } else {
                         toast.error(result.message, { id });
@@ -42,7 +42,7 @@ export default function LoginForm() {
                    }
               }else{
                    const result = await forgotPass({email:data.email});
-                   console.log(result)
+
                    if (result.success) {
                         toast.success(result.message, { id });
                         reset();
@@ -62,7 +62,7 @@ export default function LoginForm() {
                {/* Left Side Image */}
                <div className="w-full lg:w-1/2 h-64 lg:h-auto relative">
                     <Image
-                         src="https://i.postimg.cc/1XFfXNWG/view-3d-film-reel.jpg" 
+                         src="https://i.postimg.cc/1XFfXNWG/view-3d-film-reel.jpg"
                          alt="Login Illustration"
                          fill
                          className="object-cover"
