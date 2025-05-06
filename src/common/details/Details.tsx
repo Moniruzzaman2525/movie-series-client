@@ -6,13 +6,15 @@ import { FaHeart, FaThumbsDown, FaReply } from "react-icons/fa";
 import { motion } from 'framer-motion';
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem,  FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem,  FormLabel,  FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { createComment } from "@/service/Comments";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import {MessageCircle} from "lucide-react"
+
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 const tabs = ["Reviews", "Comments", "Send Review"];
 
 const Details = ({ movieData }: {
@@ -46,6 +48,13 @@ const Details = ({ movieData }: {
                reply:"",
           }
      })
+
+     const reviewForm=useForm({
+          defaultValues:{
+               rating:0,
+               content:''
+          }
+     })
      const handleSubmitComment = async (data: any) => {
           const id = toast.loading('posting.....')
           try {
@@ -70,6 +79,15 @@ const Details = ({ movieData }: {
 
      const handleSubmitReply = async (data: any) => {
           console.log(data);
+     }
+
+
+     const handleSubmitReview = async (data: any) => {
+          const reviewData={
+               ...data,
+               videoId:movieData.id
+          }
+          console.log(reviewData);
      }
      return (
           <div className="bg-black text-white min-h-screen px-4 pt-28 pb-4">
@@ -120,7 +138,7 @@ const Details = ({ movieData }: {
                          </div>
                     </div>
 
-                    {/* Tabs */}
+                   
                     <div className="mt-10">
                          <div className="flex space-x-4 border-b border-red-600">
                               {tabs.map((tab) => (
@@ -215,7 +233,7 @@ const Details = ({ movieData }: {
                                                     <FormControl>
                                                       <Textarea
                                                         rows={2}
-                                                        className="bg-gray-800 border-gray-700 text-white focus:border-red-500"
+                                                        className="bg-gray-800 border-gray-700 text-white focus:border-red-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none "
                                                         placeholder="Write your reply..."
                                                         {...field}
                                                       />
@@ -256,7 +274,7 @@ const Details = ({ movieData }: {
                                               <FormControl>
                                                 <Textarea
                                                   rows={4}
-                                                  className="bg-gray-800 border-gray-700 text-white focus:border-red-500 outline-none"
+                                                  className="bg-gray-800 border-gray-700 text-white focus:border-red-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                                                   placeholder="Share your thoughts about this movie..."
                                                   {...field}
                                                 />
@@ -277,38 +295,65 @@ const Details = ({ movieData }: {
                               )}
 
                               {activeTab === "Send Review" && (
-                                   <form className="space-y-4">
-                                        <div>
-                                             <label className="block text-sm mb-1">Rating (out of 10)</label>
-                                             <input
-                                                  type="number"
-                                                  min="1"
-                                                  max="10"
-                                                  className="w-full p-2 rounded-lg bg-gray-800 text-white border border-gray-700"
-                                             />
-                                        </div>
-                                        <div>
-                                             <label className="block text-sm mb-1">Review</label>
-                                             <textarea
-                                                  rows={4}
-                                                  className="w-full p-2 rounded-lg bg-gray-800 text-white border border-gray-700"
-                                                  placeholder="Write your review here..."
-                                             ></textarea>
-                                        </div>
-                                        <div>
-                                             <label className="block text-sm mb-1">Contains Spoiler?</label>
-                                             <select className="w-full p-2 rounded-lg bg-gray-800 text-white border border-gray-700">
-                                                  <option value="no">No</option>
-                                                  <option value="yes">Yes</option>
-                                             </select>
-                                        </div>
-                                        <button
-                                             type="submit"
-                                             className="bg-red-600 hover:bg-red-700 transition-all px-4 py-2 rounded-lg text-white font-semibold"
-                                        >
-                                             Submit Review
-                                        </button>
-                                   </form>
+                                  <Form {...form}>
+                                  <form onSubmit={reviewForm.handleSubmit(handleSubmitReview)} className="space-y-3">
+                                  
+                                    <FormField
+                                      control={reviewForm.control}
+                                      name="rating"
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel>Rating</FormLabel>
+                                          <Select  onValueChange={field.onChange} defaultValue={''}>
+                                            <FormControl>
+                                              <SelectTrigger  className="bg-gray-800 border-gray-700 text-white focus:ring-0 focus:ring-offset-0 focus:border-red-500 w-full">
+                                                <SelectValue placeholder="Select a rating" />
+                                              </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                                              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                                                <SelectItem 
+                                                  key={num} 
+                                                  value={num.toString()}
+                                                  className="hover:bg-gray-700 focus:bg-gray-700"
+                                                >
+                                                  {num}
+                                                </SelectItem>
+                                              ))}
+                                            </SelectContent>
+                                          </Select>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                
+                                   
+                                    <FormField
+                                      control={reviewForm.control}
+                                      name="content"
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel>Your Review</FormLabel>
+                                          <FormControl>
+                                            <Textarea
+                                              rows={4}
+                                              className="bg-gray-800 border-gray-700 text-white focus:border-red-500 focus:ring-0 focus:ring-offset-0"
+                                              placeholder="Share your thoughts about this movie..."
+                                              {...field}
+                                            />
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                
+                                    <div className="flex justify-end">
+                                      <Button type="submit" className="bg-red-600 hover:bg-red-700 px-6">
+                                        Submit Review
+                                      </Button>
+                                    </div>
+                                  </form>
+                                </Form>
                               )}
                          </div>
                     </div>
