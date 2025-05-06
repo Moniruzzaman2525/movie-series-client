@@ -9,14 +9,14 @@ import Comment from "@/components/ui/core/Modal/Comment"
 import { useUser } from "@/context/userContext"
 import LoginPrompt from "./LoginPrompt"
 import { likeVideo } from "@/service/Like"
+import { toast } from "sonner"
 
 const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
      const { user } = useUser()
-
-
      const [showCommentModal, setShowCommentModal] = useState(false)
      const [showLoginModal, setShowLoginModal] = useState(false)
      const [loginAction, setLoginAction] = useState<"like" | "comment">("like")
+     const [likeLoading, setLikeLoading] = useState(false)
 
 
      const handleLikeToggle = async () => {
@@ -25,10 +25,24 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                setShowLoginModal(true)
                return
           }
-          const data = {
-               videoId: movie.id,
+
+          setLikeLoading(true)
+          try {
+               const data = {
+                    videoId: movie.id,
+               }
+               const res = await likeVideo(data)
+
+               if (res.success) {
+                    setLikeLoading(false)
+                    toast.success(res.message)
+               }
+
+          } catch (err) {
+               console.error("Like toggle failed", err)
+          } finally {
+               setLikeLoading(false)
           }
-          await likeVideo(data)
      }
 
      const handleCommentClick = () => {
@@ -78,11 +92,11 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                     </div>
                </div>
 
-               {/* Like and Comment buttons */}
                <div className="flex items-center gap-4 mt-4">
                     <button
                          onClick={handleLikeToggle}
-                         className="flex items-center gap-1"
+                         disabled={likeLoading}
+                         className="flex items-center cursor-pointer gap-1"
                          aria-label={movie.liked ? "Unlike" : "Like"}
                     >
                          <Heart
@@ -93,7 +107,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
 
                     <button
                          onClick={handleCommentClick}
-                         className="flex items-center gap-1 text-neutral-500 dark:text-neutral-400"
+                         className="flex items-center gap-1 cursor-pointer text-neutral-500 dark:text-neutral-400"
                          aria-label="Comment"
                     >
                          <MessageCircle className="h-5 w-5" />
@@ -114,7 +128,6 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                     </button>
                </div>
 
-               {/* Modals */}
                {showCommentModal && <Comment setShowCommentModal={setShowCommentModal} movie={movie} />}
 
                {showLoginModal && <LoginPrompt setShowLoginModal={setShowLoginModal} action={loginAction} />}

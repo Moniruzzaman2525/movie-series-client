@@ -14,7 +14,6 @@ export const createComment = async (payload:any) => {
         cache:'no-store',
     })
     const result=await res.json()
-    console.log(result);
     revalidateTag('comments')
     return result
 }
@@ -29,6 +28,20 @@ export const getComments = async () => {
         next: {tags: ['comments']}
     })
     const result=await res.json()
+    return result
+}
+export const getVideoComments = async (videoId: string) => {
+    const res = await fetch(`${process.env.SERVER_URL}/comments/comment-by-content/${videoId}`,{
+        method:'GET',
+        headers:{
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        cache:'no-store',
+
+        next: {tags: ['comments']}
+    })
+    const result = await res.json()
+
     return result
 }
 
