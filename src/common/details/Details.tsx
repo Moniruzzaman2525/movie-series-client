@@ -7,6 +7,9 @@ import Review from "@/components/HomeCompoents/Details/review";
 import CommentComponent from "@/components/HomeCompoents/Details/comment";
 import PostReview from "@/components/HomeCompoents/Details/PostReview";
 import PostComment from "@/components/HomeCompoents/Details/PostComment";
+import { makePayment } from "@/service/Payments";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 const tabs = ["Reviews", "Comments", "Send Review"];
 
 const Details = ({ movieData }: {
@@ -27,6 +30,27 @@ const Details = ({ movieData }: {
      }
 }) => {
      const [activeTab, setActiveTab] = useState("Reviews");
+     const router=useRouter()
+     const handlePayment = async() => {
+          const id=toast.loading("Processing Payment..")
+        try{
+          const paymentData={
+               contentId: movieData.id,
+               amount:movieData.price*120
+          }
+          const result=await makePayment(paymentData)
+          console.log(result);
+          if(result.success){
+               toast.success("Payment Successful",{id})
+               router.push(result.data.GatewayPageURL)
+          }else{
+               toast.error(result.message,{id})
+          }
+         
+        }catch(error){
+             console.log(error);
+        }
+     }
      return (
           <div className="bg-black text-white min-h-screen px-4 pt-28 pb-4">
                <div className="container mx-auto">
@@ -66,6 +90,7 @@ const Details = ({ movieData }: {
                               </div>
                               <div className="mt-4 text-white font-semibold text-lg">
                                    <motion.button
+                                  onClick={handlePayment}
                                         whileHover={{ scale: 1.1 }}
                                         transition={{ duration: 0.3 }}
                                         className="bg-red-500 px-3 py-1 rounded cursor-pointer"

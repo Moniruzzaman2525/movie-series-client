@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { FaCheckCircle } from "react-icons/fa";
 
@@ -10,9 +11,9 @@ const PaymentSuccess = () => {
                     <p className="text-gray-300 mb-4">
                          Thank you for your purchase. Your transaction has been completed, and a confirmation email has been sent.
                     </p>
-                    <button className="mt-4 bg-red-600 hover:bg-red-700 transition-all px-6 py-2 rounded-lg text-white font-semibold">
-                         Go to Dashboard
-                    </button>
+                    <Link href={'/'} className="mt-4 bg-red-600 hover:bg-red-700 transition-all px-6 py-2 rounded-lg text-white font-semibold">
+                        Home
+                    </Link>
                </div>
           </div>
      );
