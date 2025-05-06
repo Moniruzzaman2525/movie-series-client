@@ -2,36 +2,14 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import type { MovieCardProps } from "@/types/Movie"
 import { MessageSquare, Send, X } from "lucide-react"
 import { Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { getVideoComments } from "@/service/Comments"
+import { Comment, CommentProps } from "@/types"
 
-interface CommentProps {
-    setShowCommentModal: (show: boolean) => void
-    movie: MovieCardProps | null
-}
-interface Reply {
-    id: string
-    author: string
-    avatar: string
-    content: string
-    timestamp: string
-    likes: number
-}
 
-// Update the comment structure to include replies typed with the Reply interface
-interface Comment {
-    id: string
-    author: string
-    avatar: string
-    content: string
-    timestamp: string
-    likes: number
-    replies: Reply[] // Use the Reply interface here
-}
 const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) => {
     const [comments, setComments] = useState<Comment[]>([])
     const [newComment, setNewComment] = useState("")
