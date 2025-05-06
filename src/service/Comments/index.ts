@@ -4,16 +4,19 @@ import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 
 export const createComment = async (payload:any) => {
+    console.log(payload);
     const res=await fetch(`${process.env.SERVER_URL}/comments`,{
         method:'POST',
         headers:{
+            "Content-Type": "application/json",
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         body:JSON.stringify(payload),
         cache:'no-store',
-        next: {tags: ['comments']}
     })
     const result=await res.json()
+    console.log(result);
+    revalidateTag('comments')
     return result
 }
 export const getComments = async () => {
