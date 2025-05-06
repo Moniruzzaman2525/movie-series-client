@@ -1,4 +1,6 @@
-const TComment = {
+import { MovieCardProps } from "./Movie"
+
+export const TComment = {
         id: String,
         userId: String,
         videoId: String,
@@ -8,5 +10,26 @@ const TComment = {
       parentCommentId: String,
         createdAt: String,
 }
+export interface CommentProps {
+  setShowCommentModal: (show: boolean) => void
+  movie: MovieCardProps | null
+}
+export interface Reply {
+  id: string
+  author: string
+  avatar: string
+  content: string
+  timestamp: string
+  likes: number
+}
 
-export default TComment
+
+export interface Comment {
+  id: string
+  author: string
+  avatar: string
+  content: string
+  timestamp: string
+  likes: number
+  replies: Reply[]
+}

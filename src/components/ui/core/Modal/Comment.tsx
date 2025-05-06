@@ -1,81 +1,41 @@
+
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
-import type { MovieCardProps } from "@/types/Movie"
+import React, { useState, useEffect } from "react"
 import { MessageSquare, Send, X } from "lucide-react"
 import { Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { getVideoComments } from "@/service/Comments"
+import { Comment, CommentProps } from "@/types"
 
-interface CommentProps {
-    setShowCommentModal: (show: boolean) => void
-    movie: MovieCardProps | null
-}
-
-// Sample data for demonstration
-const sampleComments = [
-    {
-        id: "1",
-        author: "Jane Cooper",
-        avatar: "/placeholder.svg?height=40&width=40",
-        content: "This movie was absolutely amazing! The cinematography was breathtaking.",
-        timestamp: "2 hours ago",
-        likes: 12,
-        replies: [
-            {
-                id: "1-1",
-                author: "Wade Warren",
-                avatar: "/placeholder.svg?height=40&width=40",
-                content: "I agree! The director did an incredible job with the visuals.",
-                timestamp: "1 hour ago",
-                likes: 3,
-            },
-            {
-                id: "1-2",
-                author: "Esther Howard",
-                avatar: "/placeholder.svg?height=40&width=40",
-                content: "The soundtrack complemented those scenes perfectly too!",
-                timestamp: "45 minutes ago",
-                likes: 2,
-            },
-        ],
-    },
-    {
-        id: "2",
-        author: "Robert Fox",
-        avatar: "/placeholder.svg?height=40&width=40",
-        content: "The plot twist at the end caught me completely off guard. Didn't see it coming!",
-        timestamp: "3 hours ago",
-        likes: 8,
-        replies: [],
-    },
-    {
-        id: "3",
-        author: "Darlene Robertson",
-        avatar: "/placeholder.svg?height=40&width=40",
-        content: "I thought the character development was a bit weak, especially for the supporting cast.",
-        timestamp: "5 hours ago",
-        likes: 4,
-        replies: [
-            {
-                id: "3-1",
-                author: "Cameron Williamson",
-                avatar: "/placeholder.svg?height=40&width=40",
-                content: "I had the same thought. They could have given more backstory to those characters.",
-                timestamp: "4 hours ago",
-                likes: 1,
-            },
-        ],
-    },
-]
 
 const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) => {
-    const [comments, setComments] = useState(sampleComments)
+    const [comments, setComments] = useState<Comment[]>([])
     const [newComment, setNewComment] = useState("")
     const [replyingTo, setReplyingTo] = useState<string | null>(null)
     const [replyContent, setReplyContent] = useState("")
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+
+
+    const fetchComments = async () => {
+        try {
+            const response = await getVideoComments(movie?.id || "")
+
+            console.log(response)
+            setComments(response?.data)
+            setLoading(false)
+        } catch (err) {
+            setError("Failed to load comments.")
+            setLoading(false)
+        }
+    }
+    useEffect(() => {
+        fetchComments()
+    }, [])
+
+    console.log(comments)
 
     const handleSubmitComment = (e: React.FormEvent) => {
         e.preventDefault()
@@ -154,79 +114,85 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
                     </div>
                 </form>
 
-                <div className="overflow-y-auto flex-1 pr-2">
-                    <h4 className="font-medium text-sm text-gray-500 dark:text-gray-400 mb-4">{comments.length} Comments</h4>
+                {loading ? (
+                    <div>Loading comments...</div>
+                ) : error ? (
+                    <div className="text-red-500">{error}</div>
+                ) : (
+                    <div className="overflow-y-auto flex-1 pr-2">
+                        <h4 className="font-medium text-sm text-gray-500 dark:text-gray-400 mb-4">{comments?.length} Comments</h4>
 
-                    <div className="space-y-6">
-                        {comments.map((comment) => (
-                            <div key={comment.id} className="space-y-4">
-                                <div className="flex gap-3">
-                                    <Avatar className="h-10 w-10 rounded-full">
-                                        <img src={comment.avatar || "/placeholder.svg"} alt={comment.author} />
-                                    </Avatar>
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <h5 className="font-medium text-gray-900 dark:text-white">{comment.author}</h5>
-                                            <span className="text-xs text-gray-500 dark:text-gray-400">{comment.timestamp}</span>
-                                        </div>
-                                        <p className="text-gray-700 dark:text-gray-300">{comment.content}</p>
-                                        <div className="flex items-center gap-4 mt-2">
-                                            <button
-                                                className="text-xs text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400"
-                                                onClick={() => setReplyingTo(replyingTo === comment.id ? null : comment.id)}
-                                            >
-                                                Reply
-                                            </button>
-                                            <span className="text-xs text-gray-500 dark:text-gray-400">{comment.likes} likes</span>
-                                        </div>
-
-                                        {replyingTo === comment.id && (
-                                            <div className="mt-3 flex gap-2">
-                                                <Textarea
-                                                    className="flex-1 p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
-                                                    placeholder="Write your reply..."
-                                                    value={replyContent}
-                                                    onChange={(e) => setReplyContent(e.target.value)}
-                                                />
-                                                <Button
-                                                    type="button"
-                                                    size="sm"
-                                                    className="bg-red-500 hover:bg-red-600 text-white"
-                                                    onClick={() => handleSubmitReply(comment.id)}
-                                                >
-                                                    <Send className="h-4 w-4" />
-                                                </Button>
+                        <div className="space-y-6">
+                            {comments.map((comment) => (
+                                <div key={comment.id} className="space-y-4">
+                                    <div className="flex gap-3">
+                                        <Avatar className="h-10 w-10 rounded-full">
+                                            <img src={comment.avatar || "/placeholder.svg"} alt={comment.author} />
+                                        </Avatar>
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h5 className="font-medium text-gray-900 dark:text-white">{comment.author}</h5>
+                                                <span className="text-xs text-gray-500 dark:text-gray-400">{comment.timestamp}</span>
                                             </div>
-                                        )}
-                                    </div>
-                                </div>
+                                            <p className="text-gray-700 dark:text-gray-300">{comment.content}</p>
+                                            <div className="flex items-center gap-4 mt-2">
+                                                <button
+                                                    className="text-xs text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400"
+                                                    onClick={() => setReplyingTo(replyingTo === comment.id ? null : comment.id)}
+                                                >
+                                                    Reply
+                                                </button>
+                                                <span className="text-xs text-gray-500 dark:text-gray-400">{comment.likes} likes</span>
+                                            </div>
 
-                                {/* Replies */}
-                                {comment.replies && comment.replies.length > 0 && (
-                                    <div className="ml-12 space-y-4 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
-                                        {comment.replies.map((reply) => (
-                                            <div key={reply.id} className="flex gap-3">
-                                                <Avatar className="h-8 w-8 rounded-full">
-                                                    <img src={reply.avatar || "/placeholder.svg"} alt={reply.author} />
-                                                </Avatar>
-                                                <div className="flex-1">
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                        <h5 className="font-medium text-gray-900 dark:text-white">{reply.author}</h5>
-                                                        <span className="text-xs text-gray-500 dark:text-gray-400">{reply.timestamp}</span>
-                                                    </div>
-                                                    <p className="text-gray-700 dark:text-gray-300 text-sm">{reply.content}</p>
-                                                    <div className="flex items-center gap-4 mt-2">
-                                                        <span className="text-xs text-gray-500 dark:text-gray-400">{reply.likes} likes</span>
+                                            {replyingTo === comment.id && (
+                                                <div className="mt-3 flex gap-2">
+                                                    <Textarea
+                                                        className="flex-1 p-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                        placeholder="Write your reply..."
+                                                        value={replyContent}
+                                                        onChange={(e) => setReplyContent(e.target.value)}
+                                                    />
+                                                    <Button
+                                                        type="button"
+                                                        size="sm"
+                                                        className="bg-red-500 hover:bg-red-600 text-white"
+                                                        onClick={() => handleSubmitReply(comment.id)}
+                                                    >
+                                                        <Send className="h-4 w-4" />
+                                                    </Button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Replies */}
+                                    {comment.replies && comment.replies.length > 0 && (
+                                        <div className="ml-12 space-y-4 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
+                                            {comment.replies.map((reply) => (
+                                                <div key={reply.id} className="flex gap-3">
+                                                    <Avatar className="h-8 w-8 rounded-full">
+                                                        <img src={reply.avatar || "/placeholder.svg"} alt={reply.author} />
+                                                    </Avatar>
+                                                    <div className="flex-1">
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                            <h5 className="font-medium text-gray-900 dark:text-white">{reply.author}</h5>
+                                                            <span className="text-xs text-gray-500 dark:text-gray-400">{reply.timestamp}</span>
+                                                        </div>
+                                                        <p className="text-gray-700 dark:text-gray-300 text-sm">{reply.content}</p>
+                                                        <div className="flex items-center gap-4 mt-2">
+                                                            <span className="text-xs text-gray-500 dark:text-gray-400">{reply.likes} likes</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     )
