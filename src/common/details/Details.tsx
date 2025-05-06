@@ -28,7 +28,7 @@ const Details = ({ movieData }: {
           rating: number;
           price: number;
           id: string;
-          review?: string[]
+          review?: {content:string,ratting:number}[]
           Comment?: { content: string, likes: number }[]
      }
 }) => {
@@ -80,7 +80,7 @@ const Details = ({ movieData }: {
                               height={500}
                               src={movieData?.thumbnailImage || ""}
                               alt={movieData?.title || ""}
-                              className="w-full h-auto rounded-2xl shadow-xl"
+                              className="w-full h-full rounded-2xl shadow-xl"
                          />
                          <div>
                               <h1 className="text-4xl font-bold text-red-600">{movieData?.title}</h1>
@@ -138,10 +138,19 @@ const Details = ({ movieData }: {
                          <div className="mt-4">
                               {activeTab === "Reviews" && (
                                    <div className="space-y-4">
-                                        {[...Array(3)].map((_, i) => (
-                                             <div key={i} className="bg-gray-900 p-4 rounded-xl shadow-lg">
-                                                  <p className="text-white">Amazing sci-fi concept! 🌌</p>
-                                                  <div className="text-sm text-red-400 mt-2">Rating: 9/10</div>
+                                        <h1 className="text-2xl font-semibold text-white">Reviews <span>({movieData?.review?.length})</span></h1>
+                                        {movieData?.review?.map((data:any, i) => (
+                                               <div key={i} className="flex items-center gap-3 mb-3">
+                                               <Avatar className="h-10 w-10">
+                                                 <AvatarImage src={data.user.image || "https://github.com/shadcn.png"} />
+                                                 <AvatarFallback>{data.user.name.charAt(0)}</AvatarFallback>
+                                               </Avatar>
+                                               <div>
+                                                 <h3 className="font-semibold text-white">{data.user.name}</h3>
+                                                 <p className="text-xs text-gray-400">
+                                                   {new Date(data.createdAt).toLocaleDateString()}
+                                                 </p>
+                                               </div>
                                              </div>
                                         ))}
                                    </div>
@@ -149,6 +158,7 @@ const Details = ({ movieData }: {
 
                               {activeTab === "Comments" && (
                                   <div className="space-y-6 max-w-full">
+                                   <h1 className="text-2xl font-semibold text-white">Comments <span>({movieData?.Comment?.length})</span></h1>
                                   {movieData.Comment?.map((data: any, i) => (
                                     <div key={i} className="bg-gray-900 p-5 rounded-lg border border-gray-700 shadow-lg">
                                     
@@ -176,18 +186,18 @@ const Details = ({ movieData }: {
                                      
                                       <div className="flex items-center gap-4 text-sm border-t border-gray-700 pt-3">
                                         <button className="flex items-center gap-1 text-gray-300 hover:text-red-500 transition-colors">
-                                          <FaHeart className="h-4 w-4" />
+                                          <FaHeart className="h-4 w-4 cursor-pointer" />
                                           <span>{data.likes} Likes</span>
                                         </button>
                                         <button className="flex items-center gap-1 text-gray-300 hover:text-blue-500 transition-colors">
-                                          <FaThumbsDown className="h-4 w-4" />
+                                          <FaThumbsDown className="h-4 w-4 cursor-pointer" />
                                           <span>Dislike</span>
                                         </button>
                                         <button
                                           onClick={() => setActiveReplyIndex(activeReplyIndex === i ? null : i)}
                                           className="flex items-center gap-1 text-gray-300 hover:text-green-500 transition-colors"
                                         >
-                                          <FaReply className="h-4 w-4" />
+                                          <FaReply className="h-4 w-4 cursor-pointer" />
                                           <span>Reply</span>
                                         </button>
                                       </div>
@@ -246,7 +256,7 @@ const Details = ({ movieData }: {
                                               <FormControl>
                                                 <Textarea
                                                   rows={4}
-                                                  className="bg-gray-800 border-gray-700 text-white focus:border-red-500"
+                                                  className="bg-gray-800 border-gray-700 text-white focus:border-red-500 outline-none"
                                                   placeholder="Share your thoughts about this movie..."
                                                   {...field}
                                                 />
