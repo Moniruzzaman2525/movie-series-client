@@ -4,7 +4,6 @@ import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 
 export const createComment = async (payload:any) => {
-    console.log(payload);
     const res=await fetch(`${process.env.SERVER_URL}/comments`,{
         method:'POST',
         headers:{

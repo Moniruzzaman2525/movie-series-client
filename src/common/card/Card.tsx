@@ -1,36 +1,54 @@
+"use client"
 
-"use client";
-
-import React, { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { MovieCardProps } from "@/types/Movie";
-import { Heart, MessageCircle, } from 'lucide-react';
-import Comment from "@/components/ui/core/Modal/Comment";
+import { useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import type { MovieCardProps } from "@/types/Movie"
+import { Heart, MessageCircle } from "lucide-react"
+import Comment from "@/components/ui/core/Modal/Comment"
+import { useUser } from "@/context/userContext"
+import LoginPrompt from "./LoginPrompt"
+import { likeVideo } from "@/service/Like"
 
 const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
+     const { user } = useUser()
 
 
-     // State for comment popup
-     const [showCommentModal, setShowCommentModal] = useState(false);
-     // Toggle like/unlike
-     const handleLikeToggle = () => {
+     const [showCommentModal, setShowCommentModal] = useState(false)
+     const [showLoginModal, setShowLoginModal] = useState(false)
+     const [loginAction, setLoginAction] = useState<"like" | "comment">("like")
 
-          console.log('Like')
 
-     };
+     const handleLikeToggle = async () => {
+          if (!user) {
+               setLoginAction("like")
+               setShowLoginModal(true)
+               return
+          }
+          const data = {
+               videoId: movie.id,
+          }
+          await likeVideo(data)
+     }
 
+     const handleCommentClick = () => {
+          if (!user) {
+               setLoginAction("comment")
+               setShowLoginModal(true)
+               return
+          }
+
+          setShowCommentModal(true)
+     }
 
      return (
-          <div className="flex flex-col h-full justify-between border bg-gray-50 dark:bg-black dark:border-white/20 border-black/10 w-full \ rounded-xl p-3 overflow-hidden shadow hover:shadow-lg transition-shadow">
+          <div className="flex flex-col h-full justify-between border bg-gray-50 dark:bg-black dark:border-white/20 border-black/10 w-full rounded-xl p-3 overflow-hidden shadow hover:shadow-lg transition-shadow">
                <div className="space-y-3">
                     <h2 className="text-xl font-bold text-neutral-800 dark:text-white">
                          {movie?.title} ({movie?.releaseYear})
                     </h2>
 
-                    <p className="text-neutral-500 text-sm dark:text-neutral-300 line-clamp-3">
-                         {movie?.description}
-                    </p>
+                    <p className="text-neutral-500 text-sm dark:text-neutral-300 line-clamp-3">{movie?.description}</p>
 
                     <div className="relative w-full h-40 rounded-xl overflow-hidden">
                          <Image
@@ -42,11 +60,21 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                     </div>
 
                     <div className="text-sm text-neutral-600 dark:text-neutral-300 space-y-1">
-                         <p><strong>Genre:</strong> {movie?.genre}</p>
-                         <p><strong>Director:</strong> {movie?.director}</p>
-                         <p><strong>Platform:</strong> {movie?.streamingPlatform}</p>
-                         <p><strong>Price:</strong> ${movie?.price}</p>
-                         <p><strong>Rating:</strong> ⭐ {movie?.rating}</p>
+                         <p>
+                              <strong>Genre:</strong> {movie?.genre}
+                         </p>
+                         <p>
+                              <strong>Director:</strong> {movie?.director}
+                         </p>
+                         <p>
+                              <strong>Platform:</strong> {movie?.streamingPlatform}
+                         </p>
+                         <p>
+                              <strong>Price:</strong> ${movie?.price}
+                         </p>
+                         <p>
+                              <strong>Rating:</strong> ⭐ {movie?.rating}
+                         </p>
                     </div>
                </div>
 
@@ -64,7 +92,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                     </button>
 
                     <button
-                         onClick={() => setShowCommentModal(true)}
+                         onClick={handleCommentClick}
                          className="flex items-center gap-1 text-neutral-500 dark:text-neutral-400"
                          aria-label="Comment"
                     >
@@ -85,11 +113,13 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                          Buy for ${movie?.price}
                     </button>
                </div>
-               {showCommentModal && (
-                    <Comment setShowCommentModal={setShowCommentModal} movie={movie} />
-               )}
-          </div>
-     );
-};
 
-export default ReusableCard;
+               {/* Modals */}
+               {showCommentModal && <Comment setShowCommentModal={setShowCommentModal} movie={movie} />}
+
+               {showLoginModal && <LoginPrompt setShowLoginModal={setShowLoginModal} action={loginAction} />}
+          </div>
+     )
+}
+
+export default ReusableCard
