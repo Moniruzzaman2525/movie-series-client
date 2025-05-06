@@ -5,10 +5,13 @@ import { useEffect, useState, useCallback } from "react";
 import ReusableCard from "../card/Card";
 import { MovieCardProps } from "@/types/Movie";
 import GenresList from "../card/Filterbar";
-import { getAllContent } from "@/service/Content";
+import { getAllContent } from "@/service/content";
+import { useUser } from "@/context/userContext";
+
 
 const MovieSearch = () => {
-     const [searchTerm, setSearchTerm] = useState("");
+     const {searchQuery}=useUser()
+     const [searchTerm, setSearchTerm] = useState(searchQuery);
      const [currentPage, setCurrentPage] = useState(1);
      const [data, setData] = useState<MovieCardProps[]>([]);
      const [category, setCategory] = useState<string | undefined>();
@@ -79,7 +82,7 @@ const MovieSearch = () => {
                     <div className="flex justify-center ">
                          <button
                               onClick={handleReset}
-                              className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                              className="px-4 py-2 bg-red-600 text-white rounded-md cursor-pointer hover:bg-red-700"
                          >
                               Reset
                          </button>

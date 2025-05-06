@@ -30,11 +30,11 @@ const Review = ({data,index}:{data:any,index:number}) => {
 
 <div className="flex items-center gap-3 mb-3">
      <Avatar className="h-10 w-10">
-          <AvatarImage src={data.user.image || "https://github.com/shadcn.png"} />
-          <AvatarFallback>{data.user.name.charAt(0)}</AvatarFallback>
+          <AvatarImage src={data?.user?.image || "https://github.com/shadcn.png"} />
+          <AvatarFallback>{data.user?.name.charAt(0)}</AvatarFallback>
      </Avatar>
      <div>
-          <h3 className="font-semibold text-white">{data.user.name}</h3>
+          <h3 className="font-semibold text-white">{data.user?.name}</h3>
           <p className="text-xs text-gray-400">
                {new Date(data.createdAt).toLocaleDateString()}
           </p>
@@ -45,12 +45,12 @@ const Review = ({data,index}:{data:any,index:number}) => {
 <div className="pl-2 mb-4">
     
     <div className="flex items-center gap-2">
-    <h1 className="text-2xl">{data.rating}</h1>
+    <h1 className="text-2xl">{data?.rating}</h1>
     <StarIcon className="text-amber-300"/>
     </div>
      <div className="flex items-start gap-2">
           <MessageCircle className="mt-1 flex-shrink-0 text-gray-400" />
-          <p className="text-gray-200 whitespace-pre-line">{data.content}</p>
+          <p className="text-gray-200 whitespace-pre-line">{data?.content}</p>
      </div>
 </div>
 
@@ -58,7 +58,7 @@ const Review = ({data,index}:{data:any,index:number}) => {
 <div className="flex items-center gap-4 text-sm border-t border-gray-700 pt-3">
      <button className="flex items-center gap-1 text-gray-300 hover:text-red-500 transition-colors">
           <FaHeart className="h-4 w-4 cursor-pointer" />
-          <span>{data.likes} Likes</span>
+          <span>{data?.likes} Likes</span>
      </button>
      <button className="flex items-center gap-1 text-gray-300 hover:text-blue-500 transition-colors">
           <FaThumbsDown className="h-4 w-4 cursor-pointer" />
