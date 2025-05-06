@@ -19,7 +19,7 @@ export interface Reply {
   author: string
   avatar: string
   content: string
-  timestamp: string
+  createdAt: string
   likes: number
 }
 
@@ -29,7 +29,7 @@ export interface Comment {
   author: string
   avatar: string
   content: string
-  timestamp: string
+  createdAt: string
   likes: number
   replies: Reply[]
 }

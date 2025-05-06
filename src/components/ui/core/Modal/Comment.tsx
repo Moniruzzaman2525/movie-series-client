@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from "react"
@@ -6,9 +5,9 @@ import { MessageSquare, Send, X } from "lucide-react"
 import { Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { getVideoComments } from "@/service/Comments"
+import { createComment, getVideoComments } from "@/service/Comments"
 import { Comment, CommentProps } from "@/types"
-
+import { formatDistanceToNow } from 'date-fns'  // Importing the function from date-fns
 
 const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) => {
     const [comments, setComments] = useState<Comment[]>([])
@@ -18,11 +17,9 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
-
     const fetchComments = async () => {
         try {
             const response = await getVideoComments(movie?.id || "")
-
             console.log(response)
             setComments(response?.data)
             setLoading(false)
@@ -31,55 +28,42 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
             setLoading(false)
         }
     }
+
     useEffect(() => {
         fetchComments()
     }, [])
 
-    console.log(comments)
-
-    const handleSubmitComment = (e: React.FormEvent) => {
+    const handleSubmitComment = async (e: React.FormEvent) => {
         e.preventDefault()
         if (!newComment.trim()) return
 
-        const newCommentObj = {
-            id: `${comments.length + 1}`,
-            author: "You",
-            avatar: "/placeholder.svg?height=40&width=40",
-            content: newComment,
-            timestamp: "Just now",
-            likes: 0,
-            replies: [],
+        const data = {
+            videoId: movie?.id || "",
+            content: newComment
         }
-
-        setComments([newCommentObj, ...comments])
-        setNewComment("")
+        const res = await createComment(data)
+        if (res.success) {
+            fetchComments()
+            setNewComment("")
+        }
     }
 
-    const handleSubmitReply = (commentId: string) => {
+    const handleSubmitReply = async (commentId: string) => {
         if (!replyContent.trim()) return
 
-        const newReply = {
-            id: `${commentId}-${Math.random().toString(36).substr(2, 9)}`,
-            author: "You",
-            avatar: "/placeholder.svg?height=40&width=40",
+        const data = {
+            videoId: movie?.id || "",
             content: replyContent,
-            timestamp: "Just now",
-            likes: 0,
+            parentCommentId: commentId
+        }
+        const res = await createComment(data)
+        if (res.success) {
+            fetchComments()
+            setReplyingTo(null)
+            setReplyContent("")
         }
 
-        const updatedComments = comments.map((comment) => {
-            if (comment.id === commentId) {
-                return {
-                    ...comment,
-                    replies: [...(comment.replies || []), newReply],
-                }
-            }
-            return comment
-        })
 
-        setComments(updatedComments)
-        setReplyingTo(null)
-        setReplyContent("")
     }
 
     return (
@@ -132,7 +116,9 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2 mb-1">
                                                 <h5 className="font-medium text-gray-900 dark:text-white">{comment.author}</h5>
-                                                <span className="text-xs text-gray-500 dark:text-gray-400">{comment.timestamp}</span>
+                                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                    {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
+                                                </span>
                                             </div>
                                             <p className="text-gray-700 dark:text-gray-300">{comment.content}</p>
                                             <div className="flex items-center gap-4 mt-2">
@@ -177,7 +163,9 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-2 mb-1">
                                                             <h5 className="font-medium text-gray-900 dark:text-white">{reply.author}</h5>
-                                                            <span className="text-xs text-gray-500 dark:text-gray-400">{reply.timestamp}</span>
+                                                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                                {formatDistanceToNow(new Date(reply.createdAt), { addSuffix: true })}
+                                                            </span>
                                                         </div>
                                                         <p className="text-gray-700 dark:text-gray-300 text-sm">{reply.content}</p>
                                                         <div className="flex items-center gap-4 mt-2">

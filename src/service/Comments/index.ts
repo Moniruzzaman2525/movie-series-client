@@ -46,7 +46,6 @@ export const getVideoComments = async (videoId: string) => {
 }
 
 
-
 export const deleteComment = async (id: string) => {
     const res = await fetch(`${process.env.SERVER_URL}/comments/delete-comment/${id}`, {
       method: 'DELETE',
