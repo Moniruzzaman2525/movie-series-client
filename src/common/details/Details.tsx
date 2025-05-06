@@ -15,6 +15,7 @@ import { AvatarImage } from "@radix-ui/react-avatar";
 import {MessageCircle} from "lucide-react"
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { createReview } from "@/service/Reviews";
 const tabs = ["Reviews", "Comments", "Send Review"];
 
 const Details = ({ movieData }: {
@@ -83,11 +84,24 @@ const Details = ({ movieData }: {
 
 
      const handleSubmitReview = async (data: any) => {
+        try{
           const reviewData={
-               ...data,
+               content:data.content,
+               rating:Number(data.rating),
                videoId:movieData.id
           }
-          console.log(reviewData);
+          const result=await createReview(reviewData)
+          console.log(result);
+          if(result.success==true){
+               toast.success("Review Added Successfully")
+               reviewForm.reset()
+          } else{
+               toast.error(result.message)
+          }
+        }catch(error){
+             toast.error((error as Error).message)
+        }
+          
      }
      return (
           <div className="bg-black text-white min-h-screen px-4 pt-28 pb-4">
@@ -337,7 +351,7 @@ const Details = ({ movieData }: {
                                           <FormControl>
                                             <Textarea
                                               rows={4}
-                                              className="bg-gray-800 border-gray-700 text-white focus:border-red-500 focus:ring-0 focus:ring-offset-0"
+                                              className="bg-gray-800 border-gray-700 text-white focus:border-red-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                                               placeholder="Share your thoughts about this movie..."
                                               {...field}
                                             />
@@ -348,7 +362,7 @@ const Details = ({ movieData }: {
                                     />
                                 
                                     <div className="flex justify-end">
-                                      <Button type="submit" className="bg-red-600 hover:bg-red-700 px-6">
+                                      <Button type="submit" className="bg-red-600 hover:bg-red-700 px-6 cursor-pointer">
                                         Submit Review
                                       </Button>
                                     </div>

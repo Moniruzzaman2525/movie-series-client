@@ -4,7 +4,7 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 export const createReview = async (data:TReview) => {
-    const res=await fetch(`${process.env.SERVER_URL}/reviews/create-review`,{
+    const res=await fetch(`${process.env.SERVER_URL}/reviews`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json",

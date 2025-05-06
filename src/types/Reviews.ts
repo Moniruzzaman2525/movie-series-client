@@ -1,5 +1,5 @@
 export type TReview={
-    ratting:number,
+    rating:number,
     content:string,
     videoId:string
 }
