@@ -10,30 +10,10 @@ import { toast } from "sonner"
 import Swal from "sweetalert2"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { IComment } from "@/types"
 
 
-export interface IComment {
-    id: string
-    userId: string
-    videoId: string
-    status: string
-    content: string
-    createdAt: string
-    reviewId?: string
-    parentCommentId?: string
-    user: User
-}
 
-export interface User {
-    id: string
-    name: string
-    email: string
-    password: string
-    role: string
-    createAt: string
-    updateAt: string
-    isDeleted: boolean
-}
 interface AllUserTableProps {
     data: {
         data: IComment[]

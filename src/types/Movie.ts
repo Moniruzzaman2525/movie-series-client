@@ -1,5 +1,5 @@
 export interface MovieCardProps {
-     id:string,
+     id: string,
      title: string;
      genre: string;
      thumbnailImage: string;
@@ -8,9 +8,11 @@ export interface MovieCardProps {
      director: string;
      streamingPlatform: string;
      price: number;
-     rating: number;
-     category:string
+     overallRating: number;
+     category: string
      key?: number;
      liked?: boolean;
-     like: number
+     like: number;
+     inWatchList: boolean;
+     totalComments: number
 }
