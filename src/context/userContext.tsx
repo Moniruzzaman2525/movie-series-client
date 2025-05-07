@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { getCurrentUser } from "@/service/Auth";
 import { IUser } from "@/types/user";
@@ -13,6 +14,7 @@ import {
 } from "react";
 
 interface IUserProviderValues {
+     [x: string]: any;
      user: IUser | null;
      isLoading: boolean;
      setUser: (user: IUser | null) => void;
