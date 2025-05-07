@@ -14,5 +14,5 @@ export interface MovieCardProps {
      liked?: boolean;
      like: number;
      inWatchList: boolean;
-     totalComments: number
+     totalComments: number;
 }
