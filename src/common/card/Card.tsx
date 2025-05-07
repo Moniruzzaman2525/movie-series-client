@@ -13,9 +13,6 @@ import { toast } from "sonner"
 import { addWatchList } from "@/service/WatchList"
 
 const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
-
-     console.log(movie)
-
      const { user } = useUser()
      const [showCommentModal, setShowCommentModal] = useState(false)
      const [showLoginModal, setShowLoginModal] = useState(false)
@@ -168,7 +165,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                          aria-label="Comment"
                     >
                          <MessageCircle className="h-5 w-5" />
-                         <span className="text-sm">Comment</span>
+                         <span className="text-sm">{movie.totalComments} Comment</span>
                     </button>
                     <button
                          onClick={handleWishlistToggle}
