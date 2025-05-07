@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 import type { TReview } from "@/types/Reviews";
 import { revalidateTag } from "next/cache";
@@ -40,6 +41,22 @@ export const deleteReview = async (id:string) => {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         cache:'no-cache'
+    });
+
+    const result=await res.json();
+    revalidateTag('reviews')
+    return result;
+}
+
+export const replyToReview=async(payload:Partial<TReview>)=>{
+    const res=await fetch(`${process.env.SERVER_URL}/comments`,{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        body:JSON.stringify(payload),
+        cache:'no-cache',
     });
 
     const result=await res.json();

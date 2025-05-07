@@ -11,13 +11,16 @@ import { useForm } from "react-hook-form"
 import { FaHeart, FaReply, FaThumbsDown } from "react-icons/fa6"
 import { AnimatePresence, motion } from "framer-motion"
 import { StarIcon } from "@radix-ui/react-icons"
+import { likeReview } from "@/service/Like"
+import { replyToReview } from "@/service/Reviews"
 
 const Review = ({ data, index }: { data: any; index: number }) => {
+  console.log(data);
   const [activeReplyIndex, setActiveReplyIndex] = useState<null | number>(null)
-  const [liked, setLiked] = useState(false)
+  const [liked, setLiked] = useState(data.like)
   const [disliked, setDisliked] = useState(false)
   const [likesCount, setLikesCount] = useState(data?.likes || 0)
-
+  const [loading,setLoading]=useState(false)
   const replyForm = useForm({
     defaultValues: {
       reply: "",
@@ -25,21 +28,27 @@ const Review = ({ data, index }: { data: any; index: number }) => {
   })
 
   const handleSubmitReply = async (formData: any) => {
-    console.log(formData)
+  try{
+    const replyData = {
+      reviewId: data?.id,
+      content: formData.reply,
+    }
+    const result=await replyToReview(replyData)
+    console.log(result)
     replyForm.reset()
     setActiveReplyIndex(null)
+  }catch(error){
+
+  }
   }
 
-  const handleLike = () => {
-    if (liked) {
-      setLikesCount(likesCount - 1)
-    } else {
-      setLikesCount(likesCount + 1)
-      if (disliked) {
-        setDisliked(false)
-      }
+  const handleLike = async() => {
+    const reviewData={
+      reviewId:data?.id,
     }
-    setLiked(!liked)
+    console.log(reviewData);
+     const result=await likeReview(reviewData)
+     console.log(result)
   }
 
   const handleDislike = () => {
@@ -94,13 +103,13 @@ const Review = ({ data, index }: { data: any; index: number }) => {
       </div>
 
       <div className="flex items-center gap-6 text-sm border-t border-gray-800 pt-4">
-        <button className="flex items-center gap-2 rounded-full px-4 py-2 text-gray-400 hover:text-pink-500 hover:bg-gray-800/50 transition-colors">
+        <button onClick={handleLike} className="flex items-center gap-2 rounded-full px-4 py-2 text-gray-400 hover:text-pink-500 hover:bg-gray-800/50 transition-colors">
           <FaHeart className="h-4 w-4 cursor-pointer" />
-          <span className="font-medium">{data?.likes} Likes</span>
+          <span className="font-medium">{data?.like}</span>
         </button>
         <button className="flex items-center gap-2 rounded-full px-4 py-2 text-gray-400 hover:text-blue-500 hover:bg-gray-800/50 transition-colors">
-          <FaThumbsDown className="h-4 w-4 cursor-pointer" />
-          <span className="font-medium">Dislike</span>
+          <FaThumbsDown className="h-4 w-4 cursor-pointer"/>
+          <span className="font-medium">{data?.dislike}Dislike</span>
         </button>
         <button
           onClick={() => setActiveReplyIndex(activeReplyIndex === index ? null : index)}
