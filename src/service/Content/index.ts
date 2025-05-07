@@ -49,6 +49,24 @@ export const getTopRatedThisWeek = async () => {
     const result = await res.json();
     return result.data;
 }
+export const getNewlyAdded = async () => {
+
+
+    const res = await fetch(`${process.env.SERVER_URL}/content/get-newly-added`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        next: {
+            tags: ["movies"]
+        },
+        cache: "no-store"
+    });
+
+    const result = await res.json();
+    return result.data;
+}
 
 export const getContentById = async (id: string) => {
     const res = await fetch(`${process.env.SERVER_URL}/content/${id}`, {
