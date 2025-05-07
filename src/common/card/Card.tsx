@@ -1,5 +1,6 @@
 "use client";
 
+<<<<<<< HEAD
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,6 +12,19 @@ import { useUser } from "@/context/userContext";
 import LoginPrompt from "./LoginPrompt";
 import { likeVideo } from "@/service/Like";
 import { toast } from "sonner";
+=======
+import { useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import type { MovieCardProps } from "@/types/Movie"
+import { Bookmark, Heart, MessageCircle, Star } from "lucide-react"
+import Comment from "@/components/ui/core/Modal/Comment"
+import { useUser } from "@/context/userContext"
+import LoginPrompt from "./LoginPrompt"
+import { likeVideo } from "@/service/Like"
+import { toast } from "sonner"
+import { addWatchList } from "@/service/WatchList"
+>>>>>>> ff5aeec854b4bf86e073e82a7d8fe9f98abd5431
 
 const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
      const { user } = useUser();
@@ -52,6 +66,59 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
           }
           setShowCommentModal(true);
      };
+
+
+     const handleWishlistToggle = async () => {
+          if (!user) {
+               setLoginAction("like")
+               setShowLoginModal(true)
+               return
+          }
+          const data = {
+               videoId: movie.id
+          }
+          const res = await addWatchList(data)
+          if (res.success) {
+               toast.success(res.message)
+          }
+
+     }
+
+     const renderStarRating = (rating: number) => {
+          const maxVisibleStars = 5
+
+          const normalizedRating = rating / 2
+
+          return (
+               <div className="flex items-center">
+                    {Array.from({ length: maxVisibleStars }).map((_, index) => {
+
+                         const isHalfStar = index < normalizedRating && index + 1 > normalizedRating
+
+                         const isFullStar = index + 1 <= normalizedRating
+
+                         return (
+                              <div key={index} className="relative">
+                                   {isHalfStar ? (
+
+                                        <div className="relative">
+                                             <Star className="h-4 w-4 text-gray-300" />
+                                             <div className="absolute top-0 left-0 w-1/2 overflow-hidden">
+                                                  <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                                             </div>
+                                        </div>
+                                   ) : (
+
+                                        <Star className={`h-4 w-4 ${isFullStar ? "text-yellow-500 fill-yellow-500" : "text-gray-300"}`} />
+                                   )}
+                              </div>
+                         )
+                    })}
+                    <span className="ml-2 text-sm font-medium">{rating}/10</span>
+               </div>
+          )
+     }
+
 
      return (
           <motion.div
@@ -108,6 +175,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                          </motion.div>
                     </div>
 
+<<<<<<< HEAD
                     {/* Movie Details */}
                     <div className="grid grid-cols-2 gap-2 text-sm text-neutral-600 dark:text-neutral-300">
                          <div className="flex items-center gap-1">
@@ -127,6 +195,23 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                               <span className="text-green-600 dark:text-green-400 font-bold">
                                    ${movie?.price}
                               </span>
+=======
+                    <div className="text-sm text-neutral-600 dark:text-neutral-300 space-y-1">
+                         <p>
+                              <strong>Genre:</strong> {movie?.genre}
+                         </p>
+                         <p>
+                              <strong>Director:</strong> {movie?.director}
+                         </p>
+                         <p>
+                              <strong>Platform:</strong> {movie?.streamingPlatform}
+                         </p>
+                         <p>
+                              <strong>Price:</strong> ${movie?.price}
+                         </p>
+                         <div>
+                              <strong>Rating:</strong> {renderStarRating(movie?.overallRating || 0)}
+>>>>>>> ff5aeec854b4bf86e073e82a7d8fe9f98abd5431
                          </div>
                     </div>
                </div>
@@ -153,6 +238,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                               </span>
                          </motion.button>
 
+<<<<<<< HEAD
                          <motion.button
                               whileTap={{ scale: 0.95 }}
                               onClick={handleCommentClick}
@@ -185,6 +271,26 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                               <span className="text-sm">${movie?.price}</span>
                          </motion.button>
                     </div>
+=======
+                    <button
+                         onClick={handleCommentClick}
+                         className="flex items-center gap-1 cursor-pointer text-neutral-500 dark:text-neutral-400"
+                         aria-label="Comment"
+                    >
+                         <MessageCircle className="h-5 w-5" />
+                         <span className="text-sm">{movie.totalComments} Comment</span>
+                    </button>
+                    <button
+                         onClick={handleWishlistToggle}
+                         className="flex items-center gap-1 cursor-pointer text-neutral-500 dark:text-neutral-400"
+                         aria-label={movie.inWatchList ? "Remove from wishlist" : "Add to wishlist"}
+                    >
+                         <Bookmark
+                              className={`h-5 w-5 ${movie.inWatchList ? "fill-yellow-500 text-yellow-500" : "text-neutral-500 dark:text-neutral-400"}`}
+                         />
+                         <span className="text-sm">Wishlist</span>
+                    </button>
+>>>>>>> ff5aeec854b4bf86e073e82a7d8fe9f98abd5431
                </div>
 
                {/* Modals */}
