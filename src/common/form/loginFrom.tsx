@@ -7,10 +7,11 @@ import Image from "next/image"; // Assuming you're using Next.js
 import Link from "next/link";
 import { toast } from "sonner";
 import { forgotPass, loginUser } from "@/service/Auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useUser } from "@/context/userContext";
 
 export default function LoginForm() {
+     const redirectPage = useSearchParams().get("redirectPath")
      const {
           register,
           handleSubmit,
@@ -33,7 +34,12 @@ export default function LoginForm() {
                    if (result.success) {
 
                         toast.success(result.message, { id });
-                        router.push("/");
+                        if (redirectPage){
+                             router.push(redirectPage)
+                        }
+                        else{
+                             router.push("/");
+                        }
 
                         reset();
                    } else {
