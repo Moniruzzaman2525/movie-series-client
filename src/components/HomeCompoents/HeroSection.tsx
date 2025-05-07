@@ -11,6 +11,7 @@ import { Autoplay, EffectFade } from 'swiper/modules';
 
 // Import Swiper styles
 import 'swiper/css';
+// import 'swiper/swiper.scss';
 import 'swiper/css/effect-fade';
 
 const HeroSection = () => {

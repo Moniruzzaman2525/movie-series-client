@@ -4,12 +4,11 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { motion } from 'framer-motion';
 import Review from "@/components/HomeCompoents/Details/review";
-import CommentComponent from "@/components/HomeCompoents/Details/comment";
 import PostReview from "@/components/HomeCompoents/Details/PostReview";
-import PostComment from "@/components/HomeCompoents/Details/PostComment";
 import { makePayment } from "@/service/Payments";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import UpdatedComment from "@/components/HomeCompoents/Details/UpdateComment";
 const tabs = ["Reviews", "Comments", "Send Review"];
 
 const Details = ({ movieData }: {
@@ -128,15 +127,7 @@ const Details = ({ movieData }: {
 
                               {/* for comments section */}
                               {activeTab === "Comments" && (
-                                   <div className="space-y-6 max-w-full">
-                                        <h1 className="text-2xl font-semibold text-white">Comments <span>({movieData?.Comment?.length})</span></h1>
-                                        {movieData.Comment?.map((data: any, i) => (
-                                            <CommentComponent data={data} index={i} key={i} />
-                                        ))}
-
-
-                                      <PostComment movieData={movieData}/>
-                                   </div>
+                                  <UpdatedComment movie={movieData}/>
                               )}
 
                               {activeTab === "Send Review" && (

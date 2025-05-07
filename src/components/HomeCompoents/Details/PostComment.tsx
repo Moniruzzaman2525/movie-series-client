@@ -13,7 +13,6 @@ const PostComment = ({movieData}:{movieData:any}) => {
         }
    });
 
-
    const handleSubmitComment = async (data: any) => {
         const id = toast.loading('posting.....')
         try {
