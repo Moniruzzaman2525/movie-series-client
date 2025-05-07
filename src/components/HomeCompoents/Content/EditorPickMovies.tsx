@@ -2,7 +2,7 @@
 
 
 import { getAllContent } from '@/service/content';
-import NewlyAdded from './NewlyAdded';
+import EditorsPick from './EditorsPick';
 
 const EditorPickMovies = async () => {
 
@@ -10,7 +10,7 @@ const EditorPickMovies = async () => {
 
     return (
         <div>
-            <NewlyAdded data={result.data} />
+            <EditorsPick data={result.data} />
         </div>
     );
 };
