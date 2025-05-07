@@ -133,7 +133,7 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
                         <h4 className="font-medium text-sm text-gray-500 dark:text-gray-400 mb-4">{comments?.length} Comments</h4>
 
                         <div className="space-y-6">
-                            {comments.map((comment) => (
+                            {comments?.map((comment) => (
                                 <div key={comment.id} className="space-y-4">
                                     <div className="flex gap-3">
                                         <Avatar>
