@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { addWatchList } from "@/service/WatchList";
 
 const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
+
      const { user } = useUser();
      const [showCommentModal, setShowCommentModal] = useState(false);
      const [showLoginModal, setShowLoginModal] = useState(false);
@@ -83,7 +84,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                               <div key={index} className="relative">
                                    {isHalfStar ? (
                                         <div className="relative">
-                                             <Star className="h-4 w-4 text-gray-300" />
+                                             <Star className="h-4 w-4 text-yellow-500" />
                                              <div className="absolute top-0 left-0 w-1/2 overflow-hidden">
                                                   <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
                                              </div>
@@ -91,8 +92,8 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                                    ) : (
                                         <Star
                                              className={`h-4 w-4 ${isFullStar
-                                                       ? "text-yellow-500 fill-yellow-500"
-                                                       : "text-gray-300"
+                                                  ? "text-yellow-500 fill-yellow-500"
+                                                  : "text-yellow-500"
                                                   }`}
                                         />
                                    )}
@@ -181,8 +182,8 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                          >
                               <Heart
                                    className={`h-5 w-5 ${movie.liked
-                                             ? "fill-red-500 text-red-500 animate-pulse"
-                                             : "text-neutral-500 dark:text-neutral-400"
+                                        ? "fill-red-500 text-red-500 animate-pulse"
+                                        : "text-neutral-500 dark:text-neutral-400"
                                         }`}
                               />
                               <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
@@ -208,8 +209,8 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                          >
                               <Bookmark
                                    className={`h-5 w-5 ${movie.inWatchList
-                                             ? "fill-yellow-500 text-yellow-500"
-                                             : "text-neutral-500 dark:text-neutral-400"
+                                        ? "fill-yellow-500 text-yellow-500"
+                                        : "text-neutral-500 dark:text-neutral-400"
                                         }`}
                               />
                               <span className="text-sm">Wishlist</span>

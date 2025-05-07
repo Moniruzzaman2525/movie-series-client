@@ -1,5 +1,4 @@
-export interface MovieCardProps {
-     rating: ReactNode;
+export interface overallRating {
      id: string,
      title: string;
      genre: string;
@@ -16,4 +15,5 @@ export interface MovieCardProps {
      like: number;
      inWatchList: boolean;
      totalComments: number;
+     EditorsPick: []
 }
