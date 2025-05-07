@@ -10,8 +10,12 @@ import { useUser } from "@/context/userContext"
 import LoginPrompt from "./LoginPrompt"
 import { likeVideo } from "@/service/Like"
 import { toast } from "sonner"
+import { addWatchList } from "@/service/WatchList"
 
 const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
+
+     console.log(movie)
+
      const { user } = useUser()
      const [showCommentModal, setShowCommentModal] = useState(false)
      const [showLoginModal, setShowLoginModal] = useState(false)
@@ -62,7 +66,13 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                setShowLoginModal(true)
                return
           }
-
+          const data = {
+               videoId: movie.id
+          }
+          const res = await addWatchList(data)
+          if (res.success) {
+               toast.success(res.message)
+          }
 
      }
 
@@ -98,7 +108,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                               <strong>Price:</strong> ${movie?.price}
                          </p>
                          <p>
-                              <strong>Rating:</strong> ⭐ {movie?.rating}
+                              <strong>Rating:</strong> ⭐ {movie?.overallRating}
                          </p>
                     </div>
                </div>
@@ -127,10 +137,10 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                     <button
                          onClick={handleWishlistToggle}
                          className="flex items-center gap-1 cursor-pointer text-neutral-500 dark:text-neutral-400"
-                         aria-label={movie.inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                         aria-label={movie.inWatchList ? "Remove from wishlist" : "Add to wishlist"}
                     >
                          <Bookmark
-                              className={`h-5 w-5 ${movie.inWishlist ? "fill-yellow-500 text-yellow-500" : "text-neutral-500 dark:text-neutral-400"}`}
+                              className={`h-5 w-5 ${movie.inWatchList ? "fill-yellow-500 text-yellow-500" : "text-neutral-500 dark:text-neutral-400"}`}
                          />
                          <span className="text-sm">Wishlist</span>
                     </button>
