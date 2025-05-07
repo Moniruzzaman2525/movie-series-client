@@ -111,7 +111,7 @@ const Navbar = () => {
           </div>
           <div>
             {
-              user?.role === "ADMIN" && <Link href={'/dashboard/admin/payment'}>Dashboard</Link>
+              user?.role === "ADMIN" && <Link href={'/dashboard/alluser'}>Dashboard</Link>
             }
           </div>
         </div>
