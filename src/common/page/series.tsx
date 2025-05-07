@@ -5,8 +5,8 @@ import { useEffect, useState, useCallback } from "react";
 
 import { MovieCardProps } from "@/types/Movie";
 import GenresList from "../card/Filterbar";
-import SeriesCard from "../card/SeriesCard";
 import { getAllContent } from "@/service/Content";
+import ReusableCard from "../card/Card";
 
 const SeriesSearch = () => {
      const [searchTerm, setSearchTerm] = useState("");
@@ -45,7 +45,6 @@ const SeriesSearch = () => {
           seERIESData();
      }, [seERIESData]);
 
-     console.log(data)
 
      const itemsPerPage = 6;
      const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -134,7 +133,7 @@ const SeriesSearch = () => {
                          {!loading && !error &&
                               paginatedMovies.map((movie, index) => (
                                    <div key={index}>
-                                        <SeriesCard series={movie} />
+                                        <ReusableCard movie={movie} />
                                    </div>
                               ))}
                     </div>

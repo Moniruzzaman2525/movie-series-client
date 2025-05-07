@@ -1,28 +1,26 @@
-
 "use client"
 
-import React, { useState, useEffect } from "react"
+import type React from "react"
+import { useState, useEffect } from "react"
 import { MessageSquare, Send, X } from "lucide-react"
-import { Avatar } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { getVideoComments } from "@/service/Comments"
-import { Comment, CommentProps } from "@/types"
-
+import { createComment, getVideoComments } from "@/service/Comments"
+import type { IComment, CommentProps } from "@/types"
+import { formatDistanceToNow } from "date-fns"
 
 const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) => {
-    const [comments, setComments] = useState<Comment[]>([])
+    const [comments, setComments] = useState<IComment[]>([])
     const [newComment, setNewComment] = useState("")
     const [replyingTo, setReplyingTo] = useState<string | null>(null)
     const [replyContent, setReplyContent] = useState("")
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
-
     const fetchComments = async () => {
         try {
             const response = await getVideoComments(movie?.id || "")
-
             console.log(response)
             setComments(response?.data)
             setLoading(false)
@@ -31,56 +29,61 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
             setLoading(false)
         }
     }
+
     useEffect(() => {
         fetchComments()
     }, [])
 
-    console.log(comments)
-
-    const handleSubmitComment = (e: React.FormEvent) => {
+    const handleSubmitComment = async (e: React.FormEvent) => {
         e.preventDefault()
         if (!newComment.trim()) return
 
-        const newCommentObj = {
-            id: `${comments.length + 1}`,
-            author: "You",
-            avatar: "/placeholder.svg?height=40&width=40",
+        const data = {
+            videoId: movie?.id || "",
             content: newComment,
-            timestamp: "Just now",
-            likes: 0,
-            replies: [],
         }
-
-        setComments([newCommentObj, ...comments])
-        setNewComment("")
+        const res = await createComment(data)
+        if (res.success) {
+            fetchComments()
+            setNewComment("")
+        }
     }
 
-    const handleSubmitReply = (commentId: string) => {
+    const handleSubmitReply = async (commentId: string) => {
         if (!replyContent.trim()) return
 
-        const newReply = {
-            id: `${commentId}-${Math.random().toString(36).substr(2, 9)}`,
-            author: "You",
-            avatar: "/placeholder.svg?height=40&width=40",
+        const data = {
+            videoId: movie?.id || "",
             content: replyContent,
-            timestamp: "Just now",
-            likes: 0,
+            parentCommentId: commentId,
         }
-
-        const updatedComments = comments.map((comment) => {
-            if (comment.id === commentId) {
-                return {
-                    ...comment,
-                    replies: [...(comment.replies || []), newReply],
-                }
-            }
-            return comment
-        })
-
-        setComments(updatedComments)
-        setReplyingTo(null)
-        setReplyContent("")
+        const res = await createComment(data)
+        if (res.success) {
+            fetchComments()
+            setReplyingTo(null)
+            setReplyContent("")
+        }
     }
+
+    const CommentSkeleton = () => (
+        <div className="space-y-4 animate-pulse">
+            <div className="flex gap-3">
+                <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                        <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                        <div className="h-3 w-16 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                    </div>
+                    <div className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded mb-1"></div>
+                    <div className="h-4 w-3/4 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                    <div className="flex items-center gap-4 mt-2">
+                        <div className="h-3 w-10 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                        <div className="h-3 w-14 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -115,7 +118,14 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
                 </form>
 
                 {loading ? (
-                    <div>Loading comments...</div>
+                    <div className="overflow-y-auto flex-1 pr-2">
+                        <div className="h-5 w-32 bg-gray-200 dark:bg-gray-700 rounded mb-4 animate-pulse"></div>
+                        <div className="space-y-6">
+                            <CommentSkeleton />
+                            <CommentSkeleton />
+                            <CommentSkeleton />
+                        </div>
+                    </div>
                 ) : error ? (
                     <div className="text-red-500">{error}</div>
                 ) : (
@@ -126,13 +136,17 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
                             {comments.map((comment) => (
                                 <div key={comment.id} className="space-y-4">
                                     <div className="flex gap-3">
-                                        <Avatar className="h-10 w-10 rounded-full">
-                                            <img src={comment.avatar || "/placeholder.svg"} alt={comment.author} />
+                                        <Avatar>
+                                            <AvatarImage src="https://github.com/shadcn.png" />
+                                            <AvatarFallback>CN</AvatarFallback>
                                         </Avatar>
+
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2 mb-1">
-                                                <h5 className="font-medium text-gray-900 dark:text-white">{comment.author}</h5>
-                                                <span className="text-xs text-gray-500 dark:text-gray-400">{comment.timestamp}</span>
+                                                <h5 className="font-medium text-gray-900 dark:text-white">{comment.user.name}</h5>
+                                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                    {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
+                                                </span>
                                             </div>
                                             <p className="text-gray-700 dark:text-gray-300">{comment.content}</p>
                                             <div className="flex items-center gap-4 mt-2">
@@ -166,18 +180,20 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
                                         </div>
                                     </div>
 
-                                    {/* Replies */}
                                     {comment.replies && comment.replies.length > 0 && (
                                         <div className="ml-12 space-y-4 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
                                             {comment.replies.map((reply) => (
                                                 <div key={reply.id} className="flex gap-3">
-                                                    <Avatar className="h-8 w-8 rounded-full">
-                                                        <img src={reply.avatar || "/placeholder.svg"} alt={reply.author} />
+                                                    <Avatar>
+                                                        <AvatarImage src="https://github.com/shadcn.png" />
+                                                        <AvatarFallback>CN</AvatarFallback>
                                                     </Avatar>
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-2 mb-1">
-                                                            <h5 className="font-medium text-gray-900 dark:text-white">{reply.author}</h5>
-                                                            <span className="text-xs text-gray-500 dark:text-gray-400">{reply.timestamp}</span>
+                                                            <h5 className="font-medium text-gray-900 dark:text-white">{reply.user.name}</h5>
+                                                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                                {formatDistanceToNow(new Date(reply.createdAt), { addSuffix: true })}
+                                                            </span>
                                                         </div>
                                                         <p className="text-gray-700 dark:text-gray-300 text-sm">{reply.content}</p>
                                                         <div className="flex items-center gap-4 mt-2">

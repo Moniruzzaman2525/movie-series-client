@@ -4,12 +4,13 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import type { MovieCardProps } from "@/types/Movie"
-import { Heart, MessageCircle } from "lucide-react"
+import { Bookmark, Heart, MessageCircle, Star } from "lucide-react"
 import Comment from "@/components/ui/core/Modal/Comment"
 import { useUser } from "@/context/userContext"
 import LoginPrompt from "./LoginPrompt"
 import { likeVideo } from "@/service/Like"
 import { toast } from "sonner"
+import { addWatchList } from "@/service/WatchList"
 
 const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
      const { user } = useUser()
@@ -55,6 +56,59 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
           setShowCommentModal(true)
      }
 
+
+     const handleWishlistToggle = async () => {
+          if (!user) {
+               setLoginAction("like")
+               setShowLoginModal(true)
+               return
+          }
+          const data = {
+               videoId: movie.id
+          }
+          const res = await addWatchList(data)
+          if (res.success) {
+               toast.success(res.message)
+          }
+
+     }
+
+     const renderStarRating = (rating: number) => {
+          const maxVisibleStars = 5
+
+          const normalizedRating = rating / 2
+
+          return (
+               <div className="flex items-center">
+                    {Array.from({ length: maxVisibleStars }).map((_, index) => {
+
+                         const isHalfStar = index < normalizedRating && index + 1 > normalizedRating
+
+                         const isFullStar = index + 1 <= normalizedRating
+
+                         return (
+                              <div key={index} className="relative">
+                                   {isHalfStar ? (
+
+                                        <div className="relative">
+                                             <Star className="h-4 w-4 text-gray-300" />
+                                             <div className="absolute top-0 left-0 w-1/2 overflow-hidden">
+                                                  <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                                             </div>
+                                        </div>
+                                   ) : (
+
+                                        <Star className={`h-4 w-4 ${isFullStar ? "text-yellow-500 fill-yellow-500" : "text-gray-300"}`} />
+                                   )}
+                              </div>
+                         )
+                    })}
+                    <span className="ml-2 text-sm font-medium">{rating}/10</span>
+               </div>
+          )
+     }
+
+
      return (
           <div className="flex flex-col h-full justify-between border bg-gray-50 dark:bg-black dark:border-white/20 border-black/10 w-full rounded-xl p-3 overflow-hidden shadow hover:shadow-lg transition-shadow">
                <div className="space-y-3">
@@ -86,9 +140,9 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                          <p>
                               <strong>Price:</strong> ${movie?.price}
                          </p>
-                         <p>
-                              <strong>Rating:</strong> ⭐ {movie?.rating}
-                         </p>
+                         <div>
+                              <strong>Rating:</strong> {renderStarRating(movie?.overallRating || 0)}
+                         </div>
                     </div>
                </div>
 
@@ -111,7 +165,17 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                          aria-label="Comment"
                     >
                          <MessageCircle className="h-5 w-5" />
-                         <span className="text-sm">Comment</span>
+                         <span className="text-sm">{movie.totalComments} Comment</span>
+                    </button>
+                    <button
+                         onClick={handleWishlistToggle}
+                         className="flex items-center gap-1 cursor-pointer text-neutral-500 dark:text-neutral-400"
+                         aria-label={movie.inWatchList ? "Remove from wishlist" : "Add to wishlist"}
+                    >
+                         <Bookmark
+                              className={`h-5 w-5 ${movie.inWatchList ? "fill-yellow-500 text-yellow-500" : "text-neutral-500 dark:text-neutral-400"}`}
+                         />
+                         <span className="text-sm">Wishlist</span>
                     </button>
                </div>
 
