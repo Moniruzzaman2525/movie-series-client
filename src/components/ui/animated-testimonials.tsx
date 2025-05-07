@@ -4,7 +4,6 @@ import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import SectionTitle from "../Shared/SectionTitle/SectionTitle";
 
 type Testimonial = {
   quote: string;
@@ -50,10 +49,9 @@ export const AnimatedTestimonials = ({
 
   return (
     <div className="bg-black">
-      <SectionTitle text="Testimonials" subText="What our customers say" />
-      <div className="mx-auto max-w-5xl px-4 py-20 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
+      <div className="mx-auto max-w-5xl px-4 py-20 font-sans antialiased  md:px-8 lg:px-12">
         <div>
-          <div className="relative grid grid-cols-1 gap-20 md:grid-cols-2">
+          <div className="relative grid grid-cols-1 gap-20 md:grid-cols-2 justify-center items-center">
             <div className="relative h-80 w-full mb-10">
               <AnimatePresence mode="wait">
                 {testimonials.map((testimonial, index) => (

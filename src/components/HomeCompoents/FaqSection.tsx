@@ -3,31 +3,37 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import SectionTitle from "../Shared/SectionTitle/SectionTitle";
+
 const faqs = [
   {
-    question: "How do I create an account?",
+    question: "How do I create a StreamVista account?",
     answer:
-      "To create an account, click the “Sign Up” button on the homepage, enter your email address, choose a password, and follow the on-screen instructions to complete the registration process.",
+      "To start your cinematic journey, click the 'Join Now' button on our homepage. Enter your details, choose your preferred subscription plan, and you'll be ready to explore our vast library of movies and TV series in minutes!",
   },
   {
-    question: "How can I make a payment using SSLCommerz?",
+    question: "What payment methods are accepted for subscriptions?",
     answer:
-      "During checkout, select SSLCommerz as your payment method. You’ll be redirected to SSLCommerz to securely complete your transaction before returning to the site.",
+      "We accept all major credit cards, PayPal, and cryptocurrency. For our users in supported regions, you can also pay via SSLCommerz for secure, hassle-free transactions. Your payment information is always encrypted for maximum security.",
   },
   {
-    question: "Can I cancel my subscription at any time?",
+    question: "Can I download movies and series for offline viewing?",
     answer:
-      "Yes, you can cancel your subscription at any time from your account settings. You will continue to have access to the service until the end of your current billing cycle.",
+      "Absolutely! Our Premium plan allows you to download up to 100 titles across 5 devices. Watch your favorite blockbusters and binge-worthy series anywhere, anytime - perfect for flights or commutes!",
   },
   {
-    question: "How do I contact customer support?",
+    question: "How does the 4K Ultra HD streaming work?",
     answer:
-      "You can contact our support team via the “Help Center” or by emailing support@streamflix.com. We aim to respond to all inquiries within 24 hours.",
+      "Our Premium plan delivers stunning 4K HDR quality with Dolby Atmos sound (where available). You'll need a 4K-capable device, at least 25Mbps internet connection, and our latest app version for the ultimate home theater experience.",
   },
   {
-    question: "Can I stream movies and series on multiple devices?",
+    question: "What's the difference between Basic and Premium plans?",
     answer:
-      "Absolutely. Depending on your subscription plan, you can stream content on up to 4 devices simultaneously. Our Basic plan allows 1 stream, Standard allows 2, and Premium supports 4 concurrent streams. All plans support HD, while Premium includes 4K Ultra HD where available.",
+      "Basic gives you HD streaming on 1 screen. Standard upgrades to 2 screens with Full HD. Premium unlocks 4 screens, 4K Ultra HD, offline downloads, and exclusive early access to new releases. All plans include our entire catalog of 20,000+ titles!",
+  },
+  {
+    question: "Are new movie releases available immediately?",
+    answer:
+      "We add new theatrical releases as soon as they're available for streaming (typically 45-60 days after cinema debut). Premium members get exclusive 48-hour early access to select blockbusters - follow our 'Coming Soon' section for updates!",
   },
 ];
 
@@ -40,91 +46,114 @@ const FaqSection: React.FC = () => {
   };
 
   return (
-    <div className="py-10 bg-black sm:py-16 lg:py-24">
-      <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+    <div className="py-16 bg-black sm:py-20 lg:py-28 relative overflow-hidden">
+      {/* Glowing background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-20 -left-20 w-96 h-96 bg-purple-900 rounded-full filter blur-3xl opacity-20 mix-blend-multiply animate-pulse"></div>
+        <div className="absolute -bottom-40 -right-20 w-96 h-96 bg-blue-900 rounded-full filter blur-3xl opacity-20 mix-blend-multiply animate-pulse delay-1000"></div>
+      </div>
+
+      <div className="relative px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl z-10">
         <SectionTitle
-          text="Frequently Asked Questions"
-          subText="Do you have any questions?"
+          text="StreamVista Help Center"
+          subText="Your Questions, Answered"
+       
         />
 
-        <div className="max-w-3xl mx-auto mt-8 space-y-4 md:mt-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl mx-auto mt-12 space-y-6 md:mt-20"
+        >
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
 
             return (
-              <div key={index}>
-                <motion.section
-                  initial={{ opacity: 0, y: -40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8 }}
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="overflow-hidden rounded-xl bg-gradient-to-r from-gray-900 to-gray-800 border border-gray-700 shadow-2xl transition-all duration-300 hover:shadow-purple-500/20"
+              >
+                <button
+                  type="button"
+                  onClick={() => toggleFAQ(index)}
+                  className="flex items-center justify-between w-full px-6 py-5 sm:p-7 group"
                 >
-                  <div
-                    key={index}
-                    className="transition-all duration-200 bg-gray-500 border border-gray-600 shadow-lg cursor-pointer hover:bg-gray-500 text-white"
-                  >
-                    <motion.section
-                      initial={{ opacity: 0, y: -40 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8 }}
+                  <span className="flex text-xl font-bold text-left text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 group-hover:from-purple-300 group-hover:to-blue-300 transition-colors duration-300">
+                    {faq.question}
+                  </span>
+                  <div className="flex-shrink-0 ml-4">
+                    <svg
+                      className={`w-7 h-7 text-purple-400 transform transition-all duration-300 ${isOpen ? "rotate-180" : ""
+                        }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
                     >
-                      <button
-                        type="button"
-                        onClick={() => toggleFAQ(index)}
-                        className="flex items-center justify-between w-full px-4 py-5 sm:p-6"
-                      >
-                        <span className="flex text-lg font-semibold ">
-                          {faq.question}
-                        </span>
-                        <svg
-                          className={`w-6 h-6 text-gray-400 transform transition-transform duration-300 ${
-                            isOpen ? "rotate-180" : ""
-                          }`}
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                          />
-                        </svg>
-                      </button>
-
-                      <div
-                        ref={(el) => {
-                          contentRefs.current[index] = el;
-                        }}
-                        className="overflow-hidden transition-all duration-300 ease-in-out"
-                        style={{
-                          maxHeight: isOpen
-                            ? `${contentRefs.current[index]?.scrollHeight}px`
-                            : "0px",
-                        }}
-                      >
-                        <div className="px-4 pb-5 sm:px-6 sm:pb-6">
-                          <p>{faq.answer} </p>
-                        </div>
-                      </div>
-                    </motion.section>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
                   </div>
-                </motion.section>
-              </div>
+                </button>
+
+                <div
+                  ref={(el) => {
+                    contentRefs.current[index] = el;
+                  }}
+                  className="overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]"
+                  style={{
+                    maxHeight: isOpen
+                      ? `${contentRefs.current[index]?.scrollHeight}px`
+                      : "0px",
+                  }}
+                >
+                  <div className="px-6 pb-7 sm:px-7">
+                    <p className="text-lg text-gray-300 leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
-        <p className="text-center text-gray-200 text-base mt-9">
-          Didn’t find the answer you are looking for?{" "}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          className="mt-16 text-center"
+        >
+          <p className="text-xl text-gray-400">
+            Need more help with your streaming experience?
+          </p>
           <a
             href="#"
-            className="font-medium text-blue-600 transition-all duration-200 hover:text-blue-700 hover:underline"
+            className="inline-flex items-center mt-4 text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 hover:from-purple-300 hover:to-blue-300 transition-colors duration-300 group"
           >
-            Contact our support
+            Contact Our Binge-Watching Support Team
+            <svg
+              className="w-5 h-5 ml-2 text-purple-400 group-hover:text-blue-300 transition-colors duration-300"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
           </a>
-        </p>
+        </motion.div>
       </div>
     </div>
   );

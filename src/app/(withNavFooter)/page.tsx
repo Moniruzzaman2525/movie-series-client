@@ -6,6 +6,7 @@ import HeroSection from "@/components/HomeCompoents/HeroSection";
 import TopRatedMoviesPage from "@/components/HomeCompoents/Content/TopRatedMoviesPage";
 import NewlyAddedMovies from "@/components/HomeCompoents/Content/NewlyAddedMovies";
 import EditorPickMovies from "@/components/HomeCompoents/Content/EditorPickMovies";
+import SubscriptionPage from "@/components/HomeCompoents/Subscription";
 
 
 const HomePage = () => {
@@ -18,6 +19,7 @@ const HomePage = () => {
       <EditorPickMovies />
       <FaqSection />
       <AnimatedTestimonialsDemo />
+      <SubscriptionPage></SubscriptionPage>
     </div>
   );
 };
