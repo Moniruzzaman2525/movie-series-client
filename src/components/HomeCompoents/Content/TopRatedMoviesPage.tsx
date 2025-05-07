@@ -1,11 +1,12 @@
 
 
-import { getAllContent } from '@/service/Content';
+
+import { getAllContent } from '@/service/content';
 import TopRatedMovies from './TopRatedMovies';
 
 const TopRatedMoviesPage = async () => {
 
-    const result = await getAllContent("", "");
+    const result = await getAllContent("", "","","");
 
     return (
         <div>

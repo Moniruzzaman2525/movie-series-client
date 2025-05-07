@@ -11,6 +11,7 @@ import LoginPrompt from "./LoginPrompt";
 import { likeVideo } from "@/service/Like";
 import { toast } from "sonner";
 import { addWatchList } from "@/service/WatchList";
+import { MdArrowRightAlt } from "react-icons/md";
 
 const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
      const { user } = useUser();
@@ -73,7 +74,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
           const normalizedRating = rating / 2;
 
           return (
-               <div className="flex items-center">
+               <div   className="flex items-center">
                     {Array.from({ length: maxVisibleStars }).map((_, index) => {
                          const isHalfStar =
                               index < normalizedRating && index + 1 > normalizedRating;
@@ -105,7 +106,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
      };
 
      return (
-          <div
+          <div 
                onMouseEnter={() => setIsHovered(true)}
                onMouseLeave={() => setIsHovered(false)}
                className="flex flex-col h-full justify-between border bg-gradient-to-br from-gray-50/50 to-gray-100/30 dark:from-gray-900 dark:to-gray-900/80 dark:border-white/20 border-black/10 w-full rounded-2xl p-4 overflow-hidden shadow-lg hover:shadow-xl transition-all"
@@ -198,7 +199,6 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                               <MessageCircle className="h-5 w-5" />
                               <span className="text-sm">{movie.totalComments} Comment</span>
                          </button>
-
                          <button
                               onClick={handleWishlistToggle}
                               className="flex items-center gap-1 cursor-pointer text-neutral-500 dark:text-neutral-400"
@@ -208,12 +208,23 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                          >
                               <Bookmark
                                    className={`h-5 w-5 ${movie.inWatchList
-                                             ? "fill-yellow-500 text-yellow-500"
-                                             : "text-neutral-500 dark:text-neutral-400"
+                                        ? "fill-yellow-500 text-yellow-500"
+                                        : "text-neutral-500 dark:text-neutral-400"
                                         }`}
                               />
                               <span className="text-sm">Wishlist</span>
                          </button>
+                         <Link href={`/${movie.category === "MOVIE" ? "movies" : "series"}/${movie.id}`} >
+                              <button
+
+                                   className="flex items-center gap-1 cursor-pointer text-neutral-500 dark:text-neutral-400"
+                              >
+                                   <MdArrowRightAlt className="h-5 w-5" />
+                                   <span className="text-sm"> Details</span>
+                              </button>
+                        </Link>
+
+                        
                     </div>
                </div>
 

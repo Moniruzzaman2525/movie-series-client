@@ -161,3 +161,16 @@ export const getMostReview = async () => {
 
     return result;
 }
+export const getSellInfo = async () => {
+    const res = await fetch(`${process.env.SERVER_URL}/payment/sell-info`, {
+        method: "GET",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        cache: 'no-cache',
+    });
+
+    const result = await res.json();
+
+    return result;
+}

@@ -11,12 +11,12 @@ interface EditorsPickProps {
 
 const EditorsPick = ({ data }: EditorsPickProps) => {
 
-  const limitedData = data?.slice(0, 5);
+  const limitedData = data?.slice(0, 4);
   return (
     <div className="bg-[#020508]">
       <div className="container mx-auto px-2 md:px-0 py-10">
         <SectionTitle text={"Top Rated Movies"} subText={"Top Rated Movies"} />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {limitedData?.map((movie) => (
             <ReusableCard
               movie={movie}
