@@ -30,3 +30,18 @@ export const getEditorPick = async () => {
     const result = await res.json()
     return result
 }
+
+
+export const removeEditorPick = async (id: string) => {
+
+    const res = await fetch(`${process.env.SERVER_URL}/editorsPick/${id}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        cache: 'no-store',
+    })
+    const result = await res.json()
+    revalidateTag('comments')
+    return result
+}

@@ -5,13 +5,13 @@ import { useState } from "react"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ChevronLeft, ChevronRight, Trash, CircleCheck, Star, Pen } from "lucide-react"
+import { ChevronLeft, ChevronRight, Trash, CircleCheck, Star, Pen, X } from "lucide-react"
 import { approvedUserReview, deleteUserReview } from "@/service/Admin"
 import { toast } from "sonner"
 import Swal from "sweetalert2"
 import { Skeleton } from "@/components/ui/skeleton"
 import { overallRating } from "@/types/Movie"
-import { addEditorPick } from "@/service/EditorPick"
+import { addEditorPick, removeEditorPick } from "@/service/EditorPick"
 
 
 
@@ -91,6 +91,26 @@ export function MoviesOrSeries({ data, isLoading = false }: AllUserTableProps) {
                     videoId: id
                 }
                 const res = await addEditorPick(data)
+                if (res.success) {
+                    toast.success("Video add to editor pick successfully")
+                }
+            }
+        })
+    }
+    const removeEditorPickFn = (id: string) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Are you sure you want add this video as editor pick!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, approve it!",
+            background: "#0f172a",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+
+                const res = await removeEditorPick(id)
                 console.log(res)
                 if (res.success) {
                     toast.success("Video add to editor pick successfully")
@@ -249,7 +269,7 @@ export function MoviesOrSeries({ data, isLoading = false }: AllUserTableProps) {
                                     <TableCell className="text-right">
                                         <div className="flex justify-end space-x-1">
 
-                                           {movie.EditorsPick.length === 0 && <Button
+                                            {movie.EditorsPick.length === 0 ? <Button
                                                 title="Add to Editor Pick"
                                                 variant="ghost"
                                                 size="sm"
@@ -258,7 +278,18 @@ export function MoviesOrSeries({ data, isLoading = false }: AllUserTableProps) {
                                                 aria-label={`Approve review`}
                                             >
                                                 <CircleCheck className="h-4 w-4" />
-                                            </Button>}
+                                            </Button> :
+                                                <Button
+                                                    title="Remove to Editor Pick"
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => removeEditorPickFn(movie?.id)}
+                                                    className="h-8 w-8 p-0 text-red-500 hover:bg-red-50"
+                                                    aria-label={`Approve review`}
+                                                >
+                                                    <X className="h-4 w-4" />
+                                                </Button>
+                                            }
                                             <Button
                                                 title="Edit Movie or Series"
                                                 variant="ghost"
