@@ -1,4 +1,5 @@
 export interface MovieCardProps {
+     rating: ReactNode;
      id: string,
      title: string;
      genre: string;
