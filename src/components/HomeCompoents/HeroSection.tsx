@@ -6,11 +6,15 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { FiStar, FiClock, FiFile, FiCalendar, FiSearch } from "react-icons/fi";
+import { FiStar, FiClock, FiFile, FiCalendar } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { useUser } from "@/context/userContext";
+import { useRouter } from "next/navigation";
 const HeroSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const {setSearchQuery:setquery}=useUser()
+  const naviagated = useRouter()
   const data = [
     {
       id: 1,
@@ -59,6 +63,8 @@ const HeroSection = () => {
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setquery(searchQuery)
+    naviagated.push('/movies')
   };
 
   return (
@@ -124,14 +130,15 @@ const HeroSection = () => {
                         <input
                           type="text"
                           className="bg-transparent outline-none  text-white placeholder-white/80 px-2 py-1"
-                          placeholder="Search..."
+                          placeholder="Search movies..."
                           value={searchQuery}
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             setSearchQuery(e.target.value)
                           }
                         />
-                        <button type="submit">
-                          <FiSearch className="text-white text-xl" />
+                        <button type="submit" className="bg-red-500 py-2 px-2 text-white rounded-xl cursor-pointer">
+                          {/* <FiSearch className="text-white text-xl" /> */}
+                           Search
                         </button>
                       </form>
                     </div>
