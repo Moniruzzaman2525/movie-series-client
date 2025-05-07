@@ -4,7 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import type { MovieCardProps } from "@/types/Movie"
-import { Heart, MessageCircle } from "lucide-react"
+import { Bookmark, Heart, MessageCircle } from "lucide-react"
 import Comment from "@/components/ui/core/Modal/Comment"
 import { useUser } from "@/context/userContext"
 import LoginPrompt from "./LoginPrompt"
@@ -53,6 +53,17 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
           }
 
           setShowCommentModal(true)
+     }
+
+
+     const handleWishlistToggle = async () => {
+          if (!user) {
+               setLoginAction("like")
+               setShowLoginModal(true)
+               return
+          }
+
+
      }
 
      return (
@@ -112,6 +123,16 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                     >
                          <MessageCircle className="h-5 w-5" />
                          <span className="text-sm">Comment</span>
+                    </button>
+                    <button
+                         onClick={handleWishlistToggle}
+                         className="flex items-center gap-1 cursor-pointer text-neutral-500 dark:text-neutral-400"
+                         aria-label={movie.inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                    >
+                         <Bookmark
+                              className={`h-5 w-5 ${movie.inWishlist ? "fill-yellow-500 text-yellow-500" : "text-neutral-500 dark:text-neutral-400"}`}
+                         />
+                         <span className="text-sm">Wishlist</span>
                     </button>
                </div>
 
