@@ -1,4 +1,5 @@
 export interface MovieCardProps {
+     rating: ReactNode;
      id: string,
      title: string;
      genre: string;
@@ -14,5 +15,5 @@ export interface MovieCardProps {
      liked?: boolean;
      like: number;
      inWatchList: boolean;
-     totalComments: number
+     totalComments: number;
 }

@@ -2,13 +2,15 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { MessageSquare, Send, X } from "lucide-react"
+import { MessageSquare, Send, X, Heart } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { createComment, getVideoComments } from "@/service/Comments"
 import type { IComment, CommentProps } from "@/types"
 import { formatDistanceToNow } from "date-fns"
+import { toast } from "sonner"
+import { likeComment } from "@/service/Like"
 
 const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) => {
     const [comments, setComments] = useState<IComment[]>([])
@@ -17,6 +19,7 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
     const [replyContent, setReplyContent] = useState("")
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [likeLoading, setLikeLoading] = useState<string | null>(null)
 
     const fetchComments = async () => {
         try {
@@ -33,6 +36,7 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
     useEffect(() => {
         fetchComments()
     }, [])
+
 
     const handleSubmitComment = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -62,6 +66,25 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
             fetchComments()
             setReplyingTo(null)
             setReplyContent("")
+        }
+    }
+
+    const handleLikeComment = async (commentId: string) => {
+        setLikeLoading(commentId)
+        try {
+            const data = {
+                commentId: commentId,
+            }
+
+            const res = await likeComment(data)
+            if (res.success) {
+                fetchComments()
+            }
+        } catch (err) {
+            console.error("Like comment failed", err)
+            toast.error("Failed to like comment")
+        } finally {
+            setLikeLoading(null)
         }
     }
 
@@ -151,12 +174,22 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
                                             <p className="text-gray-700 dark:text-gray-300">{comment.content}</p>
                                             <div className="flex items-center gap-4 mt-2">
                                                 <button
-                                                    className="text-xs text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400"
+                                                    className="text-xs cursor-pointer text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400"
                                                     onClick={() => setReplyingTo(replyingTo === comment.id ? null : comment.id)}
                                                 >
                                                     Reply
                                                 </button>
-                                                <span className="text-xs text-gray-500 dark:text-gray-400">{comment.likes} likes</span>
+                                                <button
+                                                    onClick={() => handleLikeComment(comment.id)}
+                                                    disabled={likeLoading === comment.id}
+                                                    className="flex items-center gap-1 cursor-pointer text-xs text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400"
+                                                >
+                                                    <Heart
+                                                        className={`h-3 w-3 ${comment.isLiked ? "fill-red-500 text-red-500" : ""} ${likeLoading === comment.id ? "opacity-50" : ""
+                                                            }`}
+                                                    />
+                                                    <span>{comment.likes} likes</span>
+                                                </button>
                                             </div>
 
                                             {replyingTo === comment.id && (
@@ -197,7 +230,17 @@ const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) =>
                                                         </div>
                                                         <p className="text-gray-700 dark:text-gray-300 text-sm">{reply.content}</p>
                                                         <div className="flex items-center gap-4 mt-2">
-                                                            <span className="text-xs text-gray-500 dark:text-gray-400">{reply.likes} likes</span>
+                                                            <button
+                                                                onClick={() => handleLikeComment(reply.id)}
+                                                                disabled={likeLoading === reply.id}
+                                                                className="flex items-center gap-1 text-xs cursor-pointer text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400"
+                                                            >
+                                                                <Heart
+                                                                    className={`h-3 w-3 ${reply.isLiked ? "fill-red-500 text-red-500" : ""} ${likeLoading === reply.id ? "opacity-50" : ""
+                                                                        }`}
+                                                                />
+                                                                <span>{reply.likes} likes</span>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>

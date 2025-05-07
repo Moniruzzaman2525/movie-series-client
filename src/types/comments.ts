@@ -21,7 +21,8 @@ export interface Reply {
   content: string
   createdAt: string
   likes: number
-  user: User
+  user: User;
+  isLiked: boolean
 }
 
 export interface IComment {
@@ -35,6 +36,7 @@ export interface IComment {
   parentCommentId?: string;
   likes: number
   user: User;
+  isLiked: boolean
   replies: Reply[]
 }
 
