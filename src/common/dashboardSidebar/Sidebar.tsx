@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { AiOutlineBars } from 'react-icons/ai';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { IoCreateOutline } from 'react-icons/io5';
+import { IoAnalyticsOutline, IoCreateOutline } from 'react-icons/io5';
 import { SiCreatereactapp } from 'react-icons/si';
 import { MdCreateNewFolder } from 'react-icons/md';
 import { FaBloggerB } from 'react-icons/fa6';
@@ -61,43 +61,51 @@ const Sidebar = () => {
                          {user?.role === 'ADMIN' && (
                               <div>
                                    <Link
-                                        href='/dashboard/createProject'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/createProject')}`}
+                                        href='/dashboard/admin/analytics'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/analytics')}`}
+                                   >
+                                        
+                                        <IoAnalyticsOutline className='text-green-500' />
+                                        <span className='mx-4 font-medium'>Analytics</span>
+                                   </Link>
+                                   <Link
+                                        href='/dashboard/admin/createProject'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/createProject')}`}
                                    >
                                         <IoCreateOutline className='text-green-500' />
                                         <span className='mx-4 font-medium'>Create movies and series</span>
                                    </Link>
                                    <Link
-                                        href='/dashboard/createmoviesSeries'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/createdProject')}`}
+                                        href='/dashboard/admin/createmoviesSeries'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/createdProject')}`}
                                    >
                                         <SiCreatereactapp className='text-green-500' />
                                         <span className='mx-4 font-medium'>Create movies</span>
                                    </Link>
                                    <Link
-                                        href='/dashboard/alluser'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/alluser')}`}
+                                        href='/dashboard/admin/alluser'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/alluser')}`}
                                    >
                                         <MdCreateNewFolder className='text-green-500' />
                                         <span className='mx-4 font-medium'>All user</span>
                                    </Link>
                                    <Link
-                                        href='/dashboard/payment'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/payment')}`}
+                                        href='/dashboard/admin/payment'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/payment')}`}
                                    >
                                         <FaBloggerB className='text-green-500' />
                                         <span className='mx-4 font-medium'>Payment</span>
                                    </Link>
                                    <Link
-                                        href='/dashboard/reviews'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/reviews')}`}
+                                        href='/dashboard/admin/reviews'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/reviews')}`}
                                    >
                                         <LuMessageCircle className='text-green-500' />
                                         <span className='mx-4 font-medium'>Reviews</span>
                                    </Link>
                                    <Link
-                                        href='/dashboard/comments'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/comments')}`}
+                                        href='/dashboard/admin/comments'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/comments')}`}
                                    >
                                         <LuMessageCircle className='text-green-500' />
                                         <span className='mx-4 font-medium'>Comments</span>
