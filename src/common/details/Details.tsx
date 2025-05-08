@@ -85,7 +85,7 @@ const Details = ({ movieData }: {
                               </div>
                               <p className="mt-4 text-white">{movieData?.description}</p>
                               <div className="mt-4 text-white font-semibold text-lg">
-                                   Rating: {movieData?.rating} ⭐ | Price:<span className="text-red-500">${movieData.price}</span>
+                                   Rating: {movieData?.rating} ⭐ | Price:<span className="text-red-500">${movieData?.price}</span>
                               </div>
                               <div className="mt-4 text-white font-semibold text-lg">
                                    <motion.button

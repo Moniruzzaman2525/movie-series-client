@@ -3,7 +3,7 @@
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
-export const getAllContent = async (search: string, genre: string | undefined) => {
+export const getAllContent = async (search?: string, genre?: string | undefined, Platform?: string | null, year?: string | null, Rating?: string | null) => {
     const queryParams: string[] = [];
 
     if (search) {
@@ -13,10 +13,57 @@ export const getAllContent = async (search: string, genre: string | undefined) =
     if (genre) {
         queryParams.push(`genre=${encodeURIComponent(genre.toUpperCase())}`);
     }
+    if (Platform) {
+        queryParams.push(`streamingPlatform=${encodeURIComponent(Platform)}`);
+    }
+    if (year) {
+        queryParams.push(`releaseYear=${encodeURIComponent(year)}`);
+    }
+    if (Rating) {
+        queryParams.push(`overallRating=${encodeURIComponent(Rating)}`);
+    }
 
     const queryString = queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
 
+    console.log(queryString)
+
     const res = await fetch(`${process.env.SERVER_URL}/content${queryString}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        next: {
+            tags: ["movies"]
+        },
+        cache: "no-store"
+    });
+
+    const result = await res.json();
+    return result.data;
+}
+export const getTopRatedThisWeek = async () => {
+
+
+    const res = await fetch(`${process.env.SERVER_URL}/content/get-top-rated`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        next: {
+            tags: ["movies"]
+        },
+        cache: "no-store"
+    });
+
+    const result = await res.json();
+    return result.data;
+}
+export const getNewlyAdded = async () => {
+
+
+    const res = await fetch(`${process.env.SERVER_URL}/content/get-newly-added`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',

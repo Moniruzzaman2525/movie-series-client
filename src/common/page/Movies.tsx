@@ -6,7 +6,9 @@ import ReusableCard from "../card/Card";
 import { MovieCardProps } from "@/types/Movie";
 import GenresList from "../card/Filterbar";
 import { useUser } from "@/context/userContext";
-import { getAllContent } from "@/service/Content";
+import { getAllContent } from "@/service/content";
+
+
 
 
 const MovieSearch = () => {
@@ -17,12 +19,18 @@ const MovieSearch = () => {
      const [category, setCategory] = useState<string | undefined>();
      const [loading, setLoading] = useState(false);
      const [error, setError] = useState<string | null>(null);
+     const [Platform, setPlatform] = useState<string | null>(null);
+     const [year, setYear] = useState<string | null>(null);
+     const [Rating, setRating] = useState<string | null>(null);
+
+   
 
      const moviesData = useCallback(async () => {
           setLoading(true);
           setError(null);
           try {
-               const result = await getAllContent(searchTerm, category);
+               const result = await getAllContent(searchTerm, category, Platform, year, Rating);
+              
                if (result?.data) {
                     const filterMovies = result?.data?.filter(
                          (movie: MovieCardProps) => movie.category === "MOVIE"
@@ -39,7 +47,7 @@ const MovieSearch = () => {
           } finally {
                setLoading(false);
           }
-     }, [searchTerm, category]);
+     }, [searchTerm, category, Platform, year, Rating]);
 
      useEffect(() => {
           moviesData();
@@ -63,12 +71,17 @@ const MovieSearch = () => {
           setSearchTerm("");
           setCategory(undefined);
           setCurrentPage(1);
+          setPlatform(null)
+          setRating(null)
+          setYear(null)
      };
-
+     console.log(data)
      return (
           <div className="w-full container mx-auto p-4">
-               {/* Search Bar */}
-               <div className="flex justify-center gap-2 items-center text-white shadow-md rounded-xl p-4 mb-6">
+          
+               {/* Search and Filter Bar */}
+               <div className="flex flex-wrap justify-center gap-4 items-center text-white shadow-md rounded-xl p-4 mb-6 bg-gray-800">
+                    {/* Search Input */}
                     <input
                          type="text"
                          placeholder="Search movies..."
@@ -77,17 +90,63 @@ const MovieSearch = () => {
                               setSearchTerm(e.target.value);
                               setCurrentPage(1);
                          }}
-                         className="w-1/2 px-4 py-2 rounded-lg border outline-none border-red-600 transition"
+                         className="px-4 py-2 rounded-lg border outline-none border-red-600 transition w-52"
                     />
-                    <div className="flex justify-center ">
-                         <button
-                              onClick={handleReset}
-                              className="px-4 py-2 bg-red-600 text-white rounded-md cursor-pointer hover:bg-red-700"
-                         >
-                              Reset
-                         </button>
-                    </div>
+
+                    {/* Streaming Platform Filter */}
+                    {/* Streaming Platform Filter */}
+                    <select
+                         value={Platform || ""}
+                         onChange={(e) => setPlatform(e.target.value || null)}
+                         className="px-4 py-2 rounded-lg border outline-none border-red-600 transition w-52"
+                    >
+                         <option value="">All Platforms</option>
+                         <option className="text-black" value="Netflix">Netflix</option>
+                         <option className="text-black" value="Amazon">Amazon Prime</option>
+                         <option className="text-black" value="Disney">Disney+</option>
+                         <option className="text-black" value="Hulu">Hulu</option>
+                    </select>
+
+                    {/* Release Year Filter */}
+                    <select
+                         value={year || ""}
+                         onChange={(e) => setYear(e.target.value || null)}
+                         className="px-4 py-2 rounded-lg border outline-none border-red-600 transition w-52"
+                    >
+                         <option value="">All Years</option>
+                         {Array.from({ length: 25 }, (_, i) => {
+                              const year = (2025 - i).toString();
+                              return (
+                                   <option className="text-black" key={year} value={year}>
+                                        {year}
+                                   </option>
+                              );
+                         })}
+                    </select>
+
+                    {/* Rating Filter */}
+                    <select
+                         value={Rating || ""}
+                         onChange={(e) => setRating(e.target.value || null)}
+                         className="px-4 py-2 rounded-lg border outline-none border-red-600 transition w-52"
+                    >
+                         <option value="">All Ratings</option>
+                         {[...Array(10)].map((_, i) => (
+                              <option className="text-black" key={i + 1} value={(i + 1).toString()}>
+                                   {i + 1}+
+                              </option>
+                         ))}
+                    </select>
+
+                    {/* Reset Button */}
+                    <button
+                         onClick={handleReset}
+                         className="px-4 py-2 bg-red-600 text-white rounded-md cursor-pointer hover:bg-red-700"
+                    >
+                         Reset
+                    </button>
                </div>
+
 
                {/* Filter + Movie Grid */}
                <div className="flex flex-col md:flex-row  justify-center gap-6">
