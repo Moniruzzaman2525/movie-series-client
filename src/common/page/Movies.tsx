@@ -5,7 +5,7 @@ import { useEffect, useState, useCallback } from "react";
 import ReusableCard from "../card/Card";
 import GenresList from "../card/Filterbar";
 import { useUser } from "@/context/userContext";
-import { getAllContent } from "@/service/content";
+import { getAllContent } from "@/service/Content";
 
 
 
@@ -22,18 +22,18 @@ const MovieSearch = () => {
      const [year, setYear] = useState<string | null>(null);
      const [Rating, setRating] = useState<string | null>(null);
 
-   
+
 
      const moviesData = useCallback(async () => {
           setLoading(true);
           setError(null);
           try {
                const result = await getAllContent(searchTerm, category, Platform, year, Rating);
-              
+
                if (result?.data) {
                     const filterMovies = result?.data?.filter(
                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                         (movie:any) => movie.category === "MOVIE"
+                         (movie: any) => movie.category === "MOVIE"
                     );
                     setData(filterMovies);
                } else {
@@ -78,7 +78,7 @@ const MovieSearch = () => {
      console.log(data)
      return (
           <div className="w-full container mx-auto p-4">
-          
+
                {/* Search and Filter Bar */}
                <div className="flex flex-wrap justify-center gap-4 items-center text-white shadow-md rounded-xl p-4 mb-6 bg-gray-800">
                     {/* Search Input */}

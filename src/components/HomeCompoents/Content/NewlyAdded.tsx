@@ -4,10 +4,12 @@ import { FaArrowRight } from "react-icons/fa";
 import ReusableCard from "@/common/card/Card";
 
 import SectionTitle from "@/components/Shared/SectionTitle/SectionTitle";
-import { overallRating } from "@/types/Movie";
+import { IMovie } from "@/types/Movie";
+
+
 
 interface NewlyAddedProps {
-  data: overallRating[];
+  data: IMovie[];
 }
 
 const NewlyAdded = ({ data }: NewlyAddedProps) => {

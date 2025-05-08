@@ -9,7 +9,7 @@ const NewlyAddedMovies = async () => {
 
     return (
         <div>
-            <NewlyAdded data={result.data} />
+            <NewlyAdded data={result?.data} />
         </div>
     );
 };

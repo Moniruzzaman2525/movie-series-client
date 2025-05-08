@@ -10,15 +10,17 @@ import { approvedUserReview, deleteUserReview } from "@/service/Admin"
 import { toast } from "sonner"
 import Swal from "sweetalert2"
 import { Skeleton } from "@/components/ui/skeleton"
-import { overallRating } from "@/types/Movie"
+
 import { addEditorPick, removeEditorPick } from "@/service/EditorPick"
+import { IMovie } from "@/types/Movie"
+
 
 
 
 
 interface AllUserTableProps {
     data: {
-        data: overallRating[]
+        data: IMovie[]
     }
     isLoading?: boolean
 }

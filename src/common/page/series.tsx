@@ -7,7 +7,7 @@ import { useEffect, useState, useCallback } from "react";
 import GenresList from "../card/Filterbar";
 
 import ReusableCard from "../card/Card";
-import { getAllContent } from "@/service/content";
+import { getAllContent } from "@/service/Content";
 
 const SeriesSearch = () => {
      const [searchTerm, setSearchTerm] = useState("");
