@@ -90,9 +90,8 @@ const Details = ({ movieData }: {
                               <div className="mt-4 text-white font-semibold text-lg">
                                    <motion.button
                                   onClick={handlePayment}
-                                        whileHover={{ scale: 1.1 }}
-                                        transition={{ duration: 0.3 }}
-                                        className="bg-red-500 px-3 py-1 rounded cursor-pointer"
+                                        
+                                        className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 px-6 shadow-md hover:shadow-lg transition-all duration-200 text-white border-0 rounded-lg"
                                    >
                                         Purchase
                                    </motion.button>

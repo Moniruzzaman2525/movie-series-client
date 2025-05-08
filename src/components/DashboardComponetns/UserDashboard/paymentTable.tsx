@@ -1,93 +1,113 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { CreditCard, CheckCircle2, XCircle, DollarSign, Calendar } from "lucide-react"
 
+export function PaymentTable(payload: any) {
+  // Calculate total amount
+  const totalAmount = payload.invoice.reduce((sum: number, invoice: any) => {
+    const amount = Number.parseFloat(invoice?.total_amount || 0)
+    return sum + (isNaN(amount) ? 0 : amount)
+  }, 0)
 
-  // const invoices = [
-  //   {
-  //     invoice: "INV001",
-  //     paymentStatus: "Paid",
-  //     totalAmount: "$250.00",
-  //     paymentMethod: "Credit Card",
-  //   },
-  //   {
-  //     invoice: "INV002",
-  //     paymentStatus: "Pending",
-  //     totalAmount: "$150.00",
-  //     paymentMethod: "PayPal",
-  //   },
-  //   {
-  //     invoice: "INV003",
-  //     paymentStatus: "Unpaid",
-  //     totalAmount: "$350.00",
-  //     paymentMethod: "Bank Transfer",
-  //   },
-  //   {
-  //     invoice: "INV004",
-  //     paymentStatus: "Paid",
-  //     totalAmount: "$450.00",
-  //     paymentMethod: "Credit Card",
-  //   },
-  //   {
-  //     invoice: "INV005",
-  //     paymentStatus: "Paid",
-  //     totalAmount: "$550.00",
-  //     paymentMethod: "PayPal",
-  //   },
-  //   {
-  //     invoice: "INV006",
-  //     paymentStatus: "Pending",
-  //     totalAmount: "$200.00",
-  //     paymentMethod: "Bank Transfer",
-  //   },
-  //   {
-  //     invoice: "INV007",
-  //     paymentStatus: "Unpaid",
-  //     totalAmount: "$300.00",
-  //     paymentMethod: "Credit Card",
-  //   },
-  // ]
-  
-  export function PaymentTable(payload:any) {
-    return (
-      <Table>
-        <TableCaption>A list of your recent Comments</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Number</TableHead>
-            <TableHead>Video Name</TableHead>
-            <TableHead>Transaction ID</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right" >Amount</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody className="text-sm font-medium text-slate-700">
-  {payload.invoice.map((invoice: any, index: number) => (
-    <TableRow key={invoice.id || index}
-    className={index % 2 === 0 ? "bg-white" : "bg-gray-300"}
-    >
-      <TableCell className="font-medium">{index + 1}</TableCell>
-      <TableCell>{invoice?.video?.title || 'N/A'}</TableCell>
-      <TableCell>{invoice?.tran_id || 'N/A'}</TableCell>
-      {invoice?.paymentStatus==false?<TableCell className="text-red-500">{String(invoice?.paymentStatus) || 'N/A'}</TableCell>:<TableCell className="text-red-500">{String(invoice?.paymentStatus) || 'N/A'}</TableCell>
-      }
-      <TableCell className="text-right">{invoice?.total_amount || '0'}</TableCell>
-    </TableRow>
-  ))}
-</TableBody>
+  return (
+    <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl border border-slate-200 shadow-lg overflow-hidden">
+      <div className="p-6 flex items-center justify-between border-b border-slate-100">
+        <div>
+          <h3 className="text-xl font-semibold text-slate-800">Payment History</h3>
+          <p className="text-sm text-slate-500 mt-1">Your recent transactions</p>
+        </div>
+        <div className="flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full">
+          <DollarSign className="h-5 w-5 text-emerald-500" />
+          <span className="font-semibold text-slate-700">${totalAmount.toFixed(2)}</span>
+        </div>
+      </div>
 
-        <TableFooter>
+      <div className="px-6 py-4">
+        <Table>
+          <TableHeader>
+            <TableRow className="border-b border-slate-200">
+              <TableHead className="w-[60px] font-bold text-slate-700">#</TableHead>
+              <TableHead className="font-bold text-slate-700">Video</TableHead>
+              <TableHead className="font-bold text-slate-700">Transaction</TableHead>
+              <TableHead className="font-bold text-slate-700">Status</TableHead>
+              <TableHead className="font-bold text-slate-700">Streaming On</TableHead>
+              <TableHead className="text-right font-bold text-slate-700">Amount</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {payload.invoice.map((invoice: any, index: number) => (
+              <TableRow
+                key={invoice.id || index}
+                className="border-b border-slate-100 hover:bg-slate-50/80 transition-colors"
+              >
+                <TableCell className="font-medium text-slate-500 py-4">{index + 1}</TableCell>
+                <TableCell>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-slate-800 truncate max-w-[200px]">
+                      {invoice?.video?.title || "Untitled Video"}
+                    </span>
+                    <span className="text-xs text-slate-500 mt-1 flex items-center">
+                      <Calendar className="h-3 w-3 mr-1" />
+                      {new Date().toLocaleDateString()}
+                    </span>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center mr-2">
+                      <CreditCard className="h-4 w-4 text-slate-600" />
+                    </div>
+                    <span className="font-mono text-xs text-slate-600">{invoice?.tran_id || "N/A"}</span>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  {invoice?.paymentStatus === false ? (
+                    <div className="flex items-center">
+                      <div className="h-6 w-6 rounded-full bg-red-50 flex items-center justify-center mr-2">
+                        <XCircle className="h-4 w-4 text-red-500" />
+                      </div>
+                      <span className="text-red-500 font-medium">Unpaid</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center">
+                      <div className="h-6 w-6 rounded-full bg-emerald-50 flex items-center justify-center mr-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                      </div>
+                      <span className="text-emerald-500 font-medium">Paid</span>
+                    </div>
+                  )}
+                </TableCell>
+                <TableCell className="text-right">
+                  <div className="bg-slate-100 px-3 py-1 rounded-full inline-block">
+                    <span className="font-semibold text-slate-800">
+                    NetFlix
+                    </span>
+                  </div>
+                </TableCell>
+                <TableCell className="text-right">
+                  <div className="bg-slate-100 px-3 py-1 rounded-full inline-block">
+                    <span className="font-semibold text-slate-800">
+                      ${Number.parseFloat(invoice?.total_amount || 0).toFixed(2)}
+                    </span>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
 
-        </TableFooter>
-      </Table>
-    )
-  }
-  
+      <div className="bg-slate-50 p-6 border-t border-slate-200">
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-slate-500">Showing {payload.invoice.length} transactions</span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-slate-700">Total Amount:</span>
+            <div className="bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm">
+              <span className="font-bold text-slate-800">${totalAmount.toFixed(2)}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
