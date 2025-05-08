@@ -1,16 +1,16 @@
 
-
-
-import { getAllContent } from '@/service/content';
 import EditorsPick from './EditorsPick';
+import { getEditorPick } from '@/service/EditorPick';
 
 const EditorPickMovies = async () => {
 
-    const result = await getAllContent("", "");
+    const result = await getEditorPick();
+
+    console.log(result)
 
     return (
         <div>
-            <EditorsPick data={result.data} />
+            <EditorsPick data={result?.data?.data} />
         </div>
     );
 };

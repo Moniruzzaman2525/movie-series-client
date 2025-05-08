@@ -2,16 +2,17 @@
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import ReusableCard from "@/common/card/Card";
-import { MovieCardProps } from "@/types/Movie";
+
 import SectionTitle from "@/components/Shared/SectionTitle/SectionTitle";
+import { overallRating } from "@/types/Movie";
 
 interface NewlyAddedProps {
-  data: MovieCardProps[];
+  data: overallRating[];
 }
 
 const NewlyAdded = ({ data }: NewlyAddedProps) => {
 
-  const limitedData = data?.slice(0, 4);
+  const limitedData = data?.slice(0, 10);
   return (
     <div className="bg-[#020508]">
       <div className="container mx-auto px-2 md:px-0 py-10">

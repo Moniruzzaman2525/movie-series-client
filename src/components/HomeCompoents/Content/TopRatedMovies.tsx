@@ -2,11 +2,11 @@
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import ReusableCard from "@/common/card/Card";
-import { MovieCardProps } from "@/types/Movie";
 import SectionTitle from "@/components/Shared/SectionTitle/SectionTitle";
+import { overallRating } from "@/types/Movie";
 
 interface TopRatedMoviesProps {
-  data: MovieCardProps[];
+  data: overallRating[];
 }
 
 const TopRatedMovies = ({ data }: TopRatedMoviesProps) => {

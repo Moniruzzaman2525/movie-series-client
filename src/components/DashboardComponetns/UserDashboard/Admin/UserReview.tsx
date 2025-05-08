@@ -167,14 +167,14 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
               {isHalfStar ? (
 
                 <div className="relative">
-                  <Star className="h-4 w-4 text-gray-300" />
+                  <Star className="h-4 w-4 text-yellow-500" />
                   <div className="absolute top-0 left-0 w-1/2 overflow-hidden">
                     <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
                   </div>
                 </div>
               ) : (
 
-                <Star className={`h-4 w-4 ${isFullStar ? "text-yellow-500 fill-yellow-500" : "text-gray-300"}`} />
+                <Star className={`h-4 w-4 ${isFullStar ? "text-yellow-500 fill-yellow-500" : "text-yellow-500"}`} />
               )}
             </div>
           )

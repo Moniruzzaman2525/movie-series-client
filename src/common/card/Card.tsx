@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import type { MovieCardProps } from "@/types/Movie";
 import { Bookmark, Heart, MessageCircle, Play, Star } from "lucide-react";
 import Comment from "@/components/ui/core/Modal/Comment";
 import { useUser } from "@/context/userContext";
@@ -12,8 +11,10 @@ import { likeVideo } from "@/service/Like";
 import { toast } from "sonner";
 import { addWatchList } from "@/service/WatchList";
 import { MdArrowRightAlt } from "react-icons/md";
+import { overallRating } from "@/types/Movie";
 
-const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
+const ReusableCard = ({ movie }: { movie: overallRating }) => {
+
      const { user } = useUser();
      const [showCommentModal, setShowCommentModal] = useState(false);
      const [showLoginModal, setShowLoginModal] = useState(false);
@@ -74,7 +75,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
           const normalizedRating = rating / 2;
 
           return (
-               <div   className="flex items-center">
+               <div className="flex items-center">
                     {Array.from({ length: maxVisibleStars }).map((_, index) => {
                          const isHalfStar =
                               index < normalizedRating && index + 1 > normalizedRating;
@@ -84,7 +85,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                               <div key={index} className="relative">
                                    {isHalfStar ? (
                                         <div className="relative">
-                                             <Star className="h-4 w-4 text-gray-300" />
+                                             <Star className="h-4 w-4 text-yellow-500" />
                                              <div className="absolute top-0 left-0 w-1/2 overflow-hidden">
                                                   <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
                                              </div>
@@ -92,8 +93,8 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                                    ) : (
                                         <Star
                                              className={`h-4 w-4 ${isFullStar
-                                                       ? "text-yellow-500 fill-yellow-500"
-                                                       : "text-gray-300"
+                                                  ? "text-yellow-500 fill-yellow-500"
+                                                  : "text-yellow-500"
                                                   }`}
                                         />
                                    )}
@@ -106,7 +107,7 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
      };
 
      return (
-          <div 
+          <div
                onMouseEnter={() => setIsHovered(true)}
                onMouseLeave={() => setIsHovered(false)}
                className="flex flex-col h-full justify-between border bg-gradient-to-br from-gray-50/50 to-gray-100/30 dark:from-gray-900 dark:to-gray-900/80 dark:border-white/20 border-black/10 w-full rounded-2xl p-4 overflow-hidden shadow-lg hover:shadow-xl transition-all"
@@ -182,8 +183,8 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                          >
                               <Heart
                                    className={`h-5 w-5 ${movie.liked
-                                             ? "fill-red-500 text-red-500 animate-pulse"
-                                             : "text-neutral-500 dark:text-neutral-400"
+                                        ? "fill-red-500 text-red-500 animate-pulse"
+                                        : "text-neutral-500 dark:text-neutral-400"
                                         }`}
                               />
                               <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
@@ -222,9 +223,9 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                                    <MdArrowRightAlt className="h-5 w-5" />
                                    <span className="text-sm"> Details</span>
                               </button>
-                        </Link>
+                         </Link>
 
-                        
+
                     </div>
                </div>
 
