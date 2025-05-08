@@ -6,8 +6,6 @@ const EditorPickMovies = async () => {
 
     const result = await getEditorPick();
 
-    console.log(result)
-
     return (
         <div>
             <EditorsPick data={result?.data?.data} />
