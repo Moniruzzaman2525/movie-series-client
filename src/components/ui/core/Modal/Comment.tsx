@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import type React from "react"
@@ -7,12 +8,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { createComment, getVideoComments } from "@/service/Comments"
-import type { IComment, CommentProps } from "@/types"
+import type { IComment} from "@/types"
 import { formatDistanceToNow } from "date-fns"
 import { toast } from "sonner"
 import { likeComment } from "@/service/Like"
 
-const CommentModal: React.FC<CommentProps> = ({ setShowCommentModal, movie }) => {
+const CommentModal: React.FC<any> = ({ setShowCommentModal, movie }) => {
     const [comments, setComments] = useState<IComment[]>([])
     const [newComment, setNewComment] = useState("")
     const [replyingTo, setReplyingTo] = useState<string | null>(null)

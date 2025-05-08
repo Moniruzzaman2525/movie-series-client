@@ -63,3 +63,19 @@ export const replyToReview=async(payload:Partial<TReview>)=>{
     revalidateTag('reviews')
     return result;
 }
+
+
+export const getCommentsByReview=async(id:string)=>{
+    const res=await fetch(`${process.env.SERVER_URL}/comments/${id}`,{
+        method:"GET",
+        headers:{
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        cache:'no-cache',
+        next:{ tags:["reviews"]}
+    });
+
+    const result=await res.json();
+
+    return result;
+}
