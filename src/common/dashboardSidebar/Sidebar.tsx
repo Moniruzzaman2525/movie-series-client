@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { AiOutlineBars } from 'react-icons/ai';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { IoCreateOutline } from 'react-icons/io5';
+import { IoAnalyticsOutline, IoCreateOutline } from 'react-icons/io5';
 import { SiCreatereactapp } from 'react-icons/si';
 import { MdCreateNewFolder } from 'react-icons/md';
 import { FaBloggerB } from 'react-icons/fa6';
@@ -60,6 +60,14 @@ const Sidebar = () => {
                     <nav className='mt-6'>
                          {user?.role === 'ADMIN' && (
                               <div>
+                                   <Link
+                                        href='/dashboard/admin/analytics'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/analytics')}`}
+                                   >
+
+                                        <IoAnalyticsOutline className='text-green-500' />
+                                        <span className='mx-4 font-medium'>Analytics</span>
+                                   </Link>
                                    <Link
                                         href='/dashboard/admin/createProject'
                                         className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/createProject')}`}

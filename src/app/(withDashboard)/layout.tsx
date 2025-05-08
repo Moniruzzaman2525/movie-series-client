@@ -18,7 +18,7 @@ export default function DashboardLayout({
                     <Sidebar />
           
                {/* Main content with left margin to avoid overlapping */}
-               <div className="md:ml-[250px]">
+               <div className="md:ml-[257px] ">
                     {children}
                     <Toaster />
                </div>

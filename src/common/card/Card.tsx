@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import type { MovieCardProps } from "@/types/Movie";
 import { Bookmark, Heart, MessageCircle, Play, Star } from "lucide-react";
 import Comment from "@/components/ui/core/Modal/Comment";
 import { useUser } from "@/context/userContext";
@@ -11,8 +10,10 @@ import LoginPrompt from "./LoginPrompt";
 import { likeVideo } from "@/service/Like";
 import { toast } from "sonner";
 import { addWatchList } from "@/service/WatchList";
+import { MdArrowRightAlt } from "react-icons/md";
+import { overallRating } from "@/types/Movie";
 
-const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
+const ReusableCard = ({ movie }: { movie: overallRating }) => {
 
      const { user } = useUser();
      const [showCommentModal, setShowCommentModal] = useState(false);
@@ -199,7 +200,6 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                               <MessageCircle className="h-5 w-5" />
                               <span className="text-sm">{movie.totalComments} Comment</span>
                          </button>
-
                          <button
                               onClick={handleWishlistToggle}
                               className="flex items-center gap-1 cursor-pointer text-neutral-500 dark:text-neutral-400"
@@ -215,6 +215,17 @@ const ReusableCard = ({ movie }: { movie: MovieCardProps }) => {
                               />
                               <span className="text-sm">Wishlist</span>
                          </button>
+                         <Link href={`/${movie.category === "MOVIE" ? "movies" : "series"}/${movie.id}`} >
+                              <button
+
+                                   className="flex items-center gap-1 cursor-pointer text-neutral-500 dark:text-neutral-400"
+                              >
+                                   <MdArrowRightAlt className="h-5 w-5" />
+                                   <span className="text-sm"> Details</span>
+                              </button>
+                         </Link>
+
+
                     </div>
                </div>
 

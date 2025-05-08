@@ -2,11 +2,12 @@
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import ReusableCard from "@/common/card/Card";
-import { MovieCardProps } from "@/types/Movie";
+
 import SectionTitle from "@/components/Shared/SectionTitle/SectionTitle";
+import { overallRating } from "@/types/Movie";
 
 interface NewlyAddedProps {
-  data: MovieCardProps[];
+  data: overallRating[];
 }
 
 const NewlyAdded = ({ data }: NewlyAddedProps) => {
@@ -16,7 +17,7 @@ const NewlyAdded = ({ data }: NewlyAddedProps) => {
     <div className="bg-[#020508]">
       <div className="container mx-auto px-2 md:px-0 py-10">
         <SectionTitle text={" Newly Added Movies"} subText={"Experience the thrill"} />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {limitedData?.map((movie) => (
             <ReusableCard
               movie={movie}
