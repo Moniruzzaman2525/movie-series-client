@@ -79,8 +79,9 @@ export function PaymentTable(payload: any) {
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="bg-slate-100 px-3 py-1 rounded-full inline-block">
-                    <span className="font-semibold text-slate-800">
-                    NetFlix
+                    <span className="font-semibold text-slate-800 flex justify-self-start">
+                   {invoice?.video?.streamingPlatform
+                   }
                     </span>
                   </div>
                 </TableCell>

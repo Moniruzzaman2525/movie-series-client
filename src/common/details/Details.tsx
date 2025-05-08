@@ -35,7 +35,7 @@ const Details = ({ movieData }: {
         try{
           const paymentData={
                contentId: movieData.id,
-               amount:movieData.price*120
+               amount:movieData.price
           }
           const result=await makePayment(paymentData)
           console.log(result);

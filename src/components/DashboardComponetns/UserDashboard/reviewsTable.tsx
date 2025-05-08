@@ -15,22 +15,12 @@ import { Badge } from "@/components/ui/badge"
 import { Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import Swal from "sweetalert2"
-
-// Local implementation of deleteReview function
-const deleteReview = async (id: string) => {
-  // This is a mock implementation
-  console.log(`Deleting review with ID: ${id}`)
-
-  // Simulate API call delay
-  await new Promise((resolve) => setTimeout(resolve, 500))
-
-  // Return success response
-  return { success: true }
-}
+import { deleteReview } from "@/service/Reviews"
 
 export function ReviewTable(payload: any) {
-  const handleDelete = (id: string) => {
-    Swal.fire({
+  const handleDelete = async (id: string) => {
+ 
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -39,22 +29,29 @@ export function ReviewTable(payload: any) {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
       background: "#0f172a",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await deleteReview(id)
-
+    });
+  
+    if (result.isConfirmed) {
+      try {
+        const res = await deleteReview(id);
         if (res.success) {
-          toast.success("Review Deleted Successfully")
-
-          // You might want to refresh the data here
-          // For example, by calling a function passed as a prop
+          toast.success("Review Deleted Successfully");
+  
           if (payload.onDeleteSuccess) {
-            payload.onDeleteSuccess(id)
+            payload.onDeleteSuccess(id);
           }
+        } else {
+          toast.error("Failed to delete review" );
         }
+      } catch (err) {
+        console.error(err);
+        toast.error("Something went wrong");
       }
-    })
-  }
+    } else {
+      toast.info("Delete cancelled");
+    }
+  };
+  
 
   // Ensure payload has the expected structure
   const reviews = payload?.invoice?.data || []

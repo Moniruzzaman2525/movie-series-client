@@ -32,7 +32,6 @@ export default function RootLayout({
         <UserProvider>
           {children}
         </UserProvider>
-       
       </body>
     </html>
   );
