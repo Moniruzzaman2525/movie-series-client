@@ -1,4 +1,5 @@
-export interface overallRating {
+export interface IMovie {
+     rating:number;
      id: string,
      title: string;
      genre: string;

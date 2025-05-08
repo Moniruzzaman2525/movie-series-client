@@ -4,12 +4,11 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { motion } from 'framer-motion';
 import Review from "@/components/HomeCompoents/Details/review";
-import CommentComponent from "@/components/HomeCompoents/Details/comment";
 import PostReview from "@/components/HomeCompoents/Details/PostReview";
-import PostComment from "@/components/HomeCompoents/Details/PostComment";
 import { makePayment } from "@/service/Payments";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import UpdatedComment from "@/components/HomeCompoents/Details/UpdateComment";
 const tabs = ["Reviews", "Comments", "Send Review"];
 
 const Details = ({ movieData }: {
@@ -36,7 +35,7 @@ const Details = ({ movieData }: {
         try{
           const paymentData={
                contentId: movieData.id,
-               amount:movieData.price*120
+               amount:movieData.price
           }
           const result=await makePayment(paymentData)
           console.log(result);
@@ -91,9 +90,8 @@ const Details = ({ movieData }: {
                               <div className="mt-4 text-white font-semibold text-lg">
                                    <motion.button
                                   onClick={handlePayment}
-                                        whileHover={{ scale: 1.1 }}
-                                        transition={{ duration: 0.3 }}
-                                        className="bg-red-500 px-3 py-1 rounded cursor-pointer"
+                                        
+                                        className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 px-6 shadow-md hover:shadow-lg transition-all duration-200 text-white border-0 rounded-lg"
                                    >
                                         Purchase
                                    </motion.button>
@@ -128,15 +126,7 @@ const Details = ({ movieData }: {
 
                               {/* for comments section */}
                               {activeTab === "Comments" && (
-                                   <div className="space-y-6 max-w-full">
-                                        <h1 className="text-2xl font-semibold text-white">Comments <span>({movieData?.Comment?.length})</span></h1>
-                                        {movieData.Comment?.map((data: any, i) => (
-                                            <CommentComponent data={data} index={i} key={i} />
-                                        ))}
-
-
-                                      <PostComment movieData={movieData}/>
-                                   </div>
+                                  <UpdatedComment movie={movieData}/>
                               )}
 
                               {activeTab === "Send Review" && (

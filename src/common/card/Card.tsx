@@ -11,9 +11,9 @@ import { likeVideo } from "@/service/Like";
 import { toast } from "sonner";
 import { addWatchList } from "@/service/WatchList";
 import { MdArrowRightAlt } from "react-icons/md";
-import { overallRating } from "@/types/Movie";
+import { IMovie } from "@/types/Movie";
 
-const ReusableCard = ({ movie }: { movie: overallRating }) => {
+const ReusableCard = ({ movie }: { movie: IMovie }) => {
 
      const { user } = useUser();
      const [showCommentModal, setShowCommentModal] = useState(false);
