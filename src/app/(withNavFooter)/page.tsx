@@ -9,7 +9,12 @@ import EditorPickMovies from "@/components/HomeCompoents/Content/EditorPickMovie
 import SubscriptionPage from "@/components/HomeCompoents/Subscription";
 
 
+
+
+
 const HomePage = () => {
+
+  
   return (
     <div>
       <HeroSection />
