@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-export interface MovieCardProps {
+export interface IMovie {
      rating:number;
-=======
-export interface overallRating {
->>>>>>> 8e0c271aa71b53e1a102a5877367d9f34a6457f6
      id: string,
      title: string;
      genre: string;

@@ -161,6 +161,10 @@ export const getMostReview = async () => {
 
     return result;
 }
+
+
+
+
 export const getSellInfo = async () => {
     const res = await fetch(`${process.env.SERVER_URL}/payment/sell-info`, {
         method: "GET",

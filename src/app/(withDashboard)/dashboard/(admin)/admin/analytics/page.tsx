@@ -5,7 +5,9 @@ import { Suspense } from "react";
 
 const Analytics = async() => {
      const sellInfo = await getSellInfo()
-    
+     console.log(sellInfo,"sell info")
+   
+     
      return (
           <Suspense fallback={<p>loading.........</p>}>
                <SellAnalyticsDashboard data={sellInfo?.data}></SellAnalyticsDashboard>

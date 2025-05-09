@@ -1,12 +1,11 @@
-/* eslint-disable @next/next/no-img-element */
+
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
 import ReusableCard from "../card/Card";
-import { MovieCardProps } from "@/types/Movie";
 import GenresList from "../card/Filterbar";
 import { useUser } from "@/context/userContext";
-import { getAllContent } from "@/service/content";
+import { getAllContent } from "@/service/Content";
 
 
 
@@ -15,7 +14,7 @@ const MovieSearch = () => {
      const { searchQuery } = useUser()
      const [searchTerm, setSearchTerm] = useState(searchQuery);
      const [currentPage, setCurrentPage] = useState(1);
-     const [data, setData] = useState<MovieCardProps[]>([]);
+     const [data, setData] = useState([]);
      const [category, setCategory] = useState<string | undefined>();
      const [loading, setLoading] = useState(false);
      const [error, setError] = useState<string | null>(null);
@@ -23,17 +22,18 @@ const MovieSearch = () => {
      const [year, setYear] = useState<string | null>(null);
      const [Rating, setRating] = useState<string | null>(null);
 
-   
+
 
      const moviesData = useCallback(async () => {
           setLoading(true);
           setError(null);
           try {
                const result = await getAllContent(searchTerm, category, Platform, year, Rating);
-              
+
                if (result?.data) {
                     const filterMovies = result?.data?.filter(
-                         (movie: MovieCardProps) => movie.category === "MOVIE"
+                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                         (movie: any) => movie.category === "MOVIE"
                     );
                     setData(filterMovies);
                } else {
@@ -78,7 +78,7 @@ const MovieSearch = () => {
      console.log(data)
      return (
           <div className="w-full container mx-auto p-4">
-          
+
                {/* Search and Filter Bar */}
                <div className="flex flex-wrap justify-center gap-4 items-center text-white shadow-md rounded-xl p-4 mb-6 bg-gray-800">
                     {/* Search Input */}
@@ -166,11 +166,6 @@ const MovieSearch = () => {
 
                          {error && !loading && (
                               <div className="col-span-full text-center text-red-400 mt-8">
-                                   <img
-                                        src="https://i.ibb.co.com/cSDr6Tz9/2953962.jpg"
-                                        alt="Error"
-                                        className="w-40 mx-auto mb-4"
-                                   />
                                    <p className="text-lg font-semibold">Oops! Something went wrong.</p>
                                    <p className="text-sm text-gray-400">Please try again later.</p>
                               </div>
@@ -178,11 +173,6 @@ const MovieSearch = () => {
 
                          {!loading && !error && paginatedMovies.length === 0 && (
                               <div className="col-span-full text-center text-gray-300 mt-8">
-                                   <img
-                                        src="https://i.ibb.co.com/cSDr6Tz9/2953962.jpg"
-                                        alt="No Data"
-                                        className="w-40 mx-auto mb-4"
-                                   />
                                    <p className="text-lg font-semibold">No movies found</p>
                                    <p className="text-sm text-gray-400">Try a different search or genre.</p>
                               </div>
