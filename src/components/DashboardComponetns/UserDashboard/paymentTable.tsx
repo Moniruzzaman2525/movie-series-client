@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { CreditCard, CheckCircle2, XCircle, DollarSign, Calendar } from "lucide-react"
+import Link from "next/link"
 
 export function PaymentTable(payload: any) {
   // Calculate total amount
@@ -27,15 +28,18 @@ export function PaymentTable(payload: any) {
           <TableHeader>
             <TableRow className="border-b border-slate-200">
               <TableHead className="w-[60px] font-bold text-slate-700">#</TableHead>
+              <TableHead className="font-bold text-slate-700">Title</TableHead>
               <TableHead className="font-bold text-slate-700">Video</TableHead>
               <TableHead className="font-bold text-slate-700">Transaction</TableHead>
               <TableHead className="font-bold text-slate-700">Status</TableHead>
+              <TableHead className="font-bold text-slate-700">Admin Status</TableHead>
               <TableHead className="font-bold text-slate-700">Streaming On</TableHead>
               <TableHead className="text-right font-bold text-slate-700">Amount</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {payload.invoice.map((invoice: any, index: number) => (
+              console.log(invoice),
               <TableRow
                 key={invoice.id || index}
                 className="border-b border-slate-100 hover:bg-slate-50/80 transition-colors"
@@ -52,6 +56,22 @@ export function PaymentTable(payload: any) {
                     </span>
                   </div>
                 </TableCell>
+                {invoice?.adminStatus=== false ?
+                <TableCell>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-red-500 truncate max-w-[200px]">
+                      Pending..
+                    </span>
+                  </div>
+                </TableCell>:<TableCell>
+                  <div className="flex flex-col">
+                    <span className="font-medium  truncate max-w-[200px] text-emerald-500 bg-emerald-200 rounded-full text-center">
+                      <Link href={`${invoice?.video?.video}`}> Watch Now</Link>
+                    </span>
+                  </div>
+                </TableCell>
+
+                }
                 <TableCell>
                   <div className="flex items-center">
                     <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center mr-2">
@@ -77,11 +97,30 @@ export function PaymentTable(payload: any) {
                     </div>
                   )}
                 </TableCell>
+                <TableCell>
+                  {invoice?.
+                    adminStatus === false ? (
+                    <div className="flex items-center">
+                      <div className="h-6 w-6 rounded-full bg-red-50 flex items-center justify-center mr-2">
+                        <XCircle className="h-4 w-4 text-red-500" />
+                      </div>
+                      <span className="text-red-500 font-medium">Pending</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center">
+                      <div className="h-6 w-6 rounded-full bg-emerald-50 flex items-center justify-center mr-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                      </div>
+                      <span className="text-emerald-500 font-medium">Paid</span>
+                    </div>
+                  )}
+                </TableCell>
+
                 <TableCell className="text-right">
                   <div className="bg-slate-100 px-3 py-1 rounded-full inline-block">
                     <span className="font-semibold text-slate-800 flex justify-self-start">
-                   {invoice?.video?.streamingPlatform
-                   }
+                      {invoice?.video?.streamingPlatform
+                      }
                     </span>
                   </div>
                 </TableCell>
