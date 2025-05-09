@@ -4,23 +4,26 @@
 
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 import type React from "react"
 import { useState } from "react"
-import { MessageSquare, Send, Heart, EllipsisVertical, Pencil, Trash2 } from "lucide-react"
+import { MessageSquare, Send, Heart, EllipsisVertical, Pencil, Trash2, Edit } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { createComment } from "@/service/Comments"
+import { createComment, deleteComment, updateComment } from "@/service/Comments"
 import { formatDistanceToNow } from "date-fns"
 import { toast } from "sonner"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -35,8 +38,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useUser } from "@/context/userContext"
 
 const UpdatedComment: React.FC<any> = ({ movie }: { movie: MovieCardProps }) => {
+  const user=useUser()
+  console.log(user)
+  console.log(movie.Comment);
   const [comments, setComments] = useState<IComment[]>(movie.Comment || [])
   const [newComment, setNewComment] = useState("")
   const [replyingTo, setReplyingTo] = useState<string | null>(null)
@@ -69,6 +76,12 @@ const UpdatedComment: React.FC<any> = ({ movie }: { movie: MovieCardProps }) => 
     },
   })
 
+  const editForm=useForm({
+    defaultValues: {
+      editContent: "",
+    },
+  })
+
   const handleSubmitComment = async (data: any) => {
     const id = toast.loading("posting.....")
     try {
@@ -90,6 +103,24 @@ const UpdatedComment: React.FC<any> = ({ movie }: { movie: MovieCardProps }) => 
     form.reset()
   }
 
+  const handleEditComment = async (data:any,cId:string) => {
+    const commentData={
+      content:data.editContent,
+      id:cId
+    }
+    const id = toast.loading("Updating.....")
+    try {
+       const result=await updateComment(commentData)
+       console.log(result);
+      if(result.success==true){
+        toast.success("Comment Updated Successfully", { id })
+      }else{
+        toast.error(result.message, { id })
+      }
+    }catch(err){
+      toast.error((err as Error).message,{id})
+    }
+  }
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -208,9 +239,8 @@ const UpdatedComment: React.FC<any> = ({ movie }: { movie: MovieCardProps }) => 
                       className="flex items-center gap-1 text-xs cursor-pointer text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200 bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
                     >
                       <Heart
-                        className={`h-3 w-3 ${comment.isLiked ? "fill-red-500 text-red-500" : ""} ${
-                          likeLoading === comment.id ? "opacity-50" : ""
-                        } transition-all duration-200`}
+                        className={`h-3 w-3 ${comment.isLiked ? "fill-red-500 text-red-500" : ""} ${likeLoading === comment.id ? "opacity-50" : ""
+                          } transition-all duration-200`}
                       />
                       <span>{comment.likes} likes</span>
                     </button>
@@ -243,51 +273,54 @@ const UpdatedComment: React.FC<any> = ({ movie }: { movie: MovieCardProps }) => 
                   </AnimatePresence>
                 </div>
                 <div className="relative">
-                  <AlertDialog>
-                    <div className="relative">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
-                          >
-                            <EllipsisVertical className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                           
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-[160px] p-2">
-                          <DropdownMenuItem className="cursor-pointer flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
-                            <Pencil className="h-4 w-4" />
-                            <span>Edit</span>
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <AlertDialogTrigger className="w-full">
-                            <DropdownMenuItem className="cursor-pointer flex items-center gap-2 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300">
-                              <Trash2 className="h-4 w-4" />
-                              <span>Delete</span>
-                            </DropdownMenuItem>
-                          </AlertDialogTrigger>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                    <AlertDialogContent className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
-                      <AlertDialogHeader>
-                        <AlertDialogTitle className="text-gray-900 dark:text-white">Delete Comment</AlertDialogTitle>
-                        <AlertDialogDescription className="text-gray-600 dark:text-gray-400">
-                          Are you sure you want to delete this comment? This action cannot be undone.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 border-0">
-                          Cancel
-                        </AlertDialogCancel>
-                        <AlertDialogAction className="bg-red-600 hover:bg-red-700 text-white border-0">
-                          Delete
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                
+                      <Dialog>
+                      <DialogTrigger>
+                          <Edit className="text-gray-400 size-5"/>
+                      </DialogTrigger>
+                      <DialogContent className="bg-white">
+                        <DialogHeader>
+                          <DialogTitle>Update your Comment</DialogTitle>
+                         
+                            <Form {...editForm}>
+                            <form   onSubmit={editForm.handleSubmit((data) => 
+                            handleEditComment(data, comment.id))}  className="space-y-4">
+                                <FormField
+                                  control={editForm.control}
+                                  name="editContent"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormControl>
+                                        <Textarea
+                                          rows={4}
+                                          className="bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:border-red-500 focus-visible:ring-1 focus-visible:ring-offset-0 resize-none transition-all duration-200"
+                                          placeholder="Share your thoughts about this movie..."
+                                          {...field}
+                                        />
+                                      </FormControl>
+                                      <FormMessage className="text-red-500" />
+                                    </FormItem>
+                                  )}
+                                />
+                                <div className="flex justify-end">
+                                  <Button
+                                    type="submit"
+                                    className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 px-6 shadow-md hover:shadow-lg transition-all duration-200 text-white border-0"
+                                  >
+                                    <Send className="h-4 w-4 mr-2" /> update
+                                  </Button>
+                                </div>
+                              </form>
+                            </Form>
+                         
+                        </DialogHeader>
+  
+                      </DialogContent>
+  
+                    </Dialog>
+                
+                 
+
                 </div>
               </div>
 
@@ -330,22 +363,6 @@ const UpdatedComment: React.FC<any> = ({ movie }: { movie: MovieCardProps }) => 
         </div>
       )}
 
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(0, 0, 0, 0.05);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(239, 68, 68, 0.3);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(239, 68, 68, 0.5);
-        }
-      `}</style>
     </motion.div>
   )
 }

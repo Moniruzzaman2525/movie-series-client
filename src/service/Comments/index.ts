@@ -50,6 +50,7 @@ export const deleteComment = async (id: string) => {
     const res = await fetch(`${process.env.SERVER_URL}/comments/delete-comment/${id}`, {
       method: 'DELETE',
       headers: {
+        "content-type":"application/json",
         Authorization: (await cookies()).get("accessTokenF")?.value || "",
       },
       cache: 'no-store',
@@ -61,6 +62,7 @@ export const deleteComment = async (id: string) => {
   };
 
 export const updateComment = async (payload:any) => {
+     
     const res=await fetch(`${process.env.SERVER_URL}/comments/edit-comment/${payload.id}`,{
         method:'PATCH',
         headers:{
