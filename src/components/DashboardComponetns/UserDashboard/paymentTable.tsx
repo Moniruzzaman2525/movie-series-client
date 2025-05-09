@@ -66,7 +66,7 @@ export function PaymentTable(payload: any) {
                 </TableCell>:<TableCell>
                   <div className="flex flex-col">
                     <span className="font-medium  truncate max-w-[200px] text-emerald-500 bg-emerald-200 rounded-full text-center">
-                      <Link href={`${invoice?.video?.video}`}> Watch Now</Link>
+                      <Link href={`/player?id=${invoice?.video?.id}`}> Watch Now</Link>
                     </span>
                   </div>
                 </TableCell>
