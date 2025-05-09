@@ -2,9 +2,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 import type React from "react"
 import { useState } from "react"
-import { MessageSquare, Send, Heart } from "lucide-react"
+import { MessageSquare, Send, Heart, EllipsisVertical, Pencil, Trash2 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -16,6 +28,13 @@ import type { IComment, MovieCardProps } from "@/types"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { useForm } from "react-hook-form"
 import { motion, AnimatePresence } from "framer-motion"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const UpdatedComment: React.FC<any> = ({ movie }: { movie: MovieCardProps }) => {
   const [comments, setComments] = useState<IComment[]>(movie.Comment || [])
@@ -222,6 +241,53 @@ const UpdatedComment: React.FC<any> = ({ movie }: { movie: MovieCardProps }) => 
                       </motion.div>
                     )}
                   </AnimatePresence>
+                </div>
+                <div className="relative">
+                  <AlertDialog>
+                    <div className="relative">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
+                          >
+                            <EllipsisVertical className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                           
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[160px] p-2">
+                          <DropdownMenuItem className="cursor-pointer flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                            <Pencil className="h-4 w-4" />
+                            <span>Edit</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <AlertDialogTrigger className="w-full">
+                            <DropdownMenuItem className="cursor-pointer flex items-center gap-2 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300">
+                              <Trash2 className="h-4 w-4" />
+                              <span>Delete</span>
+                            </DropdownMenuItem>
+                          </AlertDialogTrigger>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                    <AlertDialogContent className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle className="text-gray-900 dark:text-white">Delete Comment</AlertDialogTitle>
+                        <AlertDialogDescription className="text-gray-600 dark:text-gray-400">
+                          Are you sure you want to delete this comment? This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 border-0">
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction className="bg-red-600 hover:bg-red-700 text-white border-0">
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </div>
 
