@@ -8,7 +8,7 @@ const EditorPickMovies = async () => {
 
     return (
         <div>
-            <EditorsPick data={result?.data?.data} />
+            <EditorsPick data={result?.data} />
         </div>
     );
 };
