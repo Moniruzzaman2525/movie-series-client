@@ -7,6 +7,7 @@ const NewlyAddedMovies = async () => {
 
     const result = await getNewlyAdded();
 
+
     return (
         <div>
             <NewlyAdded data={result?.data} />

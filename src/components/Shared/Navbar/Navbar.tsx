@@ -14,22 +14,22 @@ const Navbar = () => {
   const router = useRouter();
   const pathName = usePathname();
   const { user, setIsLoading, handleUser } = useUser();
-  
+
   const path = pathName;
 
-  useEffect(() => {
-    handleUser();
-  }, [user, handleUser]);
+  // useEffect(() => {
+  //   handleUser();
+  // }, [user, handleUser]);
 
   const handleLogout = async () => {
     await logOut();
- 
-  
-     router.push("/");
-  
+
+
+    router.push("/");
+
     setIsLoading(true);
 
-  
+
     toast.success("logout successful");
   };
 

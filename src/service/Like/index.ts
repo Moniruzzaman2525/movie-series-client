@@ -14,7 +14,7 @@ export const likeVideo = async (payload: any) => {
         cache: 'no-store',
     })
     const result = await res.json()
-    revalidateTag('content')
+    revalidateTag('movies')
     return result
 }
 export const likeComment = async (payload: any) => {

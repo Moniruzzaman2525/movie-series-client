@@ -9,7 +9,7 @@ import { useUser } from "@/context/userContext";
 import LoginPrompt from "./LoginPrompt";
 import { likeVideo } from "@/service/Like";
 import { toast } from "sonner";
-import { addWatchList } from "@/service/WatchList";
+import { addWatchList, removeWhatsList } from "@/service/WatchList";
 import { MdArrowRightAlt } from "react-icons/md";
 import { IMovie } from "@/types/Movie";
 
@@ -61,13 +61,23 @@ const ReusableCard = ({ movie }: { movie: IMovie }) => {
                setShowLoginModal(true);
                return;
           }
+          console.log(movie)
           const data = {
                videoId: movie.id,
           };
-          const res = await addWatchList(data);
-          if (res.success) {
-               toast.success(res.message);
+          if (movie.inWatchList) {
+               const res = await removeWhatsList(movie.id);
+               console.log(res)
+               if (res.success) {
+                    toast.success(res.message);
+               }
+          } else {
+               const res = await addWatchList(data);
+               if (res.success) {
+                    toast.success(res.message);
+               }
           }
+
      };
 
      const renderStarRating = (rating: number) => {
