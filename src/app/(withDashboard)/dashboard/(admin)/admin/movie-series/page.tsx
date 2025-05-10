@@ -1,7 +1,5 @@
 import { MoviesOrSeries } from "@/components/DashboardComponetns/UserDashboard/Admin/MoviesOrSeries";
-import { getAllContent } from "@/service/content";
-
-
+import { getAllContent } from "@/service/Content";
 
 
 const GetMovieOrSeries = async () => {

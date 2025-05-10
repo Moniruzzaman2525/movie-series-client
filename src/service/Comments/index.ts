@@ -48,11 +48,12 @@ export const getVideoComments = async (videoId: string) => {
 
 export const deleteComment = async (id: string) => {
     const res = await fetch(`${process.env.SERVER_URL}/comments/delete-comment/${id}`, {
-        method: 'DELETE',
-        headers: {
-            Authorization: (await cookies()).get("accessTokenF")?.value || "",
-        },
-        cache: 'no-store',
+      method: 'DELETE',
+      headers: {
+        "content-type":"application/json",
+        Authorization: (await cookies()).get("accessTokenF")?.value || "",
+      },
+      cache: 'no-store',
     });
 
     const result = await res.json();

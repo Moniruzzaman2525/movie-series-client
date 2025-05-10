@@ -4,12 +4,12 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import Image from 'next/image';
 import { toast } from 'sonner';
-import { createContent } from '@/service/content';
+import { createContent } from '@/service/Content';
 
 const MovieForm = () => {
-     const { register, handleSubmit,reset, formState: { errors } } = useForm();
+     const { register, handleSubmit, reset, formState: { errors } } = useForm();
      const [previewImage, setPreviewImage] = useState<string | null>(null);
-     const [imageFile,setImageFile]=useState<File | null>(null)
+     const [imageFile, setImageFile] = useState<File | null>(null)
 
      const genres: string[] = [
           "ACTION",
@@ -42,11 +42,11 @@ const MovieForm = () => {
      ];
      const categories = ["MOVIE", "SERIES"];
 
-     const onSubmit:SubmitHandler<FieldValues> = async(data) => {
+     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
           const id = toast.loading("loading..")
 
-          if(!imageFile){
-               toast.error("please select a image",{id})
+          if (!imageFile) {
+               toast.error("please select a image", { id })
                return;
           }
           // Handle form submission here
@@ -77,28 +77,28 @@ const MovieForm = () => {
           try {
                const result = await createContent(formData)
                console.log(result)
-               if(result.success){
-                    toast.success(result.message,{id})
+               if (result.success) {
+                    toast.success(result.message, { id })
                     setPreviewImage(null)
                     reset()
-               }else{
+               } else {
                     toast.error(result.message, { id })
                }
-               
-          } catch (error:any) {
-               toast.error(error.message,{id})
+
+          } catch (error: any) {
+               toast.error(error.message, { id })
           }
 
-      
-        
+
+
      };
 
      const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           const file = e.target.files?.[0];
-         
+
           if (file) {
                setImageFile(file)
-               
+
                const reader = new FileReader();
                reader.onloadend = () => {
                     setPreviewImage(reader.result as string);

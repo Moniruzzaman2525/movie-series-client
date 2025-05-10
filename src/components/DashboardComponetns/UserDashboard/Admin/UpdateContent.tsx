@@ -4,8 +4,8 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import Image from 'next/image';
 import { toast } from 'sonner';
-import {  updateContent } from '@/service/content';
 import { useRouter } from 'next/navigation';
+import { updateContent } from '@/service/Content';
 
 interface MovieFormProps {
      existingData?: {
@@ -46,8 +46,8 @@ const UpdateContentFrom = ({ existingData }: MovieFormProps) => {
      const [imageFile, setImageFile] = useState<File | null>(null);
 
 
-   const router = useRouter()
-  
+     const router = useRouter()
+
 
      const genres = [
           "ACTION", "ADVENTURE", "ANIMATION", "COMEDY", "DRAMA",
@@ -93,7 +93,7 @@ const UpdateContentFrom = ({ existingData }: MovieFormProps) => {
                if (result.success) {
                     toast.success(result.message, { id });
                     router.push('/dashboard/admin/movie-series')
-                    reset(); 
+                    reset();
                } else {
                     toast.error(result.message, { id });
                }
@@ -120,7 +120,7 @@ const UpdateContentFrom = ({ existingData }: MovieFormProps) => {
                <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
                     <div className="bg-gradient-to-r from-red-500 to-purple-600 p-6 text-white">
                          <h2 className="text-2xl font-bold">
-                              { 'Edit' } Movie/TV Show
+                              {'Edit'} Movie/TV Show
                          </h2>
                          <p className="opacity-90">
                               {'Fill in the details below to add a new title'}
@@ -164,7 +164,7 @@ const UpdateContentFrom = ({ existingData }: MovieFormProps) => {
                     hover:file:bg-indigo-100"
                                         />
                                         <p className="mt-1 text-xs text-gray-500">
-                                             { 'PNG, JPG up to 2MB'}
+                                             {'PNG, JPG up to 2MB'}
                                         </p>
                                    </div>
                               </div>
@@ -330,7 +330,7 @@ const UpdateContentFrom = ({ existingData }: MovieFormProps) => {
                                    type="submit"
                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                               >
-                                   { 'Update Content'}
+                                   {'Update Content'}
                               </button>
                          </div>
                     </form>
