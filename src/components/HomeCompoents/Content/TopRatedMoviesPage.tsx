@@ -10,7 +10,7 @@ const TopRatedMoviesPage = async () => {
 
     return (
         <div>
-            <TopRatedMovies data={result?.data} />
+            <TopRatedMovies data={result} />
         </div>
     );
 };

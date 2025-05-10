@@ -61,7 +61,7 @@ const ReusableCard = ({ movie }: { movie: IMovie }) => {
                setShowLoginModal(true);
                return;
           }
-          console.log(movie)
+ 
           const data = {
                videoId: movie.id,
           };

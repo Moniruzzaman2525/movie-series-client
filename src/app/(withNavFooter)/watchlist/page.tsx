@@ -4,7 +4,7 @@ import React from 'react';
 
 const WatchListPage = async () => {
     const result = await getWatchList();
-
+    console.log(result)
     return (
         <div>
             <WatchList data={result} />
