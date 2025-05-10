@@ -45,3 +45,30 @@ export const getAllPayment=async()=>{
     const result=await res.json()
     return result
 }
+
+
+export const updateAdminStatus=async(id:string)=>{
+    const res=await fetch(`${process.env.SERVER_URL}/payment/payment-approved/${id}`,{
+        method:"PATCH",
+        headers:{
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        cache:'no-cache'
+    })
+    const result=await res.json()
+    revalidateTag('payments')
+    return result
+}
+
+export const rejectPayment=async(id:string)=>{
+    const res=await fetch(`${process.env.SERVER_URL}/payment/rejected-payment/${id}`,{
+        method:"DELETE",
+        headers:{
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        cache:'no-cache'
+    })
+    const result=await res.json()
+    revalidateTag('payments')
+    return result
+}
