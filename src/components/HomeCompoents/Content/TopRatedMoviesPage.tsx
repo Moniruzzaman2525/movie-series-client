@@ -1,6 +1,7 @@
 
 
-import { getTopRatedThisWeek } from '@/service/Content';
+
+import { getTopRatedThisWeek } from '@/service/content';
 import TopRatedMovies from './TopRatedMovies';
 
 const TopRatedMoviesPage = async () => {

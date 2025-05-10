@@ -1,6 +1,6 @@
 import Sidebar from "@/common/dashboardSidebar/Sidebar";
 import type { Metadata } from "next";
-import { Toaster } from "sonner";
+
 
 export const metadata: Metadata = {
      title: "ShowFLIX | Dashboard",
@@ -20,7 +20,6 @@ export default function DashboardLayout({
                {/* Main content with left margin to avoid overlapping */}
                <div className="md:ml-[257px] ">
                     {children}
-                    <Toaster />
                </div>
           </div>
      );

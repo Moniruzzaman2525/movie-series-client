@@ -13,6 +13,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 import { addEditorPick, removeEditorPick } from "@/service/EditorPick"
 import { IMovie } from "@/types/Movie"
+import { MdSystemUpdateAlt } from "react-icons/md"
+import Link from "next/link"
 
 
 
@@ -239,7 +241,7 @@ export function MoviesOrSeries({ data, isLoading = false }: AllUserTableProps) {
                                     </TableCell>
                                 </TableRow>
                             ))
-                        ) : currentUsers.length > 0 ? (
+                        ) : currentUsers?.length > 0 ? (
                             currentUsers.map((movie, index) => (
                                 <TableRow
                                     key={movie.id || index}
@@ -302,6 +304,18 @@ export function MoviesOrSeries({ data, isLoading = false }: AllUserTableProps) {
                                             >
                                                 <Pen className="h-4 w-4" />
                                             </Button>
+                                            <Link href={`/dashboard/admin/movie-series/${movie?.id}`}>
+                                                <Button
+                                                    title="update"
+                                                    variant="ghost"
+                                                    size="sm"
+
+                                                    className="h-8 w-8 p-0 text-green-500 cursor-pointer hover:bg-green-50"
+                                                    aria-label={`Reject review`}
+                                                >
+                                                    <MdSystemUpdateAlt className="h-4 w-4" />
+                                                </Button>
+                                          </Link>
                                             <Button
                                                 title="Delete Movie or Series"
                                                 variant="ghost"
