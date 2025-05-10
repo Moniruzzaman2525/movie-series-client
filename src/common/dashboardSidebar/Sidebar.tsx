@@ -75,13 +75,13 @@ const Sidebar = () => {
                                         <IoCreateOutline className='text-green-500' />
                                         <span className='mx-4 font-medium'>Create movies and series</span>
                                    </Link>
-                                   <Link
+                                   {/* <Link
                                         href='/dashboard/admin/createmoviesSeries'
                                         className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/createdProject')}`}
                                    >
                                         <SiCreatereactapp className='text-green-500' />
-                                        <span className='mx-4 font-medium'>Create movies</span>
-                                   </Link>
+                                        <span className='mx-4 font-medium'>Created movies & series</span>
+                                   </Link> */}
                                    <Link
                                         href='/dashboard/admin/alluser'
                                         className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/alluser')}`}

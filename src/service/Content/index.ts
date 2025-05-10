@@ -9,7 +9,6 @@ export const getAllContent = async (search?: string, genre?: string | undefined,
     if (search) {
         queryParams.push(`searchTerm=${encodeURIComponent(search)}`);
     }
-
     if (genre) {
         queryParams.push(`genre=${encodeURIComponent(genre.toUpperCase())}`);
     }
@@ -25,8 +24,6 @@ export const getAllContent = async (search?: string, genre?: string | undefined,
 
     const queryString = queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
 
-    console.log(queryString)
-
     const res = await fetch(`${process.env.SERVER_URL}/content${queryString}`, {
         method: "GET",
         headers: {
@@ -34,7 +31,7 @@ export const getAllContent = async (search?: string, genre?: string | undefined,
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         next: {
-            tags: ["movies"]
+            tags: ["content"]
         },
         cache: "no-store"
     });
@@ -52,7 +49,7 @@ export const getTopRatedThisWeek = async () => {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         next: {
-            tags: ["movies"]
+            tags: ["content"]
         },
         cache: "no-store"
     });
@@ -70,7 +67,7 @@ export const getNewlyAdded = async () => {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         next: {
-            tags: ["movies"]
+            tags: ["content"]
         },
         cache: "no-store"
     });
@@ -107,14 +104,13 @@ export const deleteContent = async (id: string) => {
     return result
 }
 
-export const updateContent = async (id: string, data: any) => {
+export const updateContent = async (id: string | undefined, data: any) => {
     const res = await fetch(`${process.env.SERVER_URL}/content/${id}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json',
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
-        body: JSON.stringify(data),
+        body: data,
         cache: 'no-store',
     });
     const result = await res.json();
@@ -125,10 +121,9 @@ export const createContent = async (data: any) => {
     const res = await fetch(`${process.env.SERVER_URL}/content`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
-        body: JSON.stringify(data),
+        body: data,
         cache: 'no-store',
     });
     const result = await res.json();

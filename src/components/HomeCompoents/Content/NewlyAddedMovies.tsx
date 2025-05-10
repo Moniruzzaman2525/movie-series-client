@@ -1,6 +1,7 @@
 
 
-import { getNewlyAdded } from '@/service/Content';
+
+import { getNewlyAdded } from '@/service/content';
 import NewlyAdded from './NewlyAdded';
 
 const NewlyAddedMovies = async () => {

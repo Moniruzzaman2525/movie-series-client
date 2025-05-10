@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useEffect } from "react";
@@ -13,23 +14,23 @@ import { usePathname, useRouter } from "next/navigation";
 const Navbar = () => {
   const router = useRouter();
   const pathName = usePathname();
-  const { user, setIsLoading, handleUser } = useUser();
+  const { user, setUser, handleUser, } = useUser();
   
+
   const path = pathName;
 
   useEffect(() => {
-    handleUser();
-  }, [user, handleUser]);
+    const fetchUser = async () => {
+      handleUser();
+    };
+    fetchUser();
+  }, []);
 
   const handleLogout = async () => {
     await logOut();
- 
+    setUser(null)
   
-     router.push("/");
-  
-    setIsLoading(true);
-
-  
+    router.push("/");
     toast.success("logout successful");
   };
 
