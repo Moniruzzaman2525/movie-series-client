@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useUser } from "@/context/userContext"
 import { CreditCard, CheckCircle2, XCircle, DollarSign, Calendar } from "lucide-react"
 import Link from "next/link"
 
 export function PaymentTable(payload: any) {
+  const user = useUser()
+  console.log(user);
   // Calculate total amount
   const totalAmount = payload.invoice.reduce((sum: number, invoice: any) => {
     const amount = Number.parseFloat(invoice?.total_amount || 0)
@@ -56,7 +59,25 @@ export function PaymentTable(payload: any) {
                     </span>
                   </div>
                 </TableCell>
-                {invoice?.adminStatus=== false ?
+            {user.user?.role==='USER'?
+              <TableCell>
+                  {invoice?.adminStatus=== false ?
+                <div>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-red-500 truncate max-w-[200px]">
+                      Pending..
+                    </span>
+                  </div>
+                </div>:<div>
+                  <div className="flex flex-col">
+                    <span className="font-medium  truncate max-w-[200px] text-emerald-500 bg-emerald-200 rounded-full text-center">
+                      <Link href={`/player?id=${invoice?.video?.id}`}> Watch Now</Link>
+                    </span>
+                  </div>
+                </div>
+                }
+              </TableCell>  :  <TableCell>
+                  {invoice?.adminStatus=== false ?
                 <TableCell>
                   <div className="flex flex-col">
                     <span className="font-medium text-red-500 truncate max-w-[200px]">
@@ -66,12 +87,14 @@ export function PaymentTable(payload: any) {
                 </TableCell>:<TableCell>
                   <div className="flex flex-col">
                     <span className="font-medium  truncate max-w-[200px] text-emerald-500 bg-emerald-200 rounded-full text-center">
-                      <Link href={`/player?id=${invoice?.video?.id}`}> Watch Now</Link>
+                     Approved
                     </span>
                   </div>
                 </TableCell>
-
                 }
+              </TableCell>
+
+            }
                 <TableCell>
                   <div className="flex items-center">
                     <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center mr-2">
@@ -97,6 +120,7 @@ export function PaymentTable(payload: any) {
                     </div>
                   )}
                 </TableCell>
+               {user?.user?.role==='USER'?
                 <TableCell>
                   {invoice?.
                     adminStatus === false ? (
@@ -111,10 +135,32 @@ export function PaymentTable(payload: any) {
                       <div className="h-6 w-6 rounded-full bg-emerald-50 flex items-center justify-center mr-2">
                         <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                       </div>
-                      <span className="text-emerald-500 font-medium">Paid</span>
+                      <span className="text-emerald-500 font-medium">Approved</span>
+                    </div>
+                  )}
+                </TableCell>: <TableCell>
+                  {invoice?.
+                    adminStatus === false ? (
+                    <div className="flex items-center">
+                      <div className="h-6 w-6 rounded-full bg-red-50 flex items-center justify-center mr-2">
+                        <XCircle className="h-4 w-4 text-red-500" />
+                      </div>
+                      <div className="h-6 w-6 rounded-full bg-emerald-50 flex items-center justify-center mr-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                      </div>
+                      
+                    </div>
+                  ) : (
+                    <div className="flex items-center">
+                      <div className="h-6 w-6 rounded-full bg-emerald-50 flex items-center justify-center mr-2">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                      </div>
+                      <span className="text-emerald-500 font-medium">Approved</span>
                     </div>
                   )}
                 </TableCell>
+
+               }
 
                 <TableCell className="text-right">
                   <div className="bg-slate-100 px-3 py-1 rounded-full inline-block">

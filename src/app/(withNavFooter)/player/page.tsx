@@ -17,7 +17,11 @@ useEffect(() => {
 }, [id]);
 
 if (!id) {
-  return <div>Video not found</div>;
+  return (
+    <div>
+        <h1></h1>
+  </div>
+  )
 }
   return (
     <div className="flex justify-center items-center h-screen bg-black">
