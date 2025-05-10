@@ -5,7 +5,8 @@ import { useEffect, useState, useCallback } from "react";
 import ReusableCard from "../card/Card";
 import GenresList from "../card/Filterbar";
 import { useUser } from "@/context/userContext";
-import { getAllContent } from "@/service/Content";
+import { getAllContent } from "@/service/content";
+
 
 
 
@@ -29,6 +30,7 @@ const MovieSearch = () => {
           setError(null);
           try {
                const result = await getAllContent(searchTerm, category, Platform, year, Rating);
+               
 
                if (result?.data) {
                     const filterMovies = result?.data?.filter(
