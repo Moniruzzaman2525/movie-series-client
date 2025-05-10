@@ -1,5 +1,6 @@
 "use client";
 import { getContentById } from "@/service/Content";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -18,8 +19,8 @@ useEffect(() => {
 
 if (!id) {
   return (
-    <div>
-        <h1></h1>
+    <div className="flex justify-center items-center h-screen bg-black">
+        <Image src={'/notfound.gif'} width={400} height={400} alt="not found"/>
   </div>
   )
 }
