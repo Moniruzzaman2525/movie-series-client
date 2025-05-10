@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useUser } from "@/context/userContext"
 import { CreditCard, CheckCircle2, XCircle, DollarSign, Calendar } from "lucide-react"
@@ -78,19 +79,19 @@ export function PaymentTable(payload: any) {
                 }
               </TableCell>  :  <TableCell>
                   {invoice?.adminStatus=== false ?
-                <TableCell>
+                <div>
                   <div className="flex flex-col">
                     <span className="font-medium text-red-500 truncate max-w-[200px]">
                       Pending..
                     </span>
                   </div>
-                </TableCell>:<TableCell>
+                </div>:<div>
                   <div className="flex flex-col">
                     <span className="font-medium  truncate max-w-[200px] text-emerald-500 bg-emerald-200 rounded-full text-center">
                      Approved
                     </span>
                   </div>
-                </TableCell>
+                </div>
                 }
               </TableCell>
 

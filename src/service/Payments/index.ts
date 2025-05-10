@@ -32,3 +32,16 @@ export const getPaymentByUserEmail=async(email:string)=>{
     return result
 }
 
+
+export const getAllPayment=async()=>{
+    const res=await fetch(`${process.env.SERVER_URL}/payment`,{
+        method:'GET',
+        headers:{
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        cache:'no-cache',
+        next: {tags: ['payments']}
+    })
+    const result=await res.json()
+    return result
+}
