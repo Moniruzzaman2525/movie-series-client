@@ -7,7 +7,7 @@ import { MessageSquare, Send, X, Heart, Check } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { createComment, getVideoComments, deleteComment } from "@/service/Comments"
+import { createComment, getVideoComments, deleteComment, updateComment } from "@/service/Comments"
 import type { IComment } from "@/types"
 import { formatDistanceToNow } from "date-fns"
 import { toast } from "sonner"
@@ -88,13 +88,17 @@ const CommentModal: React.FC<any> = ({ setShowCommentModal, movie }) => {
 
     const handleUpdateComment = async (commentId: string) => {
         try {
-            console.log(commentId)
-            // const res = await updateComment(commentId, { content: editContent })
-            // if (res.success) {
-            //     toast.success("Comment updated.")
-            //     setEditingCommentId(null)
-            //     fetchComments()
-            // }
+            const data = {
+                id: commentId || "",
+                content: editContent,
+            }
+            const res = await updateComment(data)
+
+            if (res.success) {
+                toast.success("Comment updated.")
+                setEditingCommentId(null)
+                fetchComments()
+            }
         } catch (err) {
             toast.error("Failed to update comment.")
         }
