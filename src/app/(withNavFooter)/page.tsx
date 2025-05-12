@@ -1,26 +1,30 @@
-"use client";
 
-import EditorsPick from "@/components/HomeCompoents/EditorsPick";
 import FaqSection from "@/components/HomeCompoents/FaqSection";
 import HasselFreeExperience from "@/components/HomeCompoents/HasselFreeExperience";
-import HeroSection from "@/components/HomeCompoents/HeroSection";
-// import { ThreeDMarqueeDemo } from "@/components/HomeCompoents/Marquee";
-import NewlyAdded from "@/components/HomeCompoents/NewlyAdded";
 import { AnimatedTestimonialsDemo } from "@/components/HomeCompoents/Testimonials";
-import TopRatedMovies from "@/components/HomeCompoents/TopRatedMovies";
-import React from "react";
+import HeroSection from "@/components/HomeCompoents/HeroSection";
+import TopRatedMoviesPage from "@/components/HomeCompoents/Content/TopRatedMoviesPage";
+import NewlyAddedMovies from "@/components/HomeCompoents/Content/NewlyAddedMovies";
+import EditorPickMovies from "@/components/HomeCompoents/Content/EditorPickMovies";
+import SubscriptionPage from "@/components/HomeCompoents/Subscription";
+
+
+
+
 
 const HomePage = () => {
+
+  
   return (
     <div>
       <HeroSection />
-      <TopRatedMovies />
+      <TopRatedMoviesPage />
       <HasselFreeExperience />
-      <NewlyAdded />
-      <EditorsPick />
-      {/* <ThreeDMarqueeDemo/> */}
+      <NewlyAddedMovies />
+      <EditorPickMovies />
       <FaqSection />
       <AnimatedTestimonialsDemo />
+      <SubscriptionPage></SubscriptionPage>
     </div>
   );
 };

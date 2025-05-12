@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 
 import Image from "next/image";
@@ -136,38 +137,13 @@ const Footer: React.FC = () => {
 
         <hr className="mt-16 mb-10 border-gray-800" />
 
-        <div className="flex flex-wrap items-center justify-between">
-          <Image
-            className="h-8 w-8 auto md:order-1"
-            src="/favicon.ico"
-            alt="Showflix"
-            height={150}
-            width={150}
-          />
-          <ul className="flex items-center space-x-3 md:order-3 py-5">
-            {[
-              { icon: <FaTwitter />, name: "twitter" },
-              { icon: <FaFacebook />, name: "facebook" },
-              { icon: <FaInstagram />, name: "instagram" },
-            ].map((platform) => (
-              <li key={platform.name}>
-                <Link
-                  href="#"
-                  className="flex items-center justify-center text-white transition-all duration-200 bg-transparent border border-gray-700 rounded-full w-7 h-7 hover:bg-blue-600 hover:border-blue-600"
-                  aria-label={platform.name}
-                >
-                  {platform.icon}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <div className=" items-center justify-between">
+          
+          <p className="text-center mt-5 text-white pb-5">
+            Copyright © 2025 Showflix. All rights reserved
+          </p>
         </div>
       </div>
-
-      <hr className="border-neutral-700" />
-      <p className="text-center mt-5 text-white pb-5">
-        Copyright © 2025 Showflix. All rights reserved
-      </p>
     </div>
   );
 };

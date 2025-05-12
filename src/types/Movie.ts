@@ -1,5 +1,6 @@
-export interface MovieCardProps {
-     id:string,
+export interface IMovie {
+     rating:number;
+     id: string,
      title: string;
      genre: string;
      thumbnailImage: string;
@@ -8,5 +9,12 @@ export interface MovieCardProps {
      director: string;
      streamingPlatform: string;
      price: number;
-     rating: number;
+     overallRating: number;
+     category: string
+     key?: number;
+     liked?: boolean;
+     like: number;
+     inWatchList: boolean;
+     totalComments: number;
+     EditorsPick: []
 }

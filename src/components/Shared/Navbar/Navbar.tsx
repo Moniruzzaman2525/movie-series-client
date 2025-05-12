@@ -1,34 +1,36 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import { Menu } from "lucide-react";
+import { Menu, BookmarkIcon } from 'lucide-react';
 import Link from "next/link";
 import { useUser } from "@/context/userContext";
 import { logOut } from "@/service/Auth";
 import { toast } from "sonner";
 import { usePathname, useRouter } from "next/navigation";
+
 const Navbar = () => {
   const router = useRouter();
   const pathName = usePathname();
-  const { user, setIsLoading, handleUser } = useUser();
-  // Removed useLocation as it is not defined or imported
+  const { user, setUser, handleUser, } = useUser();
+
+
   const path = pathName;
-  console.log(path);
 
   useEffect(() => {
-    if (user === undefined) {
+    const fetchUser = async () => {
       handleUser();
-    }
-  }, [user, handleUser]);
+    };
+    fetchUser();
+  }, []);
 
   const handleLogout = async () => {
     await logOut();
-    if (pathName !== "/") {
-      router.push("/");
-    }
-    setIsLoading(true);
+    setUser(null)
+
+    router.push("/");
     toast.success("logout successful");
   };
 
@@ -90,7 +92,33 @@ const Navbar = () => {
           >
             Support
           </Link>
+
+          {user && (
+            <Link
+              href="/watchlist"
+              className={
+                path === "/watchlist"
+                  ? "font-medium text-red-500 flex items-center gap-1"
+                  : "font-medium hover:text-red-500 flex items-center gap-1"
+              }
+            >
+              <BookmarkIcon className="h-4 w-4" />
+              Watchlist
+            </Link>
+          )}
+
+          <div>
+            {
+              user?.role === "USER" && <Link href={'/dashboard/user/payment'}>Dashboard</Link>
+            }
+          </div>
+          <div>
+            {
+              user?.role === "ADMIN" && <Link href={'/dashboard/admin/analytics'}>Dashboard</Link>
+            }
+          </div>
         </div>
+
 
         {user ? (
           <div className="hidden md:block">
@@ -164,14 +192,41 @@ const Navbar = () => {
               >
                 Support
               </Link>
-              {user ? (
-                <Button
-                  variant="outline"
-                  className="w-full"
-                  onClick={handleLogout}
+
+              {user && (
+                <Link
+                  href="/watchlist"
+                  className={
+                    path === "/watchlist"
+                      ? "font-medium text-red-500 flex items-center gap-1"
+                      : "font-medium hover:text-red-500 flex items-center gap-1"
+                  }
                 >
-                  Logout
-                </Button>
+                  <BookmarkIcon className="h-4 w-4" />
+                  Watchlist
+                </Link>
+              )}
+
+              <div>
+                {
+                  user?.role === "USER" && <Link href={'/dashboard/user/payment'}>Dashboard</Link>
+                }
+              </div>
+              <div>
+                {
+                  user?.role === "ADMIN" && <Link href={'/dashboard/admin/analytics'}>Dashboard</Link>
+                }
+              </div>
+              {user ? (
+                <div>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                </div>
               ) : (
                 <Button variant="outline" className="w-full" asChild>
                   <Link href="/login">Login</Link>

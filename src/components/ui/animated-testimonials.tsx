@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import SectionTitleTwo from "../Shared/SectionTitle/SectionTitleTwo";
 
 type Testimonial = {
   quote: string;
@@ -49,11 +49,10 @@ export const AnimatedTestimonials = ({
   }, [autoplay]);
 
   return (
-    <div className="bg-gray-100">
-      <SectionTitleTwo text="Testimonials" subText="What our customers say" />
-      <div className="mx-auto max-w-5xl px-4 py-20 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
+    <div className="bg-black">
+      <div className="mx-auto max-w-5xl px-4 py-20 font-sans antialiased  md:px-8 lg:px-12">
         <div>
-          <div className="relative grid grid-cols-1 gap-20 md:grid-cols-2">
+          <div className="relative grid grid-cols-1 gap-20 md:grid-cols-2 justify-center items-center">
             <div className="relative h-80 w-full mb-10">
               <AnimatePresence mode="wait">
                 {testimonials.map((testimonial, index) => (
@@ -108,13 +107,13 @@ export const AnimatedTestimonials = ({
               exit={{ y: -20, opacity: 0 }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
             >
-              <h3 className="text-2xl font-bold text-black dark:text-white">
+              <h3 className="text-2xl font-bold  dark:text-white">
                 {testimonials[active].name}
               </h3>
-              <p className="text-sm text-gray-500 dark:text-neutral-500">
+              <p className="text-sm text-white dark:text-neutral-500">
                 {testimonials[active].designation}
               </p>
-              <motion.p className="mt-8 text-lg text-gray-500 dark:text-neutral-300">
+              <motion.p className="mt-8 text-lg text-white dark:text-neutral-300">
                 {testimonials[active].quote.split(" ").map((word, index) => (
                   <motion.span
                     key={index}
