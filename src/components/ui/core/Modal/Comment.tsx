@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
@@ -31,6 +32,7 @@ const CommentModal: React.FC<any> = ({ setShowCommentModal, movie }) => {
             setComments(response?.data)
             setLoading(false)
         } catch (err) {
+            toast.error((err as Error).message)
             setError("Failed to load comments.")
             setLoading(false)
         }
@@ -80,7 +82,7 @@ const CommentModal: React.FC<any> = ({ setShowCommentModal, movie }) => {
                 fetchComments()
             }
         } catch (err) {
-            toast.error("Failed to like comment")
+            toast.error((err as Error).message)
         } finally {
             setLikeLoading(null)
         }
@@ -100,7 +102,7 @@ const CommentModal: React.FC<any> = ({ setShowCommentModal, movie }) => {
                 fetchComments()
             }
         } catch (err) {
-            toast.error("Failed to update comment.")
+            toast.error((err as Error).message)
         }
     }
 
@@ -112,7 +114,7 @@ const CommentModal: React.FC<any> = ({ setShowCommentModal, movie }) => {
                 fetchComments()
             }
         } catch (err) {
-            toast.error("Failed to delete comment.")
+            toast.error((err as Error).message)
         }
     }
 

@@ -7,11 +7,10 @@ import Image from "next/image"; // Assuming you're using Next.js
 import Link from "next/link";
 import { toast } from "sonner";
 import { forgotPass, loginUser } from "@/service/Auth";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useUser } from "@/context/userContext";
 
 export default function LoginForm() {
-     const redirectPage = useSearchParams().get("redirectPath")
      const {
           register,
           handleSubmit,
@@ -21,43 +20,37 @@ export default function LoginForm() {
 
      const [showPassword, setShowPassword] = useState(false);
      const router = useRouter()
-     const [forgot,setForgot]=useState(false)
-     const {setReload}=useUser()
-
-     const onSubmit: SubmitHandler<FieldValues> =async (data) => {
+     const [forgot, setForgot] = useState(false)
+     const { setReload } = useUser()
+     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
           const id = toast.loading("Loading...");
 
           try {
-              if(!forgot){
-                   const result = await loginUser(data);
-                   setReload(false)
-                   if (result.success) {
+               if (!forgot) {
+                    const result = await loginUser(data);
+                    setReload(false)
+                    if (result.success) {
 
-                        toast.success(result.message, { id });
-                        if (redirectPage){
-                             router.push(redirectPage)
-                        }
-                        else{
-                             router.push("/");
-                        }
+                         toast.success(result.message, { id });
+                         router.push("/");
 
-                        reset();
-                   } else {
-                        toast.error(result.message, { id });
-                        reset();
-                   }
-              }else{
-                   const result = await forgotPass({email:data.email});
+                         reset();
+                    } else {
+                         toast.error(result.message, { id });
+                         reset();
+                    }
+               } else {
+                    const result = await forgotPass({ email: data.email });
 
-                   if (result.success) {
-                        toast.success(result.message, { id });
-                        reset();
-                   } else {
-                        toast.error(result.message || "something wrong", { id });
-                        reset();
-                   }
-              }
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    if (result.success) {
+                         toast.success(result.message, { id });
+                         reset();
+                    } else {
+                         toast.error(result.message || "something wrong", { id });
+                         reset();
+                    }
+               }
+               // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (error: any) {
                toast.error(error.message || "Something went wrong", { id });
           }
@@ -83,8 +76,8 @@ export default function LoginForm() {
 
                          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                               {/* Email Field */}
-                            {
-                              !forgot ? <div>
+                              {
+                                   !forgot ? <div>
                                         <div>
                                              <label className="block text-gray-700 font-medium mb-1">Email</label>
                                              <input
@@ -132,43 +125,43 @@ export default function LoginForm() {
                                                   <p className="text-red-500 text-sm mt-1">{errors.password.message?.toString()}</p>
                                              )}
                                              <div className="text-right mt-2">
-                                                  <p onClick={()=>setForgot(true)} className="text-sm cursor-pointer text-blue-600 hover:underline">
+                                                  <p onClick={() => setForgot(true)} className="text-sm cursor-pointer text-blue-600 hover:underline">
                                                        Forgot Password?
                                                   </p>
                                              </div>
                                         </div></div> : <div>
-                                             <div>
-                                                  <label className="block text-gray-700 font-medium mb-1">Email</label>
-                                                  <input
-                                                       type="email"
-                                                       {...register("email", {
-                                                            required: "Email is required",
-                                                            pattern: {
-                                                                 value: /^\S+@\S+$/i,
-                                                                 message: "Enter a valid email",
-                                                            },
-                                                       })}
-                                                       className={`w-full px-4 py-2 border ${errors.email ? "border-red-500" : "border-gray-300"
-                                                            } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                                                  />
-                                                  {errors.email && (
-                                                       <p className="text-red-500 text-sm mt-1">{errors.email.message?.toString()}</p>
-                                                  )}
-                                                  <div className="text-right mt-2">
-                                                       <p onClick={() => setForgot(false)} className="text-sm cursor-pointer text-blue-600 hover:underline">
-                                                            back to  login?
-                                                       </p>
-                                                  </div>
+                                        <div>
+                                             <label className="block text-gray-700 font-medium mb-1">Email</label>
+                                             <input
+                                                  type="email"
+                                                  {...register("email", {
+                                                       required: "Email is required",
+                                                       pattern: {
+                                                            value: /^\S+@\S+$/i,
+                                                            message: "Enter a valid email",
+                                                       },
+                                                  })}
+                                                  className={`w-full px-4 py-2 border ${errors.email ? "border-red-500" : "border-gray-300"
+                                                       } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                             />
+                                             {errors.email && (
+                                                  <p className="text-red-500 text-sm mt-1">{errors.email.message?.toString()}</p>
+                                             )}
+                                             <div className="text-right mt-2">
+                                                  <p onClick={() => setForgot(false)} className="text-sm cursor-pointer text-blue-600 hover:underline">
+                                                       back to  login?
+                                                  </p>
                                              </div>
                                         </div>
-                            }
+                                   </div>
+                              }
 
                               {/* Submit Button */}
                               <button
                                    type="submit"
                                    className="w-full bg-red-600 text-white py-2 rounded-lg cursor-pointer transition duration-200"
                               >
-                                   {!forgot ? " Login" :"send"}
+                                   {!forgot ? " Login" : "send"}
                               </button>
                          </form>
 

@@ -67,7 +67,7 @@ const UpdateContentFrom = ({ existingData }: MovieFormProps) => {
 
           // If user selected a new image
           if (imageFile) {
-               formData.append("file", imageFile);
+               formData.append("thumbnailImage", imageFile);
           }
 
           const formValues = {

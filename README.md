@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎬 Movie and Series Rating & Streaming Portal
 
-## Getting Started
 
-First, run the development server:
+## Frontend Live Link: https://movie-series-client.vercel.app
+## Backend Live Link: https://movie-series-server.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+A modern full-stack platform for discovering, reviewing, purchasing, and streaming movies and TV shows. Users can rate, review, buy/rent content, and interact through likes, comments, and watchlists. Admins can manage content, moderate reviews, and view analytics.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Features
 
-## Learn More
+### 👤 User Features
 
-To learn more about Next.js, take a look at the following resources:
+- Register/Login via email and password
+- Browse movies and series by:
+  - Genre
+  - Release year
+  - Platform
+  - Rating
+- Rate (1–10 stars) and review content
+- Add spoiler warnings and tags (e.g., `family-friendly`)
+- Like/unlike reviews and comment on them
+- Buy or rent movies and series
+- View purchase history and streaming links
+- Save content to personal watchlist
+- Edit or delete own unpublished reviews
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🛠️ Admin Features
 
-## Deploy on Vercel
+- Manage media library (add/update/delete titles)
+- Approve/unpublish user reviews and comments
+- Remove inappropriate content
+- View aggregated ratings and most reviewed titles
+- Sales and rental analytics
+- Refund or revoke access (optional)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🧰 Tech Stack
+
+| Layer         | Technology                         |
+|--------------|-------------------------------------|
+| Frontend      | Next.js + Typescript |
+| Backend       | Node.js + Express.js + Typescript |
+| Database      | PostgreSQL       |
+| Authentication| JWT, bcrypt                        |
+| Payments      | SSLcommerz         |
+| Styling       | Tailwind CSS     |
+| Deployment    | Vercel  |
+
+
+## ⚙️ Getting Started
+
+To get started with **Movie-series**, follow these steps:
+
+1. **Installation**:
+   - Clone the repository to your local machine.
+   - Set up the necessary environment and dependencies by following the instructions in the repository.
+
+2. **Set Up Database**:
+   - Configure your database to store user information, product listings, and transactions.
+
+3. **Run the Application**:
+   - Start the application by running the server and accessing the platform in your browser.
+
+4. **Admin Verification**:
+   - Ensure that there is an admin account to verify new product listings and manage user activity.
+
+## Technologies Used
+
+- **Frontend**: Next.js, Typescript
+- **Backend**: Typescript, Node.js, Express.js, Prisma
+- **Database**: PostgresSQL
+- **Authentication**: JWT (JSON Web Tokens) for user authentication
+
+## 📬 Contact
+
+For inquiries or support, reach out to:
+
+📧 Email: web.moniruzzaman1@gmail.com, abireshan32@gmail.com, kazifahim661@gmail.com
+
+📍 Address: Dhaka, Bangladesh
+
+Made with ❤️ by Md Moniruzzaman, Md Milon Hossain, Kazi Fahim, Rabeya Akter

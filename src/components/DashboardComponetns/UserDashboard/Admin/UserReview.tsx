@@ -84,7 +84,7 @@ export function UserReview({ data, isLoading = false }: AllUserTableProps) {
             toast.error("Review Not Deleted")
           }
         } catch (error) {
-          toast.error("Review Not Deleted")
+          toast.error((error as Error).message)
         }
       }
     })
