@@ -68,7 +68,7 @@ export function UserComments({ data, isLoading = false }: AllUserTableProps) {
                         toast.error("Comment Not Deleted")
                     }
                 } catch (error) {
-                    toast.error("Comment Not Deleted")
+                    toast.error((error as Error).message)
                 }
             }
         })

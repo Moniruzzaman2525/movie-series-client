@@ -68,7 +68,7 @@ export function MoviesOrSeries({ data, isLoading = false }: AllUserTableProps) {
                         toast.error("Review Not Deleted")
                     }
                 } catch (error) {
-                    toast.error("Review Not Deleted")
+                    toast.error((error as Error).message)
                 }
             }
         })
@@ -315,7 +315,7 @@ export function MoviesOrSeries({ data, isLoading = false }: AllUserTableProps) {
                                                 >
                                                     <MdSystemUpdateAlt className="h-4 w-4" />
                                                 </Button>
-                                          </Link>
+                                            </Link>
                                             <Button
                                                 title="Delete Movie or Series"
                                                 variant="ghost"

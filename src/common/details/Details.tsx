@@ -40,7 +40,6 @@ const Details = ({ movieData }: {
           const result=await makePayment(paymentData)
           console.log(result);
           if(result.success){
-               toast.success("Payment Successful",{id})
                router.push(result.data.GatewayPageURL)
           }else{
                toast.error(result.message,{id})

@@ -1,7 +1,6 @@
 
 
-
-import { getTopRatedThisWeek } from '@/service/content';
+import { getTopRatedThisWeek } from '@/service/Content';
 import TopRatedMovies from './TopRatedMovies';
 
 const TopRatedMoviesPage = async () => {
@@ -11,7 +10,7 @@ const TopRatedMoviesPage = async () => {
 
     return (
         <div>
-            <TopRatedMovies data={result?.data} />
+            <TopRatedMovies data={result} />
         </div>
     );
 };

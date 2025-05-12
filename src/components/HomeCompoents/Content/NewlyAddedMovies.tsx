@@ -1,7 +1,6 @@
 
 
-
-import { getNewlyAdded } from '@/service/content';
+import { getNewlyAdded } from '@/service/Content';
 import NewlyAdded from './NewlyAdded';
 
 const NewlyAddedMovies = async () => {
@@ -10,7 +9,7 @@ const NewlyAddedMovies = async () => {
 
     return (
         <div>
-            <NewlyAdded data={result?.data} />
+            <NewlyAdded data={result} />
         </div>
     );
 };

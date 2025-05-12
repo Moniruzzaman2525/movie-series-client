@@ -14,7 +14,7 @@ export const addEditorPick = async (payload: any) => {
         cache: 'no-store',
     })
     const result = await res.json()
-    revalidateTag('comments')
+    revalidateTag('movies')
     return result
 }
 
@@ -26,6 +26,9 @@ export const getEditorPick = async () => {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         cache: 'no-store',
+        next: {
+            tags: ["movies"]
+        },
     })
     const result = await res.json()
     return result
@@ -42,6 +45,6 @@ export const removeEditorPick = async (id: string) => {
         cache: 'no-store',
     })
     const result = await res.json()
-    revalidateTag('comments')
+    revalidateTag('movies')
     return result
 }

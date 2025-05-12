@@ -4,12 +4,12 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import Image from 'next/image';
 import { toast } from 'sonner';
-import { createContent } from '@/service/content';
+import { createContent } from '@/service/Content';
 
 const MovieForm = () => {
-     const { register, handleSubmit,reset, formState: { errors } } = useForm();
+     const { register, handleSubmit, reset, formState: { errors } } = useForm();
      const [previewImage, setPreviewImage] = useState<string | null>(null);
-     const [imageFile,setImageFile]=useState<File | null>(null)
+     const [imageFile, setImageFile] = useState<File | null>(null)
 
      const genres: string[] = [
           "ACTION",
@@ -42,18 +42,18 @@ const MovieForm = () => {
      ];
      const categories = ["MOVIE", "SERIES"];
 
-     const onSubmit:SubmitHandler<FieldValues> = async(data) => {
+     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
           const id = toast.loading("loading..")
 
-          if(!imageFile){
-               toast.error("please select a image",{id})
+          if (!imageFile) {
+               toast.error("please select a image", { id })
                return;
           }
           // Handle form submission here
           const formData = new FormData()
 
           if (imageFile) {
-               formData.append("file", imageFile);
+               formData.append("thumbnailImage", imageFile);
           }
 
           const formValues = {
@@ -71,34 +71,35 @@ const MovieForm = () => {
                ...(data.dislike && { dislike: Number(data.dislike) }),
           };
 
+          console.log(formValues)
           formData.append("data", JSON.stringify(formValues));
 
 
           try {
                const result = await createContent(formData)
                console.log(result)
-               if(result.success){
-                    toast.success(result.message,{id})
+               if (result.success) {
+                    toast.success(result.message, { id })
                     setPreviewImage(null)
                     reset()
-               }else{
+               } else {
                     toast.error(result.message, { id })
                }
-               
-          } catch (error:any) {
-               toast.error(error.message,{id})
+
+          } catch (error: any) {
+               toast.error(error.message, { id })
           }
 
-      
-        
+
+
      };
 
      const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           const file = e.target.files?.[0];
-         
+
           if (file) {
                setImageFile(file)
-               
+
                const reader = new FileReader();
                reader.onloadend = () => {
                     setPreviewImage(reader.result as string);
@@ -291,7 +292,7 @@ const MovieForm = () => {
                                    {errors.rating && <p className="mt-1 text-sm text-red-600">{errors.rating.message?.toString()}</p>}
                               </div> */}
 
-                              <div>
+                              {/* <div>
                                    <label htmlFor="like" className="block text-sm font-medium text-gray-700">Likes</label>
                                    <input
                                         id="like"
@@ -311,7 +312,7 @@ const MovieForm = () => {
                                         {...register("dislike")}
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border"
                                    />
-                              </div>
+                              </div> */}
                          </div>
 
                          {/* Price */}

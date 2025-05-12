@@ -15,7 +15,7 @@ const Navbar = () => {
   const router = useRouter();
   const pathName = usePathname();
   const { user, setUser, handleUser, } = useUser();
-  
+
 
   const path = pathName;
 
@@ -29,7 +29,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     await logOut();
     setUser(null)
-  
+
     router.push("/");
     toast.success("logout successful");
   };

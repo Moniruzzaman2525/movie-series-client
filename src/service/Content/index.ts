@@ -24,6 +24,8 @@ export const getAllContent = async (search?: string, genre?: string | undefined,
 
     const queryString = queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
 
+
+
     const res = await fetch(`${process.env.SERVER_URL}/content${queryString}`, {
         method: "GET",
         headers: {
@@ -37,6 +39,7 @@ export const getAllContent = async (search?: string, genre?: string | undefined,
     });
 
     const result = await res.json();
+    console.log(result)
     return result.data;
 }
 export const getTopRatedThisWeek = async () => {
@@ -84,7 +87,7 @@ export const getContentById = async (id: string) => {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
         cache: 'no-store',
-        next: { tags: ['content'] }
+        next: { tags: ['movies'] }
     });
     const result = await res.json();
     return result

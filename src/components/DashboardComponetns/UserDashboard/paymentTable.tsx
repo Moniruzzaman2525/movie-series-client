@@ -1,14 +1,51 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useUser } from "@/context/userContext"
 import { CreditCard, CheckCircle2, XCircle, DollarSign, Calendar } from "lucide-react"
+import Link from "next/link"
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { rejectPayment, updateAdminStatus } from "@/service/Payments"
+import { toast } from "sonner"
 
 export function PaymentTable(payload: any) {
+  const user = useUser()
   // Calculate total amount
   const totalAmount = payload.invoice.reduce((sum: number, invoice: any) => {
     const amount = Number.parseFloat(invoice?.total_amount || 0)
     return sum + (isNaN(amount) ? 0 : amount)
   }, 0)
 
+  const handleAdminPaymentApproved = async(invoiceId: string) => {
+    const id=toast.loading('Approving Payment')
+    const result=await updateAdminStatus(invoiceId)
+    if(result.success===true){
+      toast.success('Payment Approved',{id})
+    }else{
+      toast.error('Payment Not Approved',{id})
+    }
+  }
+  const handleAdminPaymentRejected = async (invoiceId: string) => {
+    const id=toast.loading('Rejecting Payment')
+    const result = await rejectPayment(invoiceId)
+    console.log(result);
+    if(result.success===true){
+      toast.success('Payment Rejected',{id})
+    }else{
+      toast.error('Payment Not Rejected',{id})
+    }
+  }
   return (
     <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl border border-slate-200 shadow-lg overflow-hidden">
       <div className="p-6 flex items-center justify-between border-b border-slate-100">
@@ -27,15 +64,18 @@ export function PaymentTable(payload: any) {
           <TableHeader>
             <TableRow className="border-b border-slate-200">
               <TableHead className="w-[60px] font-bold text-slate-700">#</TableHead>
+              <TableHead className="font-bold text-slate-700">Title</TableHead>
               <TableHead className="font-bold text-slate-700">Video</TableHead>
               <TableHead className="font-bold text-slate-700">Transaction</TableHead>
               <TableHead className="font-bold text-slate-700">Status</TableHead>
+              <TableHead className="font-bold text-slate-700">Admin Status</TableHead>
               <TableHead className="font-bold text-slate-700">Streaming On</TableHead>
               <TableHead className="text-right font-bold text-slate-700">Amount</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {payload.invoice.map((invoice: any, index: number) => (
+              console.log(invoice),
               <TableRow
                 key={invoice.id || index}
                 className="border-b border-slate-100 hover:bg-slate-50/80 transition-colors"
@@ -52,6 +92,43 @@ export function PaymentTable(payload: any) {
                     </span>
                   </div>
                 </TableCell>
+                {user.user?.role === 'USER' ?
+                  <TableCell>
+                    {invoice?.adminStatus === false ?
+                      <div>
+                        <div className="flex flex-col">
+                          <span className="font-medium text-red-500 truncate max-w-[200px]">
+                            Pending..
+                          </span>
+                        </div>
+                      </div> : <div>
+                        <div className="flex flex-col">
+                          <span className="font-medium  truncate max-w-[200px] text-emerald-500 bg-emerald-200 rounded-full text-center">
+                            <Link href={`/player?id=${invoice?.video?.id}`}> Watch Now</Link>
+                          </span>
+                        </div>
+                      </div>
+                    }
+                  </TableCell> : <TableCell>
+                    {invoice?.adminStatus === false ?
+                      <div>
+                        <div className="flex flex-col">
+                          <span className="font-medium text-red-500 truncate max-w-[200px]">
+                            Pending..
+                          </span>
+                        </div>
+                      </div> : <div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                          <span className="font-medium  truncate max-w-[200px] text-emerald-500   rounded-full text-center">
+                            Approved
+                          </span>
+                        </div>
+                      </div>
+                    }
+                  </TableCell>
+
+                }
                 <TableCell>
                   <div className="flex items-center">
                     <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center mr-2">
@@ -65,6 +142,7 @@ export function PaymentTable(payload: any) {
                     <div className="flex items-center">
                       <div className="h-6 w-6 rounded-full bg-red-50 flex items-center justify-center mr-2">
                         <XCircle className="h-4 w-4 text-red-500" />
+
                       </div>
                       <span className="text-red-500 font-medium">Unpaid</span>
                     </div>
@@ -77,11 +155,92 @@ export function PaymentTable(payload: any) {
                     </div>
                   )}
                 </TableCell>
+                {user?.user?.role === 'USER' ?
+                  <TableCell>
+                    {invoice?.
+                      adminStatus === false ? (
+                      <div className="flex items-center">
+                        <div className="h-6 w-6 rounded-full bg-red-50 flex items-center justify-center mr-2">
+                          <XCircle className="h-4 w-4 text-red-500" />
+                        </div>
+                        <span className="text-red-500 font-medium">Pending</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center">
+                        <div className="h-6 w-6 rounded-full bg-emerald-50 flex items-center justify-center mr-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                        </div>
+                        <span className="text-emerald-500 font-medium p-4">Approved</span>
+                      </div>
+                    )}
+                  </TableCell> : <TableCell>
+                    {invoice?.
+                      adminStatus === false ? (
+                      <div className="flex items-center justify-center">
+                        <div className="h-6 w-6 rounded-full bg-red-50 flex items-center justify-center mr-2">
+
+
+                          <AlertDialog>
+                            <AlertDialogTrigger>
+                              <XCircle  className="h-5 w-5 text-red-500 cursor-pointer hover:scale-105" />
+                            </AlertDialogTrigger>
+                            <AlertDialogContent className="bg-white">
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action cannot be undone. This will permanently delete your account
+                                  and remove your data from our servers.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel className="bg-red-500 text-white cursor-pointer">Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleAdminPaymentRejected(invoice?.id)} className="bg-emerald-600 text-white cursor-pointer">Continue</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+
+                        </div>
+                        <div className="h-6 w-6 rounded-full bg-emerald-50 flex items-center justify-center mr-2">
+
+                          <AlertDialog>
+                            <AlertDialogTrigger>
+                              <CheckCircle2 className="h-5 w-6 text-emerald-500 cursor-pointer hover:scale-105" />
+                            </AlertDialogTrigger>
+                            <AlertDialogContent className="bg-white">
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action cannot be undone. This will permanently delete your account
+                                  and remove your data from our servers.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel className="bg-red-500 text-white cursor-pointer">Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleAdminPaymentApproved(invoice?.id)}  className="bg-emerald-600 text-white cursor-pointer">Continue</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+
+                        </div>
+
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center">
+                        <div className="h-6 w-6 rounded-full bg-emerald-50 flex items-center justify-center mr-2">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                        </div>
+                        <span className="text-emerald-500 font-medium">Approved</span>
+                      </div>
+                    )}
+                  </TableCell>
+
+                }
+
                 <TableCell className="text-right">
                   <div className="bg-slate-100 px-3 py-1 rounded-full inline-block">
                     <span className="font-semibold text-slate-800 flex justify-self-start">
-                   {invoice?.video?.streamingPlatform
-                   }
+                      {invoice?.video?.streamingPlatform
+                      }
                     </span>
                   </div>
                 </TableCell>

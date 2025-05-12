@@ -1,13 +1,9 @@
 import Details from "@/common/details/Details";
-import { getContentById } from "@/service/content";
+import { getContentById } from "@/service/Content";
 
 
-
-
-
-
-const page = async({params}:{params:Promise<{id:string}>}) => {
-     const moviesId=  (await params).id
+const page = async ({ params }: { params: Promise<{ id: string }> }) => {
+     const moviesId = (await params).id
      const singleMovies = await getContentById(moviesId)
      return (
           <div>
