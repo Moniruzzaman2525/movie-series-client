@@ -7,6 +7,7 @@ import TopRatedMoviesPage from "@/components/HomeCompoents/Content/TopRatedMovie
 import NewlyAddedMovies from "@/components/HomeCompoents/Content/NewlyAddedMovies";
 import EditorPickMovies from "@/components/HomeCompoents/Content/EditorPickMovies";
 import SubscriptionPage from "@/components/HomeCompoents/Subscription";
+import { CategorySection } from "@/components/HomeCompoents/CategoryGrid";
 
 
 
@@ -14,10 +15,11 @@ import SubscriptionPage from "@/components/HomeCompoents/Subscription";
 
 const HomePage = () => {
 
-  
+
   return (
     <div>
       <HeroSection />
+      <CategorySection count={8} />
       <TopRatedMoviesPage />
       <HasselFreeExperience />
       <NewlyAddedMovies />
