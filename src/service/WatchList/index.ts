@@ -28,7 +28,7 @@ export const getWatchList = async () => {
         next: {
             tags: ["movies"]
         },
-        cache: "force-cache",
+        cache: "no-cache",
     });
 
     const result = await res.json();

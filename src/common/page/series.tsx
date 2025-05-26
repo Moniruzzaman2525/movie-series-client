@@ -1,131 +1,163 @@
 
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-
-
-import GenresList from "../card/Filterbar";
-
+import { useEffect, useState } from "react";
 import ReusableCard from "../card/Card";
-import { getAllContent } from "@/service/Content";
+import GenresList from "../card/Filterbar";
+import { useUser } from "@/context/userContext";
+import { useRouter, useSearchParams } from "next/navigation";
+import { IMovie } from "@/types/Movie";
+export interface Meta {
+     page: number;
+     limit: number;
+     total: number;
+}
 
+export interface VideoResponse {
+     meta: Meta;
+     data: IMovie[];
+}
 
-const SeriesSearch = () => {
-     const [searchTerm, setSearchTerm] = useState("");
+const MovieSearch = ({ moviesData }: { moviesData: VideoResponse }) => {
+     const { searchQuery } = useUser();
+     const router = useRouter();
+     const searchParams = useSearchParams();
+     const [searchTerm, setSearchTerm] = useState(searchQuery);
      const [currentPage, setCurrentPage] = useState(1);
-     const [data, setData] = useState([]);
      const [category, setCategory] = useState<string | undefined>();
-     const [loading, setLoading] = useState(false);
-     const [error, setError] = useState<string | null>(null);
      const [Platform, setPlatform] = useState<string | null>(null);
      const [year, setYear] = useState<string | null>(null);
      const [Rating, setRating] = useState<string | null>(null);
 
 
 
-     const seERIESData = useCallback(async () => {
-          setLoading(true);
-          setError(null);
-          try {
-               const result = await getAllContent(searchTerm, category, Platform, year, Rating);
-               if (result?.data) {
-                    const filterSeries = result.data.filter(
-                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                         (movie: any) => movie.category === "SERIES"
-                    );
-                    setData(filterSeries);
-               } else {
-                    setData([]);
-               }
-               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } catch (err: any) {
-               console.error(err);
-               setError("Failed to fetch movies.");
-               setData([]);
-          } finally {
-               setLoading(false);
-          }
-     }, [searchTerm, category, Platform, year, Rating]);
-
      useEffect(() => {
-          seERIESData();
-     }, [seERIESData]);
+          const params = new URLSearchParams(searchParams.toString());
+          setSearchTerm(params.get("search") || "");
+          setCategory(params.get("category") || undefined);
+          setCurrentPage(parseInt(params.get("page") || "1"));
+          setPlatform(params.get("platform") || null);
+          setYear(params.get("year") || null);
+          setRating(params.get("rating") || null);
+     }, [searchParams]);
 
 
-     const itemsPerPage = 6;
-     const totalPages = Math.ceil(data.length / itemsPerPage);
-     const paginatedMovies = data.slice(
-          (currentPage - 1) * itemsPerPage,
-          currentPage * itemsPerPage
-     );
+     const updateSearchParams = (newParams: Record<string, string | null | undefined>) => {
+          const params = new URLSearchParams(searchParams.toString());
+
+          Object.entries(newParams).forEach(([key, value]) => {
+               if (value !== null && value !== undefined && value !== "") {
+                    params.set(key, value);
+               } else {
+                    params.delete(key);
+               }
+          });
+
+          router.push(`?${params.toString()}`);
+     };
+
+
+     const handleSearchChange = (value: string) => {
+          setSearchTerm(value);
+          setCurrentPage(1);
+          updateSearchParams({ search: value, page: "1" });
+     };
 
      const handlePageChange = (page: number) => {
-          if (page >= 1 && page <= totalPages) {
-               setCurrentPage(page);
+          if (page >= 1 && page <= moviesData?.meta?.total) {
+               updateSearchParams({ page: page.toString() });
           }
+     };
+
+     const handleFilterChange = (
+          filterType: "category" | "platform" | "year" | "rating",
+          value: string | null
+     ) => {
+          switch (filterType) {
+               case "category":
+                    setCategory(value || undefined);
+                    updateSearchParams({ category: value, page: "1" });
+                    break;
+               case "platform":
+                    setPlatform(value);
+                    updateSearchParams({ platform: value, page: "1" });
+                    break;
+               case "year":
+                    setYear(value);
+                    updateSearchParams({ year: value, page: "1" });
+                    break;
+               case "rating":
+                    setRating(value);
+                    updateSearchParams({ rating: value, page: "1" });
+                    break;
+          }
+          setCurrentPage(1);
      };
 
 
      const handleReset = () => {
-          setCategory(undefined);
           setSearchTerm("");
+          setCategory(undefined);
           setCurrentPage(1);
-          setPlatform(null)
-          setRating(null)
-          setYear(null)
+          setPlatform(null);
+          setRating(null);
+          setYear(null);
+          updateSearchParams({
+               search: null,
+               category: null,
+               page: null,
+               platform: null,
+               year: null,
+               rating: null,
+          });
      };
+
+     const totalPage = Math.ceil(moviesData?.meta?.total / moviesData?.meta?.limit);
 
      return (
           <div className="w-full container mx-auto p-4">
-               {/* Search Bar */}
                <div className="flex flex-wrap justify-center gap-4 items-center text-white shadow-md rounded-xl p-4 mb-6 bg-gray-800">
-                    {/* Search Input */}
                     <input
                          type="text"
                          placeholder="Search movies..."
                          value={searchTerm}
-                         onChange={(e) => {
-                              setSearchTerm(e.target.value);
-                              setCurrentPage(1);
-                         }}
+                         onChange={(e) => handleSearchChange(e.target.value)}
                          className="px-4 py-2 rounded-lg border outline-none border-red-600 transition w-52"
                     />
-
-                    {/* Streaming Platform Filter */}
-                    {/* Streaming Platform Filter */}
                     <select
                          value={Platform || ""}
-                         onChange={(e) => setPlatform(e.target.value || null)}
+                         onChange={(e) => handleFilterChange("platform", e.target.value || null)}
                          className="px-4 py-2 rounded-lg border outline-none border-red-600 transition w-52"
                     >
                          <option value="">All Platforms</option>
-                         <option className="text-black" value="Netflix">Netflix</option>
-                         <option className="text-black" value="Amazon Prime">Amazon Prime</option>
-                         <option className="text-black" value="Disney+">Disney+</option>
-                         <option className="text-black" value="Hulu">Hulu</option>
+                         <option className="text-black" value="NETFLIX">Netflix</option>
+                         <option className="text-black" value="DISNEY">Disney</option>
+                         <option className="text-black" value="HBO">Hbo</option>
+                         <option className="text-black" value="AMAZON">Amazon Prime</option>
+                         <option className="text-black" value="APPLE">Apple</option>
+                         <option className="text-black" value="YOUTUBE">Youtube</option>
+                         <option className="text-black" value="SPOTIFY">Spotify</option>
                     </select>
 
-                    {/* Release Year Filter */}
                     <select
                          value={year || ""}
-                         onChange={(e) => setYear(e.target.value || null)}
+                         onChange={(e) => handleFilterChange("year", e.target.value || null)}
                          className="px-4 py-2 rounded-lg border outline-none border-red-600 transition w-52"
                     >
                          <option value="">All Years</option>
                          {Array.from({ length: 25 }, (_, i) => {
-                              const year = (2025 - i).toString();
+                              const y = (2025 - i).toString();
                               return (
-                                   <option className="text-black" key={year} value={year}>
-                                        {year}
+                                   <option className="text-black" key={y} value={y}>
+                                        {y}
                                    </option>
                               );
                          })}
                     </select>
 
-                    {/* Rating Filter */}
                     <select
                          value={Rating || ""}
-                         onChange={(e) => setRating(e.target.value || null)}
+                         onChange={(e) => handleFilterChange("rating", e.target.value || null)}
                          className="px-4 py-2 rounded-lg border outline-none border-red-600 transition w-52"
                     >
                          <option value="">All Ratings</option>
@@ -136,7 +168,6 @@ const SeriesSearch = () => {
                          ))}
                     </select>
 
-                    {/* Reset Button */}
                     <button
                          onClick={handleReset}
                          className="px-4 py-2 bg-red-600 text-white rounded-md cursor-pointer hover:bg-red-700"
@@ -145,82 +176,58 @@ const SeriesSearch = () => {
                     </button>
                </div>
 
-               {/* Filter + Movie Grid */}
                <div className="flex flex-col md:flex-row justify-center gap-6">
-                    {/* Sidebar */}
                     <div className="w-[200px]">
-                         <GenresList selectedGenre={category} setCatgory={setCategory} />
+                         <GenresList
+                              selectedGenre={category}
+                              setCatgory={(val) =>
+                                   handleFilterChange("category", typeof val === "function" ? null : val ?? null)
+                              }
+                         />
                     </div>
-
-                    {/* Movie Cards Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 min-h-[200px] flex-1">
-                         {loading && (
-                              <div className="col-span-full flex flex-col items-center justify-center w-full">
-                                   <div className="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-red-600"></div>
-                                   <p className="text-white mt-4">Loading series...</p>
-                              </div>
-                         )}
-
-                         {error && !loading && (
-                              <div className="col-span-full text-center text-red-400 mt-8">
-                                   <p className="text-lg font-semibold">Oops! Something went wrong.</p>
-                                   <p className="text-sm text-gray-400">Please try again later.</p>
-                              </div>
-                         )}
-
-                         {!loading && !error && paginatedMovies.length === 0 && (
+                         {moviesData?.data?.length === 0 && (
                               <div className="col-span-full text-center text-gray-300 mt-8">
-                                   <p className="text-lg font-semibold">No series found</p>
+                                   <p className="text-lg font-semibold">No movies found</p>
                                    <p className="text-sm text-gray-400">Try a different search or genre.</p>
                               </div>
                          )}
-
-                         {!loading && !error &&
-                              paginatedMovies.map((movie, index) => (
-                                   <div key={index}>
-                                        <ReusableCard movie={movie} />
-                                   </div>
-                              ))}
+                         {moviesData?.data?.map((movie, index) => (
+                              <ReusableCard key={index} movie={movie} />
+                         ))}
                     </div>
                </div>
 
-
-
-               {/* Pagination */}
-               {totalPages > 1 && !loading && !error && (
-                    <div className="flex justify-center items-center gap-2 mt-6">
+               <div className="flex justify-center items-center gap-2 mt-6">
+                    <button
+                         onClick={() => handlePageChange(currentPage - 1)}
+                         disabled={currentPage === 1}
+                         className="px-3 py-1 text-sm rounded-md border border-gray-400 text-white hover:bg-red-600 disabled:opacity-30"
+                    >
+                         Prev
+                    </button>
+                    {[...Array(totalPage)].map((_, index) => (
                          <button
-                              onClick={() => handlePageChange(currentPage - 1)}
-                              disabled={currentPage === 1}
-                              className="px-3 py-1 text-sm rounded-md border border-gray-400 text-white hover:bg-red-600 disabled:opacity-30"
+                              key={index + 1}
+                              onClick={() => handlePageChange(index + 1)}
+                              className={`px-3 py-1 text-sm rounded-md border-gray-400 ${currentPage === index + 1
+                                   ? "bg-red-600 text-white"
+                                   : "text-white hover:bg-gray-700"
+                                   }`}
                          >
-                              Prev
+                              {index + 1}
                          </button>
-
-                         {[...Array(totalPages)].map((_, index) => (
-                              <button
-                                   key={index + 1}
-                                   onClick={() => handlePageChange(index + 1)}
-                                   className={`px-3 py-1 text-sm rounded-md border-gray-400 ${currentPage === index + 1
-                                        ? "bg-red-600 text-white"
-                                        : "text-white hover:bg-gray-700"
-                                        }`}
-                              >
-                                   {index + 1}
-                              </button>
-                         ))}
-
-                         <button
-                              onClick={() => handlePageChange(currentPage + 1)}
-                              disabled={currentPage === totalPages}
-                              className="px-3 py-1 text-sm rounded-md border border-gray-400 text-white hover:bg-red-600 disabled:opacity-30"
-                         >
-                              Next
-                         </button>
-                    </div>
-               )}
+                    ))}
+                    <button
+                         onClick={() => handlePageChange(currentPage + 1)}
+                         disabled={moviesData?.meta?.page === moviesData?.meta?.total}
+                         className="px-3 py-1 text-sm rounded-md border border-gray-400 text-white hover:bg-red-600 disabled:opacity-30"
+                    >
+                         Next
+                    </button>
+               </div>
           </div>
      );
 };
 
-export default SeriesSearch;
+export default MovieSearch;

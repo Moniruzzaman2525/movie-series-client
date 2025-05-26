@@ -8,6 +8,9 @@ export const getAllContent = async (page?: string, limit?: string,
 ) => {
     const params = new URLSearchParams();
 
+    if (query?.ctg) {
+        params.append(`category`, query?.ctg.toString().toUpperCase());
+    }
 
     if (query?.search) {
         params.append(`searchTerm`, query?.search.toString());
@@ -36,7 +39,7 @@ export const getAllContent = async (page?: string, limit?: string,
         next: {
             tags: ["content"]
         },
-        cache: "force-cache",
+        cache: "no-cache",
     });
 
     const result = await res.json();
@@ -55,7 +58,7 @@ export const getTopRatedThisWeek = async () => {
         next: {
             tags: ["content"]
         },
-        cache: "force-cache",
+        cache: "no-cache",
     });
 
     const result = await res.json();
@@ -73,7 +76,7 @@ export const getNewlyAdded = async () => {
         next: {
             tags: ["content"]
         },
-        cache: "force-cache",
+        cache: "no-cache",
     });
 
     const result = await res.json();
