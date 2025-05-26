@@ -46,6 +46,26 @@ export const getAllContent = async (page?: string, limit?: string,
 
     return result.data;
 }
+
+export const countingMovieSeries = async () => {
+
+    const res = await fetch(`${process.env.SERVER_URL}/content/count-movies-series`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        next: {
+            tags: ["content"]
+        },
+        cache: "no-cache",
+    });
+
+    const result = await res.json();
+
+    return result.data;
+}
+
 export const getTopRatedThisWeek = async () => {
 
 

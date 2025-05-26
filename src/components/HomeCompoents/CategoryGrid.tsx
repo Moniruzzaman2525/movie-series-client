@@ -194,7 +194,7 @@ const categories = [
     },
 ]
 
-export function CategorySection({ count }: { count: number }) {
+export function CategorySection({ result, count }: { result: { movie: number, series: number }, count: number }) {
     return (
         <section className="py-20 bg-[#020508]">
             <div className="container mx-auto px-4">
@@ -271,11 +271,11 @@ export function CategorySection({ count }: { count: number }) {
 
                 <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-white mb-1">1000+</div>
+                        <div className="text-3xl font-bold text-white mb-1">{result.movie}+</div>
                         <div className="text-gray-400 text-sm">Total Movies</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-white mb-1">500+</div>
+                        <div className="text-3xl font-bold text-white mb-1">{result.series}+</div>
                         <div className="text-gray-400 text-sm">Web Series</div>
                     </div>
                     <div className="text-center">
