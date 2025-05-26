@@ -44,13 +44,13 @@ const Navbar = () => {
 
   const movieCategories = [
     { title: "Genres", items: ["Action", "Adventure", "Animation", "Comedy", "Crime",] },
-    { title: "Collections", items: ["Netflix Originals", "Amazon Prime", "Disney+", "Hulu"] },
+    { title: "Collections", items: ["Netflix Originals", "Amazon Prime", "Youtube", "Spotify"] },
     { title: "releaseYears", items: ["2025", "2023", "2024", "2022", "2020",] },
   ]
 
   const seriesCategories = [
     { title: "Genres", items: ["Action", "Adventure", "Animation", "Comedy", "Crime",] },
-    { title: "Collections", items: ["Netflix Originals", "Amazon Prime", "Disney+", "Hulu"] },
+    { title: "Collections", items: ["Netflix Originals", "Amazon Prime", "Youtube", "Spotify"] },
     {
       title: "releaseYears", items: ["2025", "2023", "2024", "2022", "2020",]
     },

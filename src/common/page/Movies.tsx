@@ -130,10 +130,13 @@ const MovieSearch = ({ moviesData }: { moviesData: VideoResponse }) => {
                          className="px-4 py-2 rounded-lg border outline-none border-red-600 transition w-52"
                     >
                          <option value="">All Platforms</option>
-                         <option className="text-black" value="Netflix">Netflix</option>
-                         <option className="text-black" value="Amazon">Amazon Prime</option>
-                         <option className="text-black" value="Disney">Disney+</option>
-                         <option className="text-black" value="Hulu">Hulu</option>
+                         <option className="text-black" value="NETFLIX">Netflix</option>
+                         <option className="text-black" value="DISNEY">Disney</option>
+                         <option className="text-black" value="HBO">Hbo</option>
+                         <option className="text-black" value="AMAZON">Amazon Prime</option>
+                         <option className="text-black" value="APPLE">Apple</option>
+                         <option className="text-black" value="YOUTUBE">Youtube</option>
+                         <option className="text-black" value="SPOTIFY">Spotify</option>
                     </select>
 
                     <select

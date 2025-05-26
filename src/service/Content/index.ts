@@ -8,8 +8,6 @@ export const getAllContent = async (page?: string, limit?: string,
 ) => {
     const params = new URLSearchParams();
 
-    console.log(query)
-
 
     if (query?.search) {
         params.append(`searchTerm`, query?.search.toString());
@@ -18,8 +16,8 @@ export const getAllContent = async (page?: string, limit?: string,
         params.append(`genre`, query?.category.toString().toUpperCase());
     }
 
-    if (query?.Platform) {
-        params.append(`streamingPlatform`, query?.Platform.toString());
+    if (query?.platform) {
+        params.append(`streamingPlatform`, query?.platform.toString());
     }
     if (query?.year) {
         params.append(`releaseYear`, query?.year.toString());
