@@ -43,15 +43,17 @@ const Navbar = () => {
   }
 
   const movieCategories = [
-    { title: "Popular Movies", items: ["Trending Now", "Top Rated", "Most Watched", "New Releases"] },
-    { title: "Genres", items: ["Action", "Comedy", "Drama", "Horror", "Sci-Fi", "Romance"] },
-    { title: "Collections", items: ["Marvel Movies", "DC Universe", "Classic Films", "Award Winners"] },
+    { title: "Genres", items: ["Action", "Adventure", "Animation", "Comedy", "Crime",] },
+    { title: "Collections", items: ["Netflix Originals", "Amazon Prime", "Disney+", "Hulu"] },
+    { title: "releaseYears", items: ["2025", "2023", "2024", "2022", "2020",] },
   ]
 
   const seriesCategories = [
-    { title: "Popular Series", items: ["Trending Shows", "Top Rated", "Binge-Worthy", "New Episodes"] },
-    { title: "Genres", items: ["Crime", "Documentary", "Fantasy", "Thriller", "Animation", "Mystery"] },
-    { title: "Collections", items: ["Netflix Originals", "HBO Series", "Limited Series", "International"] },
+    { title: "Genres", items: ["Action", "Adventure", "Animation", "Comedy", "Crime",] },
+    { title: "Collections", items: ["Netflix Originals", "Amazon Prime", "Disney+", "Hulu"] },
+    {
+      title: "releaseYears", items: ["2025", "2023", "2024", "2022", "2020",]
+    },
   ]
 
   return (
@@ -93,7 +95,7 @@ const Navbar = () => {
                               <li key={itemIndex}>
                                 <NavigationMenuLink asChild>
                                   <Link
-                                    href={`/movies?${item.toLowerCase().replace(/\s+/g, "-")}`}
+                                    href={`/movies?query=${item.toLowerCase().replace(/\s+/g, "-")}`}
                                     className="block text-gray-600 hover:text-red-600 transition-colors text-sm py-1"
                                   >
                                     {item}
@@ -142,7 +144,7 @@ const Navbar = () => {
                               <li key={itemIndex}>
                                 <NavigationMenuLink asChild>
                                   <Link
-                                    href={`/series?${item.toLowerCase().replace(/\s+/g, "-")}`}
+                                    href={`/series??query=${item.toLowerCase().replace(/\s+/g, "-")}`}
                                     className="block text-gray-600 hover:text-red-600 transition-colors text-sm py-1"
                                   >
                                     {item}
