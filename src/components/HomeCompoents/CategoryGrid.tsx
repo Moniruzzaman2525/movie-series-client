@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ChevronRight, Film, Tv, Zap, Laugh, Drama, Ghost, Rocket, FileText, Compass, Smile, Eye, Heart, Star, BookOpen, Music, Shield, HardHat, Users, User, Dribbble, Music2, ShieldCheck, Brain, LifeBuoy, Frown, Landmark, SmilePlus } from "lucide-react"
+import { countingMovieSeries } from "@/service/Content"
 
 const categories = [
     {
@@ -194,7 +195,9 @@ const categories = [
     },
 ]
 
-export function CategorySection({ result, count }: { result: { movie: number, series: number }, count: number }) {
+export async function CategorySection({ count }: { count: number }) {
+
+    const result = await countingMovieSeries()
     return (
         <section className="py-20 bg-[#020508]">
             <div className="container mx-auto px-4">

@@ -8,19 +8,17 @@ import NewlyAddedMovies from "@/components/HomeCompoents/Content/NewlyAddedMovie
 import EditorPickMovies from "@/components/HomeCompoents/Content/EditorPickMovies";
 import SubscriptionPage from "@/components/HomeCompoents/Subscription";
 import { CategorySection } from "@/components/HomeCompoents/CategoryGrid";
-import { countingMovieSeries } from "@/service/Content";
 
 
 
 const HomePage = async () => {
 
-  const result = await countingMovieSeries()
 
 
   return (
     <div>
       <HeroSection />
-      <CategorySection result={result} count={8} />
+      <CategorySection  count={8} />
       <TopRatedMoviesPage />
       <HasselFreeExperience />
       <NewlyAddedMovies />
