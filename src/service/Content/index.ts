@@ -55,7 +55,7 @@ export const getTopRatedThisWeek = async () => {
         next: {
             tags: ["content"]
         },
-        cache: "no-store"
+        cache: "force-cache",
     });
 
     const result = await res.json();
@@ -73,7 +73,7 @@ export const getNewlyAdded = async () => {
         next: {
             tags: ["content"]
         },
-        cache: "no-store"
+        cache: "force-cache",
     });
 
     const result = await res.json();
