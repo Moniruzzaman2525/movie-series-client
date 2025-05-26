@@ -93,7 +93,7 @@ const Navbar = () => {
                               <li key={itemIndex}>
                                 <NavigationMenuLink asChild>
                                   <Link
-                                    href={`/movies/${item.toLowerCase().replace(/\s+/g, "-")}`}
+                                    href={`/movies?${item.toLowerCase().replace(/\s+/g, "-")}`}
                                     className="block text-gray-600 hover:text-red-600 transition-colors text-sm py-1"
                                   >
                                     {item}
@@ -142,7 +142,7 @@ const Navbar = () => {
                               <li key={itemIndex}>
                                 <NavigationMenuLink asChild>
                                   <Link
-                                    href={`/series/${item.toLowerCase().replace(/\s+/g, "-")}`}
+                                    href={`/series?${item.toLowerCase().replace(/\s+/g, "-")}`}
                                     className="block text-gray-600 hover:text-red-600 transition-colors text-sm py-1"
                                   >
                                     {item}
