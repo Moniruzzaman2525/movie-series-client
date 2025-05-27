@@ -178,3 +178,19 @@ export const getSellInfo = async () => {
 
     return result;
 }
+
+
+export const deleteVideo = async (id: string) => {
+    const res = await fetch(`${process.env.SERVER_URL}/content/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || "",
+        },
+        cache: 'no-cache',
+    });
+
+    const result = await res.json();
+
+    revalidateTag('videos')
+    return result;
+}
