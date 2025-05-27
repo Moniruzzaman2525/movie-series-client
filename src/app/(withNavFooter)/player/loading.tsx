@@ -1,10 +1,9 @@
-import React from 'react';
-import LoadingSpinner from '../movies/loading';
+import { CategorySkeleton } from "@/components/Shared/skeletons/category-skeleton";
 
 const loading = () => {
     return (
         <div>
-            <LoadingSpinner/>
+            <CategorySkeleton />
         </div>
     );
 };
