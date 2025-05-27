@@ -1,6 +1,7 @@
 "use server"
 
 import { jwtDecode } from "jwt-decode"
+import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 import { FieldValues } from "react-hook-form"
 
@@ -71,10 +72,36 @@ export const getCurrentUser = async () => {
           return decodedData
      }
 
-
-
 }
 
+export const getUser = async () => {
+     const res = await fetch(`${process.env.SERVER_URL}/user/me`, {
+          method: "GET",
+          headers: {
+               Authorization: (await cookies()).get("accessTokenF")?.value || "",
+               "Content-Type": "application/json"
+          },
+          next: {
+               tags: ["profile"]
+          }
+     })
+     const result = await res.json()
+     return result
+}
+
+export const updateUser = async (payload: FieldValues) => {
+     const res = await fetch(`${process.env.SERVER_URL}/user/update-profile`, {
+          method: "PATCH",
+          headers: {
+               Authorization: (await cookies()).get("accessTokenF")?.value || "",
+               "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+     })
+     const result = await res.json()
+     revalidateTag('profile')
+     return result
+}
 
 export const logOut = async () => {
      (await cookies()).delete("accessTokenF")

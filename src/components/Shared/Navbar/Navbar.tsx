@@ -268,7 +268,7 @@ const Navbar = () => {
                 </div>
 
                 <Link
-                  href="/profile"
+                  href="/dashboard/profile"
                   className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                   onClick={handleMenuItemClick}
                 >
@@ -390,7 +390,7 @@ const Navbar = () => {
                     </div>
 
                     <Link
-                      href="/profile"
+                      href="/dashboard/profile"
                       className="flex items-center gap-2 font-medium py-2 text-gray-900 hover:text-red-500"
                     >
                       <User className="h-4 w-4" />

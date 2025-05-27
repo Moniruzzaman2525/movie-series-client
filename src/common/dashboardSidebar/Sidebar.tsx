@@ -69,6 +69,13 @@ const Sidebar = () => {
                                         <span className='mx-4 font-medium'>Analytics</span>
                                    </Link>
                                    <Link
+                                        href='/dashboard/profile'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/profile')}`}
+                                   >
+                                        <MdCreateNewFolder className='text-green-500' />
+                                        <span className='mx-4 font-medium'>Profile</span>
+                                   </Link>
+                                   <Link
                                         href='/dashboard/admin/createProject'
                                         className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/createProject')}`}
                                    >
@@ -118,11 +125,19 @@ const Sidebar = () => {
                                         <LuMessageCircle className='text-green-500' />
                                         <span className='mx-4 font-medium'>Comments</span>
                                    </Link>
+
                               </div>
 
                          )}
                          {user?.role === 'USER' && (
                               <div>
+                                   <Link
+                                        href='/dashboard/profile'
+                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/profile')}`}
+                                   >
+                                        <MdCreateNewFolder className='text-green-500' />
+                                        <span className='mx-4 font-medium'>Profile</span>
+                                   </Link>
                                    <Link
                                         href='/dashboard/user/payment'
                                         className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/user/payment')}`}
@@ -145,6 +160,7 @@ const Sidebar = () => {
                                         <MdCreateNewFolder className='text-green-500' />
                                         <span className='mx-4 font-medium'>my Reviews</span>
                                    </Link>
+
                               </div>
 
                          )}
