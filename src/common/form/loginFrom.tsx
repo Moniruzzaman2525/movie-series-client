@@ -40,7 +40,7 @@ export default function LoginForm() {
                          reset();
                          setTimeout(() => {
                               window.location.reload();
-                         }, 500);
+                         }, 1000);
                     } else {
                          toast.error(result.message, { id });
                          reset();
