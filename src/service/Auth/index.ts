@@ -103,6 +103,20 @@ export const updateUser = async (payload: FieldValues) => {
      return result
 }
 
+
+export const updatePassword = async (payload: FieldValues) => {
+     const res = await fetch(`${process.env.SERVER_URL}/user/update-password`, {
+          method: "PATCH",
+          headers: {
+               Authorization: (await cookies()).get("accessTokenF")?.value || "",
+               "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+     })
+     const result = await res.json()
+     return result
+}
+
 export const logOut = async () => {
      (await cookies()).delete("accessTokenF")
 }
