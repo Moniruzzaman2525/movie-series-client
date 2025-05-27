@@ -32,7 +32,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
      const [isLoading, setIsLoading] = useState(true);
      const [reload, setReload] = useState(true);
      const [searchQuery,setSearchQuery]=useState('')
-    
+
 
      const handleUser = async () => {
           const user = await getCurrentUser();

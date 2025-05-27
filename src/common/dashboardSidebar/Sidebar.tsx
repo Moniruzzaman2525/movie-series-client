@@ -96,13 +96,7 @@ const Sidebar = () => {
                                         <MdCreateNewFolder className='text-green-500' />
                                         <span className='mx-4 font-medium'>Get All Movies and Series</span>
                                    </Link>
-                                   <Link
-                                        href='/dashboard/admin/most-reviewed'
-                                        className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/most-reviewed')}`}
-                                   >
-                                        <MdCreateNewFolder className='text-green-500' />
-                                        <span className='mx-4 font-medium'>Most Reviewed</span>
-                                   </Link>
+
                                    <Link
                                         href='/dashboard/admin/payment'
                                         className={`flex items-center px-4 py-2 transition duration-300 transform hover:bg-gray-300 hover:text-gray-700 ${isActiveLink('/dashboard/admin/payment')}`}

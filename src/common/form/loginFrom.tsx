@@ -26,7 +26,7 @@ export default function LoginForm() {
      const [showPassword, setShowPassword] = useState(false);
      const router = useRouter()
      const [forgot, setForgot] = useState(false)
-     const { setReload } = useUser()
+     const { setReload, setIsLoading } = useUser()
      const onSubmit: SubmitHandler<FieldValues> = async (data) => {
           const id = toast.loading("Loading...");
 
@@ -38,7 +38,8 @@ export default function LoginForm() {
 
                          toast.success(result.message, { id });
                          router.push("/");
-
+                         setReload(true)
+                         setIsLoading(true)
                          reset();
                     } else {
                          toast.error(result.message, { id });

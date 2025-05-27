@@ -34,6 +34,8 @@ const Navbar = () => {
     fetchUser()
   }, [])
 
+  console.log(user)
+
   const handleLogout = async () => {
     await logOut()
     setUser(null)
