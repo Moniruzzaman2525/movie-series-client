@@ -219,7 +219,7 @@ export async function CategorySection({ count }: { count: number }) {
                     {categories.slice(0, count).map((category) => {
                         const IconComponent = category.icon
                         return (
-                            <Link key={category.id} href={`/category/${category.id}`} className="group">
+                            <Link key={category.id} href={`/movies?category=${category.name}`} className="group">
                                 <div className="relative overflow-hidden rounded-2xl bg-gray-900 border border-gray-800 hover:border-gray-700 transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
 
                                     <div className="relative h-48 overflow-hidden">
@@ -274,11 +274,11 @@ export async function CategorySection({ count }: { count: number }) {
 
                 <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-white mb-1">{result.movie}+</div>
+                        <div className="text-3xl font-bold text-white mb-1">{result?.movie}+</div>
                         <div className="text-gray-400 text-sm">Total Movies</div>
                     </div>
                     <div className="text-center">
-                        <div className="text-3xl font-bold text-white mb-1">{result.series}+</div>
+                        <div className="text-3xl font-bold text-white mb-1">{result?.series}+</div>
                         <div className="text-gray-400 text-sm">Web Series</div>
                     </div>
                     <div className="text-center">

@@ -43,17 +43,15 @@ const Navbar = () => {
   }
 
   const movieCategories = [
-    { title: "Genres", items: ["Action", "Adventure", "Animation", "Comedy", "Crime",] },
-    { title: "Collections", items: ["Netflix Originals", "Amazon Prime", "Youtube", "Spotify"] },
-    { title: "releaseYears", items: ["2025", "2023", "2024", "2022", "2020",] },
+    { title: "Genres", items: ["Action", "Adventure", "Animation", "Comedy", "Crime",], query: "category" },
+    { title: "Collections", items: ["Netflix", "Amazon", "Disney", "HBO", "Apple", 'Youtube', 'Spotify'], query: 'platform' },
+    { title: "releaseYears", items: ["2025", "2023", "2024", "2022", "2020",], query: 'year' },
   ]
 
   const seriesCategories = [
-    { title: "Genres", items: ["Action", "Adventure", "Animation", "Comedy", "Crime",] },
-    { title: "Collections", items: ["Netflix Originals", "Amazon Prime", "Youtube", "Spotify"] },
-    {
-      title: "releaseYears", items: ["2025", "2023", "2024", "2022", "2020",]
-    },
+    { title: "Genres", items: ["Action", "Adventure", "Animation", "Comedy", "Crime",], query: "category" },
+    { title: "Collections", items: ["Netflix", "Amazon", "Disney", "HBO", "Apple", 'Youtube', 'Spotify'], query: 'platform' },
+    { title: "releaseYears", items: ["2025", "2023", "2024", "2022", "2020",], query: 'year' },
   ]
 
   return (
@@ -95,7 +93,7 @@ const Navbar = () => {
                               <li key={itemIndex}>
                                 <NavigationMenuLink asChild>
                                   <Link
-                                    href={`/movies?query=${item.toLowerCase().replace(/\s+/g, "-")}`}
+                                    href={`/movies?${category.query}=${item.toLowerCase().replace(/\s+/g, "-")}`}
                                     className="block text-gray-600 hover:text-red-600 transition-colors text-sm py-1"
                                   >
                                     {item}
@@ -144,7 +142,7 @@ const Navbar = () => {
                               <li key={itemIndex}>
                                 <NavigationMenuLink asChild>
                                   <Link
-                                    href={`/series??query=${item.toLowerCase().replace(/\s+/g, "-")}`}
+                                    href={`/series?${category.query}=${item.toLowerCase().replace(/\s+/g, "-")}`}
                                     className="block text-gray-600 hover:text-red-600 transition-colors text-sm py-1"
                                   >
                                     {item}

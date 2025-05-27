@@ -20,7 +20,7 @@ export const getAllContent = async (page?: string, limit?: string,
     }
 
     if (query?.platform) {
-        params.append(`streamingPlatform`, query?.platform.toString());
+        params.append(`streamingPlatform`, query?.platform.toString().toUpperCase());
     }
     if (query?.year) {
         params.append(`releaseYear`, query?.year.toString());
