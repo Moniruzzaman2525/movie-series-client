@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
+
 import { getCurrentUser } from "@/service/Auth";
 import { IUser } from "@/types/user";
 
@@ -19,10 +19,8 @@ interface IUserProviderValues {
      isLoading: boolean;
      setUser: (user: IUser | null) => void;
      setIsLoading: Dispatch<SetStateAction<boolean>>;
-     setReload: Dispatch<SetStateAction<boolean>>;
-     handleUser:()=> void,
      setSearchQuery: Dispatch<SetStateAction<string>>,
-     searchQuery:string
+     searchQuery: string
 }
 
 const UserContext = createContext<IUserProviderValues | undefined>(undefined);
@@ -30,11 +28,11 @@ const UserContext = createContext<IUserProviderValues | undefined>(undefined);
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
      const [user, setUser] = useState<IUser | null>(null);
      const [isLoading, setIsLoading] = useState(true);
-     const [reload, setReload] = useState(true);
-     const [searchQuery,setSearchQuery]=useState('')
-    
+     const [searchQuery, setSearchQuery] = useState('')
+
 
      const handleUser = async () => {
+          // window.location.reload();
           const user = await getCurrentUser();
           setUser(user);
           setIsLoading(false);
@@ -42,10 +40,10 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
      useEffect(() => {
           handleUser();
-     }, [isLoading, reload]);
+     }, [isLoading]);
 
      return (
-          <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading, setReload, handleUser, setSearchQuery, searchQuery }}>
+          <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading, setSearchQuery, searchQuery }}>
                {children}
           </UserContext.Provider>
      );
