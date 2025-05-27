@@ -176,7 +176,7 @@ const MovieSearch = ({ moviesData }: { moviesData: VideoResponse }) => {
                     </button>
                </div>
 
-               <div className="flex flex-col md:flex-row justify-center gap-6">
+               <div className="flex flex-col md:flex-row items-start justify-center gap-6">
                     <div className="w-[200px]">
                          <GenresList
                               selectedGenre={category}
