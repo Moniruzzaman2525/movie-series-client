@@ -4,7 +4,7 @@ import { getAllContent } from "@/service/Content";
 
 const GetMovieOrSeries = async () => {
     const result = await getAllContent("", "");
-    console.log(result)
+
     return (
         <div>
             <div className='h-10 w-full bg-gray-700 p-10 flex items-center justify-between text-white font-bold'>
