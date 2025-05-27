@@ -14,7 +14,7 @@ interface NewlyAddedProps {
 
 const NewlyAdded = ({ data }: NewlyAddedProps) => {
 
-  const limitedData = data?.slice(0, 10);
+  const limitedData = data?.slice(0, 8);
   return (
     <div className="bg-[#020508]">
       <div className="container mx-auto px-2 md:px-0 py-10">
