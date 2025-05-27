@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
-import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import {
@@ -23,23 +22,17 @@ import { cn } from "@/lib/utils"
 const Navbar = () => {
   const router = useRouter()
   const pathName = usePathname()
-  const { user, setUser, handleUser } = useUser()
+  const { user, setUser } = useUser()
 
   const path = pathName
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      handleUser()
-    }
-    fetchUser()
-  }, [])
 
-  console.log(user)
+
 
   const handleLogout = async () => {
     await logOut()
     setUser(null)
-
+    
     router.push("/")
     toast.success("logout successful")
   }

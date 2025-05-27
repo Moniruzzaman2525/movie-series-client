@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
-import UserProvider from "@/context/userContext";
+import Providers from "@/providers/Providers";
 
 
 const inter = Inter({
@@ -24,17 +24,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={` ${inter.className} antialiased`}
-      >
-        <Toaster richColors position="top-center" ></Toaster>
-        <UserProvider>
-
+    <Providers>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={` ${inter.className} antialiased`}
+        >
+          <Toaster richColors position="top-center" ></Toaster>
           {children}
-
-        </UserProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </Providers>
   );
 }
