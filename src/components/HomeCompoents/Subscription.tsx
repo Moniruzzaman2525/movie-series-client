@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaCheckCircle, FaCrown, FaStar, FaGem } from "react-icons/fa";
 import { IoMdRocket } from "react-icons/io";
@@ -7,12 +7,7 @@ import { IoMdRocket } from "react-icons/io";
 const SubscriptionPage = () => {
      const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
      const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
-     const [isClient, setIsClient] = useState(false); // State to track if it is client-side
 
-     useEffect(() => {
-          // Set isClient to true when the component is mounted (client-side)
-          setIsClient(true);
-     }, []);
 
      const plans = [
           {
@@ -61,33 +56,6 @@ const SubscriptionPage = () => {
 
      return (
           <div className="min-h-screen bg-black text-white">
-               {/* Animated background elements */}
-               {isClient && (
-                    <div className="absolute inset-0 overflow-hidden">
-                         {[...Array(10)].map((_, i) => (
-                              <motion.div
-                                   key={i}
-                                   className="absolute rounded-full bg-white/5"
-                                   initial={{
-                                        x: Math.random() * window.innerWidth,
-                                        y: Math.random() * window.innerHeight,
-                                        width: Math.random() * 300 + 100,
-                                        height: Math.random() * 300 + 100,
-                                   }}
-                                   animate={{
-                                        x: [null, Math.random() * window.innerWidth],
-                                        y: [null, Math.random() * window.innerHeight],
-                                   }}
-                                   transition={{
-                                        duration: Math.random() * 30 + 20,
-                                        repeat: Infinity,
-                                        repeatType: "reverse",
-                                        ease: "linear",
-                                   }}
-                              />
-                         ))}
-                    </div>
-               )}
 
                <div className="container mx-auto px-4 py-16 relative z-10">
                     <motion.div
