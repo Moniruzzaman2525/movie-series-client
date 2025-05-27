@@ -1,22 +1,34 @@
 import { Dispatch, SetStateAction } from "react";
 
 const genres = [
-     "SCIENCE_FICTION",
      "Action",
      "Adventure",
      "Animation",
-     "Bangla Dubbed",
-     "Biography",
-     "Bollywood",
      "Comedy",
-     "Crime",
-     "Documentary",
      "Drama",
-     "Dual Audio",
-     "Family",
+     "Horror",
+     "Mystery",
+     "Romance",
+     "Science_Fiction",
+     "Thriller",
      "Fantasy",
-     "History",
-];
+     "Documentary",
+     "Crime",
+     "Historical",
+     "Music",
+     "War",
+     "Western",
+     "Family",
+     "Biography",
+     "Sport",
+     "Musical",
+     "Superhero",
+     "Psychological",
+     "Slice_Of_Life",
+     "Tragedy",
+     "Political",
+     "Satire"
+]
 
 interface GenresListProps {
      setCatgory: Dispatch<SetStateAction<string | undefined>>;
@@ -34,11 +46,11 @@ export default function GenresList({ setCatgory, selectedGenre }: GenresListProp
                          <li
                               key={index}
                               onClick={() => setCatgory(genre)}
-                              className={`flex items-center gap-2 text-sm cursor-pointer 
+                              className={`flex items-center gap-2 text-sm cursor-pointer
               ${selectedGenre === genre ? "text-red-500 font-semibold" : "hover:text-red-400"}`}
                          >
                               <span
-                                   className={`w-2 h-2 rounded-full 
+                                   className={`w-2 h-2 rounded-full
                 ${selectedGenre === genre ? "bg-red-500" : "bg-zinc-500"}`}
                               ></span>
                               {genre}

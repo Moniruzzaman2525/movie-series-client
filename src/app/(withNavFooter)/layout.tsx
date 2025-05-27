@@ -11,7 +11,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
     <div>
       <Navbar />
       <Toaster richColors position="top-center"/>
-      <div className="min-h-screen">
+      <div className="">
         {children}
       </div>
       <Footer />

@@ -16,25 +16,31 @@ export default function LoginForm() {
           handleSubmit,
           reset,
           formState: { errors },
-     } = useForm();
+     } = useForm({
+          defaultValues: {
+               email: "web.moniruzzaman1@gmail.com",
+               password: "123456",
+          },
+     });
 
      const [showPassword, setShowPassword] = useState(false);
      const router = useRouter()
      const [forgot, setForgot] = useState(false)
-     const { setReload } = useUser()
+     const { setIsLoading } = useUser()
      const onSubmit: SubmitHandler<FieldValues> = async (data) => {
           const id = toast.loading("Loading...");
 
           try {
                if (!forgot) {
                     const result = await loginUser(data);
-                    setReload(false)
                     if (result.success) {
-
+                         setIsLoading(true)
                          toast.success(result.message, { id });
                          router.push("/");
-
                          reset();
+                         setTimeout(() => {
+                              window.location.reload();
+                         }, 1000);
                     } else {
                          toast.error(result.message, { id });
                          reset();

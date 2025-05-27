@@ -9,7 +9,7 @@ export const getAllUser = async () => {
         headers: {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
-        cache: 'no-cache',
+        cache: "no-cache",
         next: { tags: ["users"] }
     });
 
@@ -57,7 +57,7 @@ export const getAllUserReview = async () => {
         headers: {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
-        cache: 'no-cache',
+        cache: "no-cache",
         next: { tags: ["reviews"] }
     });
 
@@ -120,7 +120,7 @@ export const getAllUserComments = async () => {
         headers: {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
-        cache: 'no-cache',
+        cache: "no-cache",
         next: { tags: ["comments"] }
     });
 
@@ -154,7 +154,7 @@ export const getMostReview = async () => {
         headers: {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
-        cache: 'no-cache',
+        cache: "no-cache",
     });
 
     const result = await res.json();
@@ -171,10 +171,26 @@ export const getSellInfo = async () => {
         headers: {
             Authorization: (await cookies()).get("accessTokenF")?.value || ""
         },
+        cache: "no-cache",
+    });
+
+    const result = await res.json();
+
+    return result;
+}
+
+
+export const deleteVideo = async (id: string) => {
+    const res = await fetch(`${process.env.SERVER_URL}/content/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: (await cookies()).get("accessTokenF")?.value || "",
+        },
         cache: 'no-cache',
     });
 
     const result = await res.json();
 
+    revalidateTag('videos')
     return result;
 }

@@ -35,6 +35,7 @@ const ReusableCard = ({ movie }: { movie: IMovie }) => {
                     videoId: movie.id,
                };
                const res = await likeVideo(data);
+               console.log(res)
 
                if (res.success) {
                     toast.success(res.message);
@@ -61,7 +62,7 @@ const ReusableCard = ({ movie }: { movie: IMovie }) => {
                setShowLoginModal(true);
                return;
           }
- 
+
           const data = {
                videoId: movie.id,
           };
