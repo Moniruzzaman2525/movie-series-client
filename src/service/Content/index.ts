@@ -3,30 +3,34 @@
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
-export const getAllContent = async (search?: string, genre?: string | undefined, Platform?: string | null, year?: string | null, Rating?: string | null) => {
-    const queryParams: string[] = [];
+export const getAllContent = async (page?: string, limit?: string,
+    query?: { [key: string]: string | string[] | undefined },
+) => {
+    const params = new URLSearchParams();
 
-    if (search) {
-        queryParams.push(`searchTerm=${encodeURIComponent(search)}`);
-    }
-    if (genre) {
-        queryParams.push(`genre=${encodeURIComponent(genre.toUpperCase())}`);
-    }
-    if (Platform) {
-        queryParams.push(`streamingPlatform=${encodeURIComponent(Platform)}`);
-    }
-    if (year) {
-        queryParams.push(`releaseYear=${encodeURIComponent(year)}`);
-    }
-    if (Rating) {
-        queryParams.push(`overallRating=${encodeURIComponent(Rating)}`);
+    if (query?.ctg) {
+        params.append(`category`, query?.ctg.toString().toUpperCase());
     }
 
-    const queryString = queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
+    if (query?.search) {
+        params.append(`searchTerm`, query?.search.toString());
+    }
+    if (query?.category) {
+        params.append(`genre`, query?.category.toString().toUpperCase());
+    }
+
+    if (query?.platform) {
+        params.append(`streamingPlatform`, query?.platform.toString().toUpperCase());
+    }
+    if (query?.year) {
+        params.append(`releaseYear`, query?.year.toString());
+    }
+    if (query?.Rating) {
+        params.append(`overallRating`, query?.Rating.toString());
+    }
 
 
-
-    const res = await fetch(`${process.env.SERVER_URL}/content${queryString}`, {
+    const res = await fetch(`${process.env.SERVER_URL}/content?limit=${limit}&page=${page}&${params}`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -35,13 +39,33 @@ export const getAllContent = async (search?: string, genre?: string | undefined,
         next: {
             tags: ["content"]
         },
-        cache: "no-store"
+        cache: "no-cache",
     });
 
     const result = await res.json();
-    console.log(result)
+
     return result.data;
 }
+
+export const countingMovieSeries = async () => {
+
+    const res = await fetch(`${process.env.SERVER_URL}/content/count-movies-series`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: (await cookies()).get("accessTokenF")?.value || ""
+        },
+        next: {
+            tags: ["content"]
+        },
+        cache: "no-cache",
+    });
+
+    const result = await res.json();
+
+    return result.data;
+}
+
 export const getTopRatedThisWeek = async () => {
 
 
@@ -54,7 +78,7 @@ export const getTopRatedThisWeek = async () => {
         next: {
             tags: ["content"]
         },
-        cache: "no-store"
+        cache: "no-cache",
     });
 
     const result = await res.json();
@@ -72,7 +96,7 @@ export const getNewlyAdded = async () => {
         next: {
             tags: ["content"]
         },
-        cache: "no-store"
+        cache: "no-cache",
     });
 
     const result = await res.json();
