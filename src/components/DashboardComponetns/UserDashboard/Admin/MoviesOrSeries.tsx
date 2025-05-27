@@ -6,7 +6,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ChevronLeft, ChevronRight, Trash, CircleCheck, Star, Pen, X } from "lucide-react"
-import { approvedUserReview, deleteUserReview } from "@/service/Admin"
+import { approvedUserReview, deleteVideo } from "@/service/Admin"
 import { toast } from "sonner"
 import Swal from "sweetalert2"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -31,7 +31,7 @@ export function MoviesOrSeries({ data, isLoading = false }: AllUserTableProps) {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(5)
 
-    console.log(data)
+
 
     const indexOfLastItem = currentPage * itemsPerPage
     const indexOfFirstItem = indexOfLastItem - itemsPerPage
@@ -60,12 +60,12 @@ export function MoviesOrSeries({ data, isLoading = false }: AllUserTableProps) {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await deleteUserReview(id)
+                    const res = await deleteVideo(id)
 
-                    if (res.success) {
-                        toast.success("Review Deleted Successfully")
+                    if (res.success)     {
+                        toast.success("Video Deleted Successfully")
                     } else {
-                        toast.error("Review Not Deleted")
+                        toast.error("Video Not Deleted")
                     }
                 } catch (error) {
                     toast.error((error as Error).message)
