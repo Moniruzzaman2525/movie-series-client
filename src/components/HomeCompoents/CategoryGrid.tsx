@@ -206,13 +206,15 @@ export async function CategorySection({ count }: { count: number }) {
                         <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">Browse Genera</h2>
                         <p className="text-gray-400 text-lg">Discover content tailored to your taste</p>
                     </div>
-                    {count <= 8 && <Link
-                        href="/categories"
-                        className="hidden md:flex items-center text-blue-400 hover:text-blue-300 transition-colors group"
-                    >
-                        <span className="mr-2">View All Genera</span>
-                        <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                    </Link>}
+                    <div className="z-[99]">
+                        {count <= 8 && <Link
+                            href="/categories"
+                            className="hidden md:flex items-center text-blue-400 hover:text-blue-300 transition-colors group"
+                        >
+                            <span className="mr-2">View All Genera</span>
+                            <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                        </Link>}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

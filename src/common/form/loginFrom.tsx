@@ -16,7 +16,12 @@ export default function LoginForm() {
           handleSubmit,
           reset,
           formState: { errors },
-     } = useForm();
+     } = useForm({
+          defaultValues: {
+               email: "web.moniruzzaman1@gmail.com",
+               password: "123456",
+          },
+     });
 
      const [showPassword, setShowPassword] = useState(false);
      const router = useRouter()

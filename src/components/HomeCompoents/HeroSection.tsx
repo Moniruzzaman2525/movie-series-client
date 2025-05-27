@@ -67,7 +67,7 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full h-[70vh] overflow-hidden">
       {/* Animated Particles Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {screenSize.width > 0 &&
@@ -117,7 +117,7 @@ const HeroSection = () => {
       >
         {movies.map((movie, index) => (
           <SwiperSlide key={index}>
-            <div className="relative h-screen w-full">
+            <div className="relative h-full w-full">
               <div className="absolute inset-0">
                 <Image
                   src={movie.img}
