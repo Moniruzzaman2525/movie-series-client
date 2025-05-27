@@ -61,6 +61,10 @@ const HeroSection = () => {
     router.push("/movies");
   };
 
+  const handleWatchNow = () => {
+    router.push("/movies");
+  };
+
   return (
     <div className="relative w-full h-[70vh] overflow-hidden">
       {/* Animated Particles Background */}
@@ -168,9 +172,10 @@ const HeroSection = () => {
                             transition={{ delay: 0.6 }}
                           >
                             <motion.button
+                              onClick={() => handleWatchNow()}
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
-                              className="flex items-center gap-2 px-8 py-3 text-lg font-semibold text-white bg-red-600 rounded-lg shadow-lg hover:bg-red-700 transition-colors"
+                              className="flex items-center cursor-pointer gap-2 px-8 py-3 text-lg font-semibold text-white bg-red-600 rounded-lg shadow-lg hover:bg-red-700 transition-colors"
                             >
                               <FaPlay className="text-lg" />
                               Watch Now
