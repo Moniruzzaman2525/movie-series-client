@@ -47,9 +47,5 @@ export const config = {
           "/dashboard",
           "/dashboard/user/:path*",
           "/dashboard/admin/:path*",
-          "/movies/:id",
-          "/series/:id",
-          
-
      ],
 };
