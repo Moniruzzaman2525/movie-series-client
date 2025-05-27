@@ -1,15 +1,15 @@
 import { SellAnalyticsDashboard } from "@/components/DashboardComponetns/UserDashboard/Analytics";
+import { AnalyticsSkeleton } from "@/components/Shared/skeletons/analytics-skeleton";
 import { getSellInfo } from "@/service/Admin";
 import { Suspense } from "react";
 
 
-const Analytics = async() => {
+const Analytics = async () => {
      const sellInfo = await getSellInfo()
-     console.log(sellInfo,"sell info")
-   
-     
+
+
      return (
-          <Suspense fallback={<p>loading.........</p>}>
+          <Suspense fallback={<AnalyticsSkeleton />}>
                <SellAnalyticsDashboard data={sellInfo?.data}></SellAnalyticsDashboard>
           </Suspense>
      );

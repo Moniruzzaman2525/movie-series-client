@@ -111,7 +111,7 @@ const MovieForm = () => {
      return (
           <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
                <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-                    <div className="bg-gradient-to-r from-red-500 to-purple-600 p-6 text-white">
+                    <div className="bg-[#020508] p-6 text-white">
                          <h2 className="text-2xl font-bold">Add Movie/Series TV Show</h2>
                          <p className="opacity-90">Fill in the details below to add a new title</p>
                     </div>
