@@ -1,11 +1,12 @@
+import { CategorySkeleton } from "@/components/Shared/skeletons/category-skeleton";
 
 
-const LoadingSpinner = () => {
+const loading = () => {
      return (
-          <div className="flex items-center justify-center min-h-screen bg-black">
-               <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-red-600 border-opacity-50"></div>
+          <div>
+               <CategorySkeleton />
           </div>
      );
 };
 
-export default LoadingSpinner;
+export default loading;
