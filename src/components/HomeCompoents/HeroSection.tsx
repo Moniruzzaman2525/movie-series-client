@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { FiStar, FiClock, FiCalendar } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,7 +18,6 @@ const HeroSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [isHovering, setIsHovering] = useState(false);
-  const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
   const { setSearchQuery: setQuery } = useUser();
   const router = useRouter();
 
@@ -55,10 +54,6 @@ const HeroSection = () => {
     },
   ];
 
-  // Set screen size for animation safety
-  useEffect(() => {
-    setScreenSize({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,41 +61,14 @@ const HeroSection = () => {
     router.push("/movies");
   };
 
+  const handleWatchNow = () => {
+    router.push("/movies");
+  };
+
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full h-[70vh] overflow-hidden">
       {/* Animated Particles Background */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        {screenSize.width > 0 &&
-          [...Array(20)].map((_, i) => {
-            const x = Math.random() * screenSize.width;
-            const y = Math.random() * screenSize.height;
-            const size = Math.random() * 10 + 2;
-            const opacity = Math.random() * 0.5 + 0.1;
-            return (
-              <motion.div
-                key={i}
-                className="absolute rounded-full bg-white/10"
-                style={{
-                  left: x,
-                  top: y,
-                  width: size,
-                  height: size,
-                  opacity,
-                }}
-                animate={{
-                  y: [y, screenSize.height + 100],
-                  opacity: [opacity, 0.5, 0],
-                }}
-                transition={{
-                  duration: Math.random() * 10 + 10,
-                  repeat: Infinity,
-                  ease: "linear",
-                  delay: Math.random() * 5,
-                }}
-              />
-            );
-          })}
-      </div>
+
 
       {/* Swiper Carousel */}
       <Swiper
@@ -117,7 +85,7 @@ const HeroSection = () => {
       >
         {movies.map((movie, index) => (
           <SwiperSlide key={index}>
-            <div className="relative h-screen w-full">
+            <div className="relative h-full w-full">
               <div className="absolute inset-0">
                 <Image
                   src={movie.img}
@@ -204,9 +172,10 @@ const HeroSection = () => {
                             transition={{ delay: 0.6 }}
                           >
                             <motion.button
+                              onClick={() => handleWatchNow()}
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
-                              className="flex items-center gap-2 px-8 py-3 text-lg font-semibold text-white bg-red-600 rounded-lg shadow-lg hover:bg-red-700 transition-colors"
+                              className="flex items-center cursor-pointer gap-2 px-8 py-3 text-lg font-semibold text-white bg-red-600 rounded-lg shadow-lg hover:bg-red-700 transition-colors"
                             >
                               <FaPlay className="text-lg" />
                               Watch Now
